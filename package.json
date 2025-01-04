@@ -1,0 +1,10 @@
+{
+  "name": "@tsei/ctrl",
+  "version": "1.0.0",
+  "type": "module",
+  "module": "index.js",
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "description": ""
+}
