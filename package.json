@@ -8,15 +8,14 @@
         "license": "MIT",
         "description": "",
         "scripts": {
-                "dev": "cd examples/docs && yarn dev",
-                "build": "cd examples/docs && yarn build",
-                "start": "cd examples/docs && yarn start",
-                "test": "yarn jest --watch",
-                "tsup": "cd packages/core && yarn tsup"
+                "dev": "cd examples/docs && npm run dev",
+                "build": "cd examples/docs && npm run build",
+                "start": "cd examples/docs && npm run start",
+                "test": "jest --watch",
+                "bundle": "cd packages/core && tsup"
         },
         "devDependencies": {
-                "@testing-library/dom": "^10.4.0",
-                "@testing-library/react": "^16.1.0",
+                "@tsei/ctrl": "*",
                 "@types/jest": "^29.5.14",
                 "@types/react": "^19.0.2",
                 "@types/react-dom": "^19.0.2",
@@ -30,5 +29,6 @@
         "workspaces": [
                 "packages/*",
                 "examples/*"
-        ]
+        ],
+        "private": true
 }

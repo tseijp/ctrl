@@ -1,3 +1,4 @@
+// @ts-ignore @TODO FIX TSUP
 import type { Options } from 'tsup'
 
 /**
@@ -44,9 +45,8 @@ export const defaultConfig = (override: Options, options: Options) => {
                                 'react-dom',
                                 'react-native',
                                 'solid-js',
-                                'reev',
-                                'rege',
-                                'rexr',
+                                '@tsei/ctrl',
+                                '@tsei/r3f-ctrl',
                         ],
                         moduleResolution: 'NodeNext',
                 }
