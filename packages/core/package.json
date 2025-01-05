@@ -1,0 +1,120 @@
+{
+        "name": "@tsei/ctrl",
+        "version": "0.1.0",
+        "author": "tseijp",
+        "license": "MIT",
+        "sideEffect": false,
+        "publishConfig": {
+                "access": "public"
+        },
+        "bugs": {
+                "url": "https://github.com/tseijp/ctrl/issues"
+        },
+        "repository": "tseijp/ctrl",
+        "homepage": "https://ctrl.tsei.jp",
+        "keywords": [
+                "react",
+                "reactjs",
+                "reactive",
+                "event",
+                "global",
+                "state",
+                "store",
+                "hooks",
+                "solid",
+                "solidjs",
+                "tiny",
+                "typescript"
+        ],
+        "files": [
+                "dist/**/*.{js,ts,mjs,mts,map}",
+                "packages.json",
+                "README.md"
+        ],
+        "main": "./dist/index.js",
+        "types": "./dist/index.d.ts",
+        "module": "./dist/index.mjs",
+        "exports": {
+                "./packages.json": "./packages.json",
+                ".": {
+                        "types": "./dist/index.d.ts",
+                        "import": {
+                                "types": "./dist/index.d.ts",
+                                "default": "./dist/index.mjs"
+                        },
+                        "module": {
+                                "types": "./dist/index.d.ts",
+                                "default": "./dist/index.mjs"
+                        },
+                        "require": "./dist/index.js",
+                        "default": "./dist/index.js"
+                },
+                "./*": {
+                        "types": "./dist/index.d.ts",
+                        "import": {
+                                "types": "./dist/index.d.ts",
+                                "default": "./dist/index.mjs"
+                        },
+                        "module": {
+                                "types": "./dist/index.d.ts",
+                                "default": "./dist/index.mjs"
+                        },
+                        "require": "./dist/index.js",
+                        "default": "./dist/index.js"
+                },
+                "./react": {
+                        "types": "./dist/react.d.ts",
+                        "import": {
+                                "types": "./dist/react.d.ts",
+                                "default": "./dist/react.mjs"
+                        },
+                        "module": {
+                                "types": "./dist/react.d.ts",
+                                "default": "./dist/react.mjs"
+                        },
+                        "require": "./dist/react.js",
+                        "default": "./dist/react.js"
+                },
+                "./react/*": {
+                        "types": "./dist/react.d.ts",
+                        "import": {
+                                "types": "./dist/react.d.ts",
+                                "default": "./dist/react.mjs"
+                        },
+                        "module": {
+                                "types": "./dist/react.d.ts",
+                                "default": "./dist/react.mjs"
+                        },
+                        "require": "./dist/react.js",
+                        "default": "./dist/react.js"
+                }
+        },
+        "peerDependencies": {
+                "expo": "*",
+                "expo-gl": "*",
+                "react": ">=16.8",
+                "react-dom": ">=16.8",
+                "solid-js": "*",
+                "vue": "*"
+        },
+        "peerDependenciesMeta": {
+                "expo": {
+                        "optional": true
+                },
+                "expo-gl": {
+                        "optional": true
+                },
+                "react": {
+                        "optional": true
+                },
+                "react-dom": {
+                        "optional": true
+                },
+                "solid-js": {
+                        "optional": true
+                },
+                "vue": {
+                        "optional": true
+                }
+        }
+}
