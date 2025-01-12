@@ -1,4 +1,5 @@
-import e from '../helpers/node'
+import ctrl from '../index'
+import { create as e } from '../index'
 
 interface Props {
         x: boolean

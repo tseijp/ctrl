@@ -1,3 +1,14 @@
+export type Merge<T extends object> = Partial<{
+        [K in keyof T]: T[K] extends object ? Merge<T[K]> : T[K]
+}>
+
+export function merge<T extends object>(a: Merge<T>, b: Merge<T>) {
+        for (const key in b) {
+                if (is.obj(a[key]) && is.obj(b[key])) merge(a[key], b[key])
+                else a[key] = b[key]
+        }
+}
+
 export const is = {
         arr: Array.isArray,
         bol: (a: unknown): a is boolean => typeof a === 'boolean',

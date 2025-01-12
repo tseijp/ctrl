@@ -36,6 +36,28 @@
         "module": "./dist/index.mjs",
         "exports": {
                 "./packages.json": "./packages.json",
+                "./react": {
+                        "types": "./dist/react.d.ts",
+                        "import": {
+                                "types": "./dist/react.d.ts",
+                                "default": "./dist/react.mjs"
+                        },
+                        "module": {
+                                "types": "./dist/react.d.ts",
+                                "default": "./dist/react.mjs"
+                        },
+                        "require": "./dist/react.js",
+                        "default": "./dist/react.js"
+                },
+                "./style": {
+                        "default": "./dist/index.css"
+                },
+                "./src/style": {
+                        "default": "./src/index.css"
+                },
+                "./src/*": {
+                        "default": "./src/*.ts"
+                },
                 ".": {
                         "types": "./dist/index.d.ts",
                         "import": {
@@ -61,33 +83,13 @@
                         },
                         "require": "./dist/index.js",
                         "default": "./dist/index.js"
-                },
-                "./react": {
-                        "types": "./dist/react.d.ts",
-                        "import": {
-                                "types": "./dist/react.d.ts",
-                                "default": "./dist/react.mjs"
-                        },
-                        "module": {
-                                "types": "./dist/react.d.ts",
-                                "default": "./dist/react.mjs"
-                        },
-                        "require": "./dist/react.js",
-                        "default": "./dist/react.js"
-                },
-                "./react/*": {
-                        "types": "./dist/react.d.ts",
-                        "import": {
-                                "types": "./dist/react.d.ts",
-                                "default": "./dist/react.mjs"
-                        },
-                        "module": {
-                                "types": "./dist/react.d.ts",
-                                "default": "./dist/react.mjs"
-                        },
-                        "require": "./dist/react.js",
-                        "default": "./dist/react.js"
                 }
+        },
+        "devDependencies": {
+                "react": "^19.0.0",
+                "react-dom": "^19.0.0",
+                "@types/react": "^19",
+                "@types/react-dom": "^19"
         },
         "peerDependencies": {
                 "expo": "*",

@@ -1,21 +1,36 @@
 import Checkbox from './clients/Checkbox'
 import Container from './clients/Container'
 import InputVector from './clients/InputVector'
-import { append } from './helpers/node'
+import _create, { append } from './helpers/node'
 import { is } from './helpers/utils'
 import { Config } from './types'
+import './index.css'
 
-let container: HTMLDivElement
+let container: any
+
 let counter = 0
 
-export default function ctrl<T extends Config>(current: T) {
+function register(_e = _create, _r = _render) {
+        create = _e
+        render = _r
+}
+
+function _render(_: any) {
+        const root = document.getElementById('root')!
+        append(container, root)
+}
+
+let render = _render
+let create = _create
+
+function ctrl<T extends Config>(current: T) {
         const listeners = new Set<Function>()
         const cleanups = new Set<Function>()
 
         const mount = (el: Element) => {
-                if (!counter) container = Container()
+                if (!counter) container = create(Container, {}, el)
                 counter++
-                append(container, el)
+                render(container)
                 cleanups.add(() => {
                         counter--
                         el.remove()
@@ -26,12 +41,12 @@ export default function ctrl<T extends Config>(current: T) {
         const attach = (key: string) => {
                 const arg = current[key]
                 if (is.bol(arg))
-                        return Checkbox({
+                        return create(Checkbox, {
                                 x: arg,
                                 _x: (x) => set({ [key]: x } as T),
                         })
                 if (is.num(arg))
-                        return InputVector({
+                        return create(InputVector, {
                                 x: arg,
                                 key,
                                 _x: (x) => set({ [key]: x } as T),
@@ -46,7 +61,7 @@ export default function ctrl<T extends Config>(current: T) {
 
                         const [x, y, z] = arg
                         const [_x, _y, _z] = [0, 1, 2].map(change)
-                        return InputVector({ x, y, z, _x, _y, _z, key })
+                        return create(InputVector, { x, y, z, _x, _y, _z, key })
                 }
 
                 throw ``
@@ -54,7 +69,7 @@ export default function ctrl<T extends Config>(current: T) {
 
         const sub = (update = () => {}) => {
                 listeners.add(update)
-                for (const key in current) mount(attach(key))
+                for (const key in current) mount(attach(key)!)
                 return () => {
                         cleanups.forEach((f) => f())
                         listeners.delete(update)
@@ -71,8 +86,11 @@ export default function ctrl<T extends Config>(current: T) {
                 listeners.forEach((f) => f())
         }
 
-        const ctrl = { sub, get, set }
-        return ctrl
+        return { sub, get, set }
 }
 
 export type Ctrl = ReturnType<typeof ctrl>
+
+export default ctrl
+
+export { create, render, register }
