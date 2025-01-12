@@ -1,48 +1,50 @@
 import { is, merge, Merge } from './utils'
 
-export type TagName = keyof HTMLElementTagNameMap
-export type HTMLEl<T extends TagName> = HTMLElementTagNameMap[T]
-export type NodeEl = Element | null
-export type FunEl = <T extends any>(props: T) => NodeEl
+export type HTMLTag = keyof HTMLElementTagNameMap
+export type HTMLEl<T extends HTMLTag> = HTMLElementTagNameMap[T]
+export type HTMLNode = Element | string | null
+export type HTMLComponent<P = {}> = (props: P) => HTMLNode
 
-type BaseProps = {
+type Props = {
         key?: string
         ref?: (el: any) => void
+        children?: HTMLNode | HTMLNode[]
 }
-
-export type Props<T extends TagName> = Merge<HTMLEl<T>> & BaseProps
 
 export function append<El extends Node>(child: string | Node | null, el: El) {
         if (is.str(child)) child = document.createTextNode(child)
         if (!is.nul(child)) el.appendChild(child)
 }
 
-function create<T extends TagName>(
+function create<T extends HTMLTag>(
         type: T,
-        props?: Props<T>,
-        children?: NodeEl | NodeEl[]
-): NodeEl
+        props?: Props & Merge<HTMLEl<T>>,
+        child?: HTMLNode | HTMLNode[]
+): HTMLNode
 
-function create(
-        type: FunEl,
-        props?: BaseProps,
-        children?: NodeEl | NodeEl[]
-): NodeEl
+function create<P = {}>(
+        type: HTMLComponent<P>,
+        props?: P,
+        child?: HTMLNode | HTMLNode[]
+): HTMLNode
 
-function create<T extends TagName>(
-        type: T | FunEl,
-        props: any = {},
-        children: NodeEl | NodeEl[] = []
-) {
-        const { key, ref, ...other } = props
-        if (is.fun(type)) return type(props)
+function create(type: any, props: any = {}, child: HTMLNode | HTMLNode[] = []) {
+        const { key, ref, children, ...other } = props ?? {}
 
+        // coordinate props
+        if (children) child = children
+        if (!is.arr(child)) child = [child]
+        if (is.fun(type)) {
+                merge(props, { children: child })
+                return type(props)
+        }
+
+        // create element
         const el = document.createElement(type)
-        merge(el, other as HTMLEl<T>)
-        ref?.(el)
+        merge(el, other)
+        if (ref) ref(el)
 
-        if (!is.arr(children)) children = [children]
-        children.forEach((child) => append(child, el))
+        child.forEach((c) => append(c, el))
 
         return el
 }

@@ -1,4 +1,5 @@
-import ctrl from '../index'
+'use client'
+
 import { create as e } from '../index'
 
 interface Props {

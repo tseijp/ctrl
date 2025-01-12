@@ -1,3 +1,5 @@
+'use client'
+
 import { dragEvent } from '../helpers/drag'
 import { create as e } from '../index'
 
@@ -38,7 +40,9 @@ export function InputValue(props: Props) {
                 init = input.valueAsNumber
 
                 drag.offset[0] = init
-                drag.onMount(span)
+
+                // @TODO FIX
+                // drag.onMount(span)
         }
 
         const el = e('label', { className: 'relative' }, [
