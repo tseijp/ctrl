@@ -1,12 +1,12 @@
 import { is, merge, Merge } from './utils'
 
-export type HTMLTag = keyof HTMLElementTagNameMap
-export type HTMLEl<T extends HTMLTag> = HTMLElementTagNameMap[T]
-export type HTMLNode<T extends HTMLTag = HTMLTag> = HTMLEl<T> | string | null
+export type HTMLMap = HTMLElementTagNameMap
+export type HTMLTag = keyof HTMLMap
+export type HTMLNode<T extends HTMLTag = HTMLTag> = HTMLMap[T] | string | null
 
 type Props<T extends HTMLTag> = {
         key?: string
-        ref?: (el: HTMLEl<T>) => void
+        ref?: (el: HTMLMap[T]) => void
         children?: HTMLNode | HTMLNode[]
 }
 
@@ -17,11 +17,11 @@ export function append<El extends Node>(child: Node | string | null, el: El) {
 
 function create<T extends HTMLTag>(
         type: T,
-        props?: Props<T> & Merge<HTMLEl<T>>,
+        props?: Props<T> & Merge<HTMLMap[T]>,
         child?: HTMLNode | HTMLNode[]
-): HTMLEl<T>
+): HTMLMap[T]
 
-function create<T extends HTMLTag, P = {}, Child = HTMLEl<T>>(
+function create<T extends HTMLTag, P = {}, Child = HTMLMap[T]>(
         type: (props: P) => Child,
         props?: P,
         child?: HTMLNode | HTMLNode[]

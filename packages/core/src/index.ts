@@ -1,5 +1,5 @@
 import Container from './clients/Container'
-import _create, { append, HTMLNode } from './helpers/node'
+import create, { append, HTMLNode } from './helpers/node'
 import { is } from './helpers/utils'
 import { Config } from './types'
 import './index.css'
@@ -8,13 +8,15 @@ import { Bool, Float, Vector } from './clients/inputs'
 let container: any
 let counter = 0
 
-function register(_e = _create, _r = append) {
-        create = _e
-        render = _r
+function register(override: Record<string, any>) {
+        _ = override.create ?? create
+        _append = override.append ?? append
+        _render = override.render ?? append
 }
 
-let render = append
-let create = _create
+let _ = create
+let _append = append
+let _render = append
 
 /**
  * main
@@ -25,18 +27,18 @@ function ctrl<T extends Config>(current: T) {
 
         const attach = (k: string) => {
                 const arg = current[k]
-                if (is.bol(arg)) return create(Bool<T>, { k, arg, set })
-                if (is.num(arg)) return create(Float<T>, { k, arg, set })
-                if (is.arr(arg)) return create(Vector<T>, { k, arg, set })
+                if (is.bol(arg)) return _(Bool<T>, { k, arg, set })
+                if (is.num(arg)) return _(Float<T>, { k, arg, set })
+                if (is.arr(arg)) return _(Vector<T>, { k, arg, set })
                 throw `Error: not support type`
         }
 
         const mount = (el: HTMLNode) => {
                 if (!counter++) {
-                        container = create(Container, {}, el)
-                        render(container, document.body)
+                        container = _(Container, {}, el)
+                        _render(container, document.body)
                 }
-                render(el, container)
+                _render(el, container)
                 cleanups.add(clean(el))
         }
 
@@ -72,4 +74,6 @@ export type Ctrl = ReturnType<typeof ctrl>
 
 export default ctrl
 
-export { create, render, register }
+export * from './types'
+
+export { _ as create, _append as append, _render as render, register }

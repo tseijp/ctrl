@@ -72,6 +72,7 @@ export default function Wheelable(props: Props) {
                 window.addEventListener('mousemove', handleMove)
                 wheel.onMount(el.parentElement as any)
 
+                // @TODO FIX
                 // return () => {
                 //         window.removeEventListener('mousemove', handleMove)
                 //         wheel.onClean()
