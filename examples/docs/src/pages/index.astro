@@ -1,15 +1,55 @@
----
-
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
----
-<div>
-  HIHI
+<div id="root">
 </div>
 
 <script>
-  import ctrl from '@tsei/ctrl';
-  const a = ctrl({
-    data: 0
-  }).sub(() => {})
+        import ctrl from '@tsei/ctrl/src/index'
+        import { Controller } from '@tsei/ctrl/src/react'
+
+        // import ctrl,{ create as _, render } from '@tsei/ctrl'
+        // import { Controller } from '@tsei/ctrl/react'
+        import '@tsei/ctrl/style'
+
+        const root = document.getElementById("root")!
+
+        let pc: HTMLIFrameElement
+        let sp: HTMLIFrameElement;
+
+        const _ = ctrl.create
+        ctrl.render(
+                _(Controller, {
+                        children: [
+                                pc = _('iframe', {
+                                        src: '/id',
+                                        className: 'mt-10 w-[1920px] h-[1280px] bg-white',
+                                }),
+                                sp = _('iframe', {
+                                        src: '/id',
+                                        className: 'mt-10 w-[390px] h-[844px] bg-white',
+                                }),
+                                _('iframe', {
+                                        src: '/',
+                                        className: 'mt-10 w-[1920px] h-[1280px] bg-white',
+                                }),
+                                _('iframe', {
+                                        src: '/',
+                                        className: 'mt-10 w-[390px] h-[844px] bg-white',
+                                }),
+                        ],
+                }),
+                root
+        )
+
+        // ctrl({
+        //         sp: "/id",
+        //         pc: "/id",
+        // }).sub()
 </script>
+
+<style>
+        html,
+        body {
+                margin: 0;
+                width: 100dvw;
+                height: 100dvh;
+        }
+</style>
