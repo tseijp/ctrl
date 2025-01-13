@@ -1,21 +1,48 @@
----
----
+<div id="root">
+</div>
 
 <script>
-        import { create as _, render } from '@tsei/ctrl'
-        import { Controller } from '@tsei/ctrl/react'
+        import ctrl from '@tsei/ctrl/src/index'
+        import { Controller } from '@tsei/ctrl/src/react'
+
+        // import ctrl,{ create as _, render } from '@tsei/ctrl'
+        // import { Controller } from '@tsei/ctrl/react'
         import '@tsei/ctrl/style'
 
-        render(
+        const root = document.getElementById("root")!
+
+        let pc: HTMLIFrameElement
+        let sp: HTMLIFrameElement;
+
+        const _ = ctrl.create
+        ctrl.render(
                 _(Controller, {
-                        children: _(
-                                'div',
-                                { className: 'w-[1920px] h-[1080px] bg-white' },
-                                "HELLO"
-                        ),
+                        children: [
+                                pc = _('iframe', {
+                                        src: '/id',
+                                        className: 'mt-10 w-[1920px] h-[1280px] bg-white',
+                                }),
+                                sp = _('iframe', {
+                                        src: '/id',
+                                        className: 'mt-10 w-[390px] h-[844px] bg-white',
+                                }),
+                                _('iframe', {
+                                        src: '/',
+                                        className: 'mt-10 w-[1920px] h-[1280px] bg-white',
+                                }),
+                                _('iframe', {
+                                        src: '/',
+                                        className: 'mt-10 w-[390px] h-[844px] bg-white',
+                                }),
+                        ],
                 }),
-                document.body
+                root
         )
+
+        // ctrl({
+        //         sp: "/id",
+        //         pc: "/id",
+        // }).sub()
 </script>
 
 <style>

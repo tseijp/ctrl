@@ -1,4 +1,6 @@
-import { create as _ } from '../index'
+'use client'
+
+import ctrl from '../index'
 import Bounding from './Bounding'
 import ControlLeft from './ControlLeft'
 import ControlNav from './ControlNav'
@@ -11,6 +13,7 @@ interface Props {
 
 export default function Controller(props: Props) {
         const { children } = props
+        const _ = ctrl.create
         return _('div', {}, [
                 _(ControlNav, { key: 'nav' }),
                 _(ControlLeft, { key: 'left' }),

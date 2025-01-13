@@ -15,6 +15,10 @@ export function append<El extends Node>(child: Node | string | null, el: El) {
         if (!is.nul(child)) el.appendChild(child)
 }
 
+export function remove<El extends Node>(child: Node, el: El) {
+        el.removeChild(child)
+}
+
 function create<T extends HTMLTag>(
         type: T,
         props?: Props<T> & Merge<HTMLMap[T]>,

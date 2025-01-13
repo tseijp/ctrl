@@ -1,6 +1,6 @@
 'use client'
 
-import { create as _ } from '../index'
+import ctrl from '../index'
 
 interface Props {
         x: boolean
@@ -9,6 +9,7 @@ interface Props {
 
 export default function Checkbox(props: Props) {
         const { x, _x } = props
+        const _ = ctrl.create
         return _('input', {
                 type: 'checkbox',
                 checked: x,

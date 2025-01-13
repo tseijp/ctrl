@@ -1,7 +1,7 @@
 'use client'
 
+import ctrl from '../index'
 import { dragEvent } from '../helpers/drag'
-import { create as _ } from '../index'
 
 function getInputValue(e: Event) {
         if (e.target instanceof HTMLInputElement) return e.target.valueAsNumber
@@ -43,6 +43,7 @@ export function InputValue(props: Props) {
                 drag.onMount(span)
         }
 
+        const _ = ctrl.create
         return _(
                 'label',
                 {

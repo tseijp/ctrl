@@ -1,7 +1,10 @@
+'use client'
+
+import ctrl from '../index'
 import ZoomStore from './ZoomStore'
-import { create as _ } from '../index'
 
 export default function ControlNav() {
+        const _ = ctrl.create
         return _(
                 'nav',
                 {

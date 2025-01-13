@@ -1,8 +1,8 @@
 'use client'
 
+import ctrl from '../index'
 import { is } from '../helpers/utils'
 import { InputValue } from './InputValue'
-import { create as _ } from '../index'
 
 interface Props {
         x: number
@@ -25,6 +25,7 @@ export default function InputVector(props: Props) {
                 return _(InputValue, { icon, key, value, set })
         })
 
+        const _ = ctrl.create
         return _('div', {}, [
                 _(
                         'div',

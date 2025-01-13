@@ -1,8 +1,8 @@
 'use client'
 
+import ctrl from '../index'
 import { zoomStore } from './ZoomStore'
 import { merge } from '../helpers/utils'
-import { create as _ } from '../index'
 
 const boundingStyle = {
         zIndex: '100',
@@ -197,6 +197,7 @@ export const createBounding = <El extends HTMLElement>(selectors?: string) => {
 
 export default function Bounding<T>(props: T) {
         const ref = createBounding()
+        const _ = ctrl.create
         return _('div', {
                 ref, //
                 className: 'w-full h-full',

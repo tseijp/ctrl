@@ -1,8 +1,8 @@
 'use client'
 
-let zoom = 0.5
+import ctrl from '../index'
 
-import { create as _ } from '../index'
+let zoom = 0.5
 
 const listeners = new Set<Function>()
 
@@ -34,5 +34,6 @@ export default function ZoomStore() {
                 })
         }
 
+        const _ = ctrl.create
         return _('span', { ref }, percent())
 }

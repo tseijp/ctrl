@@ -1,6 +1,6 @@
 'use client'
 
-import { create as _ } from '../index'
+import ctrl from '../index'
 import { merge, subV } from '../helpers/utils'
 import { wheelEvent } from '../helpers/wheel'
 import { zoomStore } from './ZoomStore'
@@ -70,6 +70,7 @@ export default function Wheelable(props: Props) {
                 }, 100)
         }
 
+        const _ = ctrl.create
         return _(
                 'div',
                 {

@@ -1,6 +1,9 @@
-import { create as _ } from '../index'
+'use client'
+
+import ctrl from '../index'
 
 export default function ControlRight() {
+        const _ = ctrl.create
         return _(
                 'aside',
                 {

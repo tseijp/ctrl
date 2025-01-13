@@ -1,8 +1,8 @@
 'use client'
 
+import ctrl from '../index'
 import { dragEvent } from '../helpers/drag'
 import { merge } from '../helpers/utils'
-import { create as _ } from '../index'
 
 export default function Container() {
         const { ref } = dragEvent((drag) => {
@@ -13,6 +13,7 @@ export default function Container() {
                 merge(el.style, { transform })
         })
 
+        const _ = ctrl.create
         return _(
                 'div',
                 {
