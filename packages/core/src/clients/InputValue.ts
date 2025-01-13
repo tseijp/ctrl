@@ -1,7 +1,7 @@
 'use client'
 
 import { dragEvent } from '../helpers/drag'
-import { create as e } from '../index'
+import { create as _ } from '../index'
 
 function getInputValue(e: Event) {
         if (e.target instanceof HTMLInputElement) return e.target.valueAsNumber
@@ -42,8 +42,8 @@ export function InputValue(props: Props) {
                 drag.onMount(span)
         }
 
-        const el = e('label', { ref, className: 'relative' }, [
-                e(
+        return _('label', { ref, className: 'relative' }, [
+                _(
                         'span',
                         {
                                 key: 'icon',
@@ -51,7 +51,7 @@ export function InputValue(props: Props) {
                         },
                         icon
                 ),
-                e('input', {
+                _('input', {
                         key: 'input',
                         type: 'number',
                         className: 'pl-6 h-6 w-full bg-[#383838] rounded-sm outline-none',
@@ -61,6 +61,4 @@ export function InputValue(props: Props) {
                                 : null,
                 }),
         ])
-
-        return el
 }

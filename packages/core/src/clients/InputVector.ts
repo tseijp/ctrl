@@ -2,7 +2,7 @@
 
 import { is } from '../helpers/utils'
 import { InputValue } from './InputValue'
-import { create as e } from '../index'
+import { create as _ } from '../index'
 
 interface Props {
         x: number
@@ -22,11 +22,11 @@ export default function InputVector(props: Props) {
                 if (!is.num(value)) return null
                 const icon = key.toUpperCase()
                 const set = props[('_' + key) as '_x']
-                return e(InputValue, { icon, key, value, set })
+                return _(InputValue, { icon, key, value, set })
         })
 
-        return e('div', {}, [
-                e(
+        return _('div', {}, [
+                _(
                         'div',
                         {
                                 key: 'key',
@@ -34,7 +34,7 @@ export default function InputVector(props: Props) {
                         },
                         k
                 ),
-                e(
+                _(
                         'div',
                         {
                                 key: 'values',

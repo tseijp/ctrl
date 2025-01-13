@@ -1,3 +1,101 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+:root {
+        --cavernous: #525252; /* .... rgb(82, 82, 82) */
+        --shoe-wax: #2c2c2c; /* ..... rgb(44, 44, 44) */
+        --goshawk-grey: #444444; /* . rgb(68, 68, 68) */
+        --out-of-the-blue: #0b8ce9; /* rgb(11, 140, 233) */
+        --whitest-white: #faf7f5; /* rgb(250, 247, 245) */
+        --header-height: 48px;
+        --sidebar-width: 240px;
+        --sidebar-height: calc(100% - 48px);
+}
+
+* {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+}
+
+*::-webkit-scrollbar {
+        display: none;
+}
+
+body {
+        font-weight: 500;
+        color: var(--whitest-white);
+        background: var(--cavernous);
+        font-family: Arial, Helvetica, sans-serif;
+}
+
+nav {
+        position: fixed;
+        display: flex;
+        justify-content: space-between;
+        top: 0;
+        width: 100%;
+        height: var(--header-height);
+        background-color: var(--shoe-wax);
+}
+
+main {
+        width: calc(100vw - var(--sidebar-width));
+        min-height: 100vh;
+        margin-left: var(--sidebar-width);
+        bottom: 0;
+        margin-top: var(--header-height);
+        overflow: hidden;
+}
+
+aside {
+        position: fixed;
+        bottom: 0;
+        min-width: var(--sidebar-width);
+        height: var(--sidebar-height);
+        background: var(--shoe-wax);
+}
+
+input,
+textarea {
+        border: none;
+        outline: none;
+        font-size: 14px;
+        background-color: transparent;
+}
+
+input[type='date']::-webkit-calendar-picker-indicator,
+input[type='time']::-webkit-calendar-picker-indicator {
+        filter: invert(1) brightness(100);
+}
+/* Button styles based on form validity */
+form:invalid button {
+        /* Styles when any input in the form is invalid */
+        opacity: 0.5;
+        cursor: not-allowed;
+        pointer-events: none;
+}
+
+form:valid button {
+        /* Styles when all inputs are valid */
+        opacity: 1;
+        cursor: pointer;
+}
+label {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+        margin-top: 16px;
+}
+
+label > span {
+        opacity: 0.5;
+        font-weight: 700;
+}
+
+button {
+        font-weight: 700;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+}

@@ -1,13 +1,9 @@
 'use client'
 
-import { create as e } from '../index'
+import { create as _ } from '../index'
 import { subV } from '../helpers/utils'
 import { wheelEvent } from '../helpers/wheel'
-
-// import { zoomStore } from '@/app/_hooks/useZoomStore'
-// import useWheelEvent from '@/app/_hooks/useWheelEvent'
-// import { subV } from '@/app/_hooks/utils'
-// import React, { useRef, useEffect } from 'react'
+import { zoomStore } from './ZoomPercent'
 
 interface Props {
         children: any
@@ -16,7 +12,6 @@ interface Props {
 export default function Wheelable(props: Props) {
         const { children } = props
         const cache = { clientX: 0, clientY: 0 }
-        const zoomStore = { zoom: 1 } // @TODO FIX
 
         const wheel = wheelEvent((wheel) => {
                 const { active, offset, delta, event } = wheel
@@ -83,7 +78,7 @@ export default function Wheelable(props: Props) {
                 // }
         }
 
-        return e('div', {
+        return _('div', {
                 ref,
                 className: 'scale-[0.5] origin-top-left w-full h-full',
                 children,

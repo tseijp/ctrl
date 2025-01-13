@@ -1,4 +1,4 @@
-import { create as e } from '../index'
+import { create as _ } from '../index'
 import { Config } from '../types'
 import Checkbox from './Checkbox'
 import InputVector from './InputVector'
@@ -13,7 +13,7 @@ export interface BoolProps<T extends Config> {
 
 export const Bool = <T extends Config>(props: BoolProps<T>) => {
         const { k, arg, set } = props
-        return e(Checkbox, {
+        return _(Checkbox, {
                 x: arg,
                 _x: (x) => set(k, x as T[keyof T]),
         })
@@ -27,7 +27,7 @@ export interface FloatProps<T extends Config> {
 
 export const Float = <T extends Config>(props: FloatProps<T>) => {
         const { k, arg, set } = props
-        return e(InputVector, {
+        return _(InputVector, {
                 k,
                 x: arg,
                 _x: (x) => set(k, x as T[keyof T]),
@@ -50,5 +50,5 @@ export const Vector = <T extends Config>(props: VectorProps<T>) => {
         }
         const [x, y, z] = arg
         const [_x, _y, _z] = [0, 1, 2].map(change)
-        return e(InputVector, { x, y, z, _x, _y, _z, k })
+        return _(InputVector, { x, y, z, _x, _y, _z, k })
 }
