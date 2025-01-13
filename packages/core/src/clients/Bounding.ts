@@ -1,11 +1,12 @@
 'use client'
 
+import { zoomStore } from './ZoomStore'
+import { merge } from '../helpers/utils'
 import { create as _ } from '../index'
-import { zoomStore } from './ZoomPercent'
 
 const boundingStyle = {
-        zIndex: 100,
-        top: 0,
+        zIndex: '100',
+        top: '0px',
         position: 'fixed',
         border: '1px solid #0B8CE9',
         color: '#0B8CE9',
@@ -55,8 +56,8 @@ const len = (rect: Rect, rect2: Rect) => {
 const draw = (el: HTMLElement | null, rect: Rect, zoom = zoomStore.zoom) => {
         if (!el) return
 
-        Object.assign(el.style, {
-                opacity: 1,
+        merge(el.style, {
+                opacity: '1',
                 top: `${rect.top}px`,
                 left: `${rect.left}px`,
                 width: `${rect.width}px`,
@@ -77,7 +78,7 @@ const line = (el: HTMLDivElement | null, rect: Rect) => {
 const clear = (el: HTMLElement | null) => {
         if (!el) return
 
-        Object.assign(el.style, { opacity: 0 })
+        merge(el.style, { opacity: '0' })
 }
 
 export const createBounding = <El extends HTMLElement>(selectors?: string) => {
@@ -171,9 +172,9 @@ export const createBounding = <El extends HTMLElement>(selectors?: string) => {
                 window.addEventListener('wheel', reset)
                 window.addEventListener('keydown', keydown)
                 window.addEventListener('keyup', keyup)
-                Object.assign(hoverEl.style, boundingStyle)
-                Object.assign(clickEl.style, boundingStyle)
-                Object.assign(lineEl.style, boundingStyle)
+                merge(hoverEl.style, boundingStyle)
+                merge(clickEl.style, boundingStyle)
+                merge(lineEl.style, boundingStyle)
                 el.appendChild(hoverEl)
                 el.appendChild(clickEl)
                 el.appendChild(lineEl)
@@ -196,5 +197,9 @@ export const createBounding = <El extends HTMLElement>(selectors?: string) => {
 
 export default function Bounding<T>(props: T) {
         const ref = createBounding()
-        return _('div', { ...props, ref })
+        return _('div', {
+                ref, //
+                className: 'w-full h-full',
+                ...props,
+        })
 }

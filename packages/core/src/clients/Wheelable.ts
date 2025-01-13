@@ -1,9 +1,9 @@
 'use client'
 
 import { create as _ } from '../index'
-import { subV } from '../helpers/utils'
+import { merge, subV } from '../helpers/utils'
 import { wheelEvent } from '../helpers/wheel'
-import { zoomStore } from './ZoomPercent'
+import { zoomStore } from './ZoomStore'
 
 interface Props {
         children: any
@@ -19,10 +19,10 @@ export default function Wheelable(props: Props) {
                 if (isZoom && active) subV(offset, delta, offset) // revert
 
                 let [x, y] = offset
+
                 // reverse
                 x *= -1
                 y *= -1
-
                 event.preventDefault()
 
                 if (isZoom) {
@@ -40,48 +40,42 @@ export default function Wheelable(props: Props) {
 
                         zoomStore.zoom = Math.max(0.02, zoomStore.zoom + dz)
 
-                        Object.assign(el.style, {
-                                x,
-                                y,
-                                scale: zoomStore.zoom,
-                                duration: 0.1,
-                        })
-
-                        return
+                        const transform = `translate(${x}px, ${y}px) scale(${zoomStore.zoom})`
+                        merge(el.style, { transform })
+                } else {
+                        zoomStore.zoom = zoomStore.zoom // flush update
+                        const transform = `translate(${x}px, ${y}px) scale(${zoomStore.zoom})`
+                        merge(el.style, { transform })
                 }
-
-                // @TODO FIX
-                zoomStore.zoom = zoomStore.zoom
-                const transform = `translate(${x}px, ${y}px)`
-                Object.assign(el.style, { transform })
         })
 
         let el: HTMLDivElement
 
-        const ref = (_el: HTMLDivElement) => {
-                if (!_el) return
-                el = _el
-                const handleMove = (e: {
-                        clientX: number
-                        clientY: number
-                }) => {
-                        const { clientX, clientY } = e
-                        Object.assign(cache, { clientX, clientY })
-                }
-
-                window.addEventListener('mousemove', handleMove)
-                wheel.onMount(el.parentElement as any)
-
-                // @TODO FIX
-                // return () => {
-                //         window.removeEventListener('mousemove', handleMove)
-                //         wheel.onClean()
-                // }
+        const move = (e: { clientX: number; clientY: number }) => {
+                const { clientX, clientY } = e
+                merge(cache, { clientX, clientY })
         }
 
-        return _('div', {
-                ref,
-                className: 'scale-[0.5] origin-top-left w-full h-full',
-                children,
-        })
+        const ref = (_el: HTMLDivElement) => {
+                if (!_el) {
+                        window.removeEventListener('mousemove', move)
+                        wheel.onClean()
+                        return
+                }
+
+                el = _el
+                window.addEventListener('mousemove', move)
+                setTimeout(() => {
+                        wheel.onMount(el.parentElement as any)
+                }, 100)
+        }
+
+        return _(
+                'div',
+                {
+                        ref,
+                        className: 'scale-50 origin-top-left w-full h-full',
+                },
+                children
+        )
 }

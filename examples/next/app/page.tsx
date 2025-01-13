@@ -1,12 +1,14 @@
 'use client'
 
-import '@tsei/ctrl/src/style'
 import ctrl, { register, Config } from '@tsei/ctrl/src/index'
-import { CtrlUI } from '@tsei/ctrl/src/react'
+import { Controller } from '@tsei/ctrl/src/react'
+import '@tsei/ctrl/src/style'
 
-import { createElement, useEffect, useState, useSyncExternalStore } from 'react'
-import { createPortal } from 'react-dom'
-import Controller from '@tsei/ctrl/src/clients/Controller'
+// import ctrl, { register, Config } from '@tsei/ctrl'
+// import { Controller } from '@tsei/ctrl/react'
+// import '@tsei/ctrl/style'
+
+import { createElement, useState, useSyncExternalStore } from 'react'
 
 register({
         create: createElement,
@@ -15,20 +17,20 @@ register({
         // },
 })
 
-// register(createElement as any, (el, container) => {
-//         console.log(el, container)
-//         createPortal(el as any, container)
-// })
-
 function useCtrl(config: Config) {
         const [a] = useState(() => ctrl(config))
         return useSyncExternalStore(a.sub, a.get, a.get)
 }
 
 export default () => {
-        // const { x } = useCtrl({ x: 1 })
-
-        // const div = <div>{x}</div>
-
-        return (<Controller />) as any
+        return (
+                <Controller>
+                        <div className="w-[1920px] h-[1080px] bg-white">
+                                <iframe
+                                        src="https://tsei.jp"
+                                        className="w-full h-full pointer-events-none"
+                                />
+                        </div>
+                </Controller>
+        )
 }

@@ -32,6 +32,7 @@ export function InputValue(props: Props) {
                         if (set) set(x)
                 }
         })
+
         const ref = (el: HTMLLabelElement) => {
                 if (!el) return // @ts-ignore
                 ;[span, input] = Array.from(el.childNodes)
@@ -42,23 +43,30 @@ export function InputValue(props: Props) {
                 drag.onMount(span)
         }
 
-        return _('label', { ref, className: 'relative' }, [
-                _(
-                        'span',
-                        {
-                                key: 'icon',
-                                className: 'w-6 h-6 absolute grid place-content-center select-none',
-                        },
-                        icon
-                ),
-                _('input', {
-                        key: 'input',
-                        type: 'number',
-                        className: 'pl-6 h-6 w-full bg-[#383838] rounded-sm outline-none',
-                        valueAsNumber: value,
-                        onchange: set
-                                ? (e: Event) => set(getInputValue(e))
-                                : null,
-                }),
-        ])
+        return _(
+                'label',
+                {
+                        ref, //
+                        className: 'relative',
+                },
+                [
+                        _(
+                                'span',
+                                {
+                                        key: 'icon',
+                                        className: 'w-6 h-6 absolute grid place-content-center select-none',
+                                },
+                                icon
+                        ),
+                        _('input', {
+                                key: 'input',
+                                type: 'number',
+                                className: 'pl-6 h-6 w-full bg-[#383838] rounded-sm outline-none',
+                                valueAsNumber: value,
+                                onchange: set
+                                        ? (e: Event) => set(getInputValue(e))
+                                        : null,
+                        }),
+                ]
+        )
 }

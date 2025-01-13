@@ -1,6 +1,7 @@
 'use client'
 
 let zoom = 0.5
+
 import { create as _ } from '../index'
 
 const listeners = new Set<Function>()
@@ -24,20 +25,14 @@ export const zoomStore = {
         sub,
 }
 
-// export default function useZoomStore() {
-//         return useSyncExternalStore(
-//                 sub,
-//                 () => zoom,
-//                 () => zoom
-//         )
-// }
-
-export default function ZoomPercent() {
+export default function ZoomStore() {
+        const percent = () => `${(zoomStore.zoom * 100) << 0}%`
         const ref = (el: HTMLSpanElement) => {
                 if (!el) return
                 zoomStore.sub(() => {
-                        el.innerText = `${(zoomStore.zoom * 100) << 0}%`
+                        el.innerText = percent()
                 })
         }
-        return _('span', { ref }, `${(zoomStore.zoom * 100) << 0}%`)
+
+        return _('span', { ref }, percent())
 }
