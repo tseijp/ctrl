@@ -32,20 +32,17 @@ export function InputValue(props: Props) {
                         if (set) set(x)
                 }
         })
-        const ref = (el: HTMLInputElement) => {
-                if (!el) return
-
-                input = el
-                span = el.previousSibling! as HTMLSpanElement
+        const ref = (el: HTMLLabelElement) => {
+                if (!el) return // @ts-ignore
+                ;[span, input] = Array.from(el.childNodes)
+                if (!(span instanceof HTMLSpanElement)) return
+                if (!(input instanceof HTMLInputElement)) return
                 init = input.valueAsNumber
-
                 drag.offset[0] = init
-
-                // @TODO FIX
-                // drag.onMount(span)
+                drag.onMount(span)
         }
 
-        const el = e('label', { className: 'relative' }, [
+        const el = e('label', { ref, className: 'relative' }, [
                 e(
                         'span',
                         {
@@ -55,7 +52,6 @@ export function InputValue(props: Props) {
                         icon
                 ),
                 e('input', {
-                        ref,
                         key: 'input',
                         type: 'number',
                         className: 'pl-6 h-6 w-full bg-[#383838] rounded-sm outline-none',

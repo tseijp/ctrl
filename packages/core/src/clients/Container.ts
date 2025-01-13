@@ -1,16 +1,15 @@
 'use client'
 
 import { dragEvent } from '../helpers/drag'
-import { merge } from '../helpers/utils'
 import { create as e } from '../index'
 
 export default function Container() {
         const { ref } = dragEvent((drag) => {
                 const { offset } = drag
                 const [x, y] = offset
-                merge(drag.target as HTMLDivElement, {
-                        style: { transform: `translate(${x}, ${y})` },
-                })
+                const transform = `translate(${x}px, ${y}px)`
+                const el = drag.target as HTMLDivElement
+                Object.assign(el.style, { transform })
         })
 
         return e(

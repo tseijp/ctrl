@@ -11,11 +11,11 @@ interface Props {
         _x?: (x: number) => void
         _y?: (y: number) => void
         _z?: (z: number) => void
-        index: string
+        k: string
 }
 
 export default function InputVector(props: Props) {
-        const { index } = props
+        const { k } = props
         const keys = ['x', 'y', 'z'] as const
         const values = keys.map((key) => {
                 const value = props[key]
@@ -25,14 +25,14 @@ export default function InputVector(props: Props) {
                 return e(InputValue, { icon, key, value, set })
         })
 
-        return e('div', null, [
+        return e('div', {}, [
                 e(
                         'div',
                         {
                                 key: 'key',
                                 className: 'text-[10px] leading-[14px] mt-1',
                         },
-                        index
+                        k
                 ),
                 e(
                         'div',

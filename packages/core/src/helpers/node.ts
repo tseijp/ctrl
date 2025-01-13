@@ -2,31 +2,30 @@ import { is, merge, Merge } from './utils'
 
 export type HTMLTag = keyof HTMLElementTagNameMap
 export type HTMLEl<T extends HTMLTag> = HTMLElementTagNameMap[T]
-export type HTMLNode = Element | string | null
-export type HTMLComponent<P = {}> = (props: P) => HTMLNode
+export type HTMLNode<T extends HTMLTag = HTMLTag> = HTMLEl<T> | string | null
 
-type Props = {
+type Props<T extends HTMLTag> = {
         key?: string
-        ref?: (el: any) => void
+        ref?: (el: HTMLEl<T>) => void
         children?: HTMLNode | HTMLNode[]
 }
 
-export function append<El extends Node>(child: string | Node | null, el: El) {
+export function append<El extends Node>(child: Node | string | null, el: El) {
         if (is.str(child)) child = document.createTextNode(child)
         if (!is.nul(child)) el.appendChild(child)
 }
 
 function create<T extends HTMLTag>(
         type: T,
-        props?: Props & Merge<HTMLEl<T>>,
+        props?: Props<T> & Merge<HTMLEl<T>>,
         child?: HTMLNode | HTMLNode[]
-): HTMLNode
+): HTMLEl<T>
 
-function create<P = {}>(
-        type: HTMLComponent<P>,
+function create<T extends HTMLTag, P = {}, Child = HTMLEl<T>>(
+        type: (props: P) => Child,
         props?: P,
         child?: HTMLNode | HTMLNode[]
-): HTMLNode
+): Child
 
 function create(type: any, props: any = {}, child: HTMLNode | HTMLNode[] = []) {
         const { key, ref, children, ...other } = props ?? {}
@@ -42,10 +41,9 @@ function create(type: any, props: any = {}, child: HTMLNode | HTMLNode[] = []) {
         // create element
         const el = document.createElement(type)
         merge(el, other)
-        if (ref) ref(el)
 
         child.forEach((c) => append(c, el))
-
+        if (ref) ref(el)
         return el
 }
 
