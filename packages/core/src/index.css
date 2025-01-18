@@ -26,8 +26,7 @@
         bottom: 0;
         width: 100vw;
         height: 100vh;
-        transform: translate(var(--sidebar-width), var(--header-height))
-                scale(0.5);
+        transform: translate(var(--sidebar-width), var(--header-height));
 }
 
 ._ctrl-aside {
