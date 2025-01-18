@@ -2,10 +2,10 @@
 
 // @ts-ignore
 import { createElement, useState, useSyncExternalStore } from 'react'
-import _Controller from './clients/Controller'
-import ctrl, { register } from './index'
-import { Config } from './types'
 import { createPortal } from 'react-dom'
+import _Controller from './clients/Controller'
+import { ctrl, register } from './index'
+import { Config } from './types'
 
 export * from './index'
 
@@ -22,9 +22,9 @@ function initialize() {
 }
 
 export function useCtrl<T extends Config>(config: T) {
-        initialize()
         const c = useState(() => ctrl<T>(config))[0]
-        return useSyncExternalStore(c.sub, c.get, c.get)
+        useSyncExternalStore(c.sub, c.get, c.get)
+        return c.current
 }
 
 interface Props {

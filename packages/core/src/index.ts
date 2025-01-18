@@ -1,9 +1,9 @@
-import create, { append, HTMLNode, remove } from './helpers/node'
-import { is } from './helpers/utils'
+import Container from './clients/Container'
+import { Bool, Float, Vector } from './clients/inputs'
+import { append, create, remove, HTMLNode } from './helpers/node'
+import { flush, is } from './helpers/utils'
 import { Config } from './types'
 import './index.css'
-import { Bool, Float, Vector } from './clients/inputs'
-import Container from './clients/Container'
 
 /**
  * main
@@ -11,6 +11,9 @@ import Container from './clients/Container'
 let counter = 0
 
 function ctrl<T extends Config>(current: T) {
+        /**
+         * private method
+         */
         const listeners = new Set<Function>()
         const cleanups = new Set<Function>()
 
@@ -18,7 +21,7 @@ function ctrl<T extends Config>(current: T) {
                 if (is.str(ctrl.parent))
                         ctrl.parent = document.getElementById(ctrl.parent)
                 if (ctrl.parent) return
-                ctrl.parent = ctrl.create(Container, {})
+                ctrl.parent = ctrl.create(Container)
                 ctrl.render(ctrl.parent, document.body)
         }
 
@@ -36,7 +39,7 @@ function ctrl<T extends Config>(current: T) {
                 ctrl.remove(el, p)
         }
 
-        const attach = (k: string) => {
+        const attach = (k: keyof T) => {
                 const arg = current[k]
                 const _ = ctrl.create
                 if (is.bol(arg)) return _(Bool<T>, { k, arg, set })
@@ -45,27 +48,39 @@ function ctrl<T extends Config>(current: T) {
                 throw `Error: not support type`
         }
 
+        /**
+         * private method
+         */
         let count = 0
+        let updated = 0
 
         const sub = (update = () => {}) => {
                 listeners.add(update)
                 if (!count++) for (const i in current) mount(attach(i))
                 return () => {
                         listeners.delete(update)
-                        if (!--count) cleanups.forEach((f) => f())
+                        if (!--count) flush(cleanups)
                 }
         }
 
         const get = () => {
-                return current
+                return updated
         }
 
         const set = <K extends keyof T>(key: K, arg: T[K]) => {
                 current[key] = arg
-                listeners.forEach((f) => f())
+                updated++
+                flush(listeners)
         }
 
-        return { sub, get, set }
+        return {
+                sub,
+                get,
+                set,
+                get current() {
+                        return current
+                },
+        }
 }
 
 ctrl.create = create
@@ -86,6 +101,12 @@ export function register(override: Record<string, any>) {
 
 export type Ctrl = ReturnType<typeof ctrl>
 
+export { ctrl }
+
 export default ctrl
 
+export * from './helpers/drag'
+export * from './helpers/node'
+export * from './helpers/utils'
+export * from './helpers/wheel'
 export * from './types'

@@ -62,6 +62,7 @@ export function InputValue(props: Props) {
                         _('input', {
                                 key: 'input',
                                 type: 'number',
+                                step: '0.01',
                                 className: 'pl-6 h-6 w-full bg-[#383838] rounded-sm outline-none',
                                 valueAsNumber: value,
                                 onchange: set

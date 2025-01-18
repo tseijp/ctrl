@@ -17,10 +17,10 @@ export const is = {
         fun: (a: unknown): a is Function => typeof a === 'function',
         und: (a: unknown): a is undefined => typeof a === 'undefined',
         nul: (a: unknown): a is null => a === null,
-        obj: (a: unknown): a is object =>
-                !!a && a.constructor.name === 'Object',
         set: (a: unknown): a is Set<unknown> => a instanceof Set,
         map: (a: unknown): a is Map<unknown, unknown> => a instanceof Map,
+        obj: (a: unknown): a is object =>
+                !!a && a.constructor.name === 'Object',
 }
 
 type EachFn<Value, Key, This> = (this: This, value: Value, key: Key) => void
@@ -33,12 +33,14 @@ export const each = <Value, Key, This>(
         fn: EachFn<Value, Key, This>
 ) => obj.forEach(fn)
 
+export const flush = <Value extends Function, Key, This>(obj: Eachable<Value, Key, This>) => {
+        each(obj, (f) => f())
+}
+
 /**
  * CALCULATE VECTOR
  * REF: https://github.com/toji/gl-matrix/blob/master/src/vec2.js
  */
-export const isF = (f: unknown): f is Function => typeof f === 'function'
-
 const Vec = typeof Float32Array !== 'undefined' ? Float32Array : Array
 
 export const vec2 = (x = 0, y = 0, out = new Vec(2)): Vec2 => {

@@ -75,7 +75,7 @@ export default function Wheelable(props: Props) {
                 'div',
                 {
                         ref,
-                        className: 'scale-50 origin-top-left w-full h-full',
+                        className: 'origin-top-left',
                 },
                 children
         )

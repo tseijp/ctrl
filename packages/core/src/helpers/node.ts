@@ -51,4 +51,6 @@ function create(type: any, props: any = {}, child: HTMLNode | HTMLNode[] = []) {
         return el
 }
 
+export { create }
+
 export default create
