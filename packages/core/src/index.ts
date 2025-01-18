@@ -1,4 +1,5 @@
 import Container from './clients/Container'
+import Controller from './clients/Controller'
 import { Bool, Float, Vector } from './clients/inputs'
 import { append, create, remove, HTMLNode } from './helpers/node'
 import { flush, is } from './helpers/utils'
@@ -42,9 +43,9 @@ function ctrl<T extends Config>(current: T) {
         const attach = (k: keyof T) => {
                 const arg = current[k]
                 const _ = ctrl.create
-                if (is.bol(arg)) return _(Bool<T>, { k, arg, set })
-                if (is.num(arg)) return _(Float<T>, { k, arg, set })
-                if (is.arr(arg)) return _(Vector<T>, { k, arg, set })
+                if (is.bol(arg)) return _(Bool<T>, { key: k, k, arg, set })
+                if (is.num(arg)) return _(Float<T>, { key: k, k, arg, set })
+                if (is.arr(arg)) return _(Vector<T>, { key: k, k, arg, set })
                 throw `Error: not support type`
         }
 
@@ -101,7 +102,7 @@ export function register(override: Record<string, any>) {
 
 export type Ctrl = ReturnType<typeof ctrl>
 
-export { ctrl }
+export { ctrl, Controller }
 
 export default ctrl
 

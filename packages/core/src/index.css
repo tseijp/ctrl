@@ -8,12 +8,6 @@
         --sidebar-height: calc(100vh - 48px);
 }
 
-.ctrl-body {
-        width: 100%;
-        height: 100%;
-        font-weight: 500;
-}
-
 ._ctrl-nav {
         z-index: 10;
         position: fixed;
@@ -22,18 +16,18 @@
         top: 0;
         width: 100%;
         height: var(--header-height);
+        font-weight: 500;
         color: rgb(250, 247, 245);
         background-color: rgb(44, 44, 44);
 }
 
 ._ctrl-main {
-        width: 100vw;
-        height: 100vh;
-        padding-top: var(--header-height);
-        padding-left: var(--sidebar-width);
-        padding-right: var(--sidebar-width);
         overflow: hidden;
         bottom: 0;
+        width: 100vw;
+        height: 100vh;
+        transform: translate(var(--sidebar-width), var(--header-height))
+                scale(0.5);
 }
 
 ._ctrl-aside {
@@ -43,6 +37,8 @@
         width: var(--sidebar-width);
         height: var(--sidebar-height);
         background: rgb(44, 44, 44);
+        font-weight: 500;
+        color: rgb(250, 247, 245);
 }
 
 ._ctrl-input {

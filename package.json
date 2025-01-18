@@ -13,7 +13,8 @@
                 "start": "cd examples/docs && npm run start",
                 "next": "cd examples/next && npm run dev",
                 "test": "jest --watch",
-                "tsup": "cd packages/core && tsup"
+                "tsup": "cd packages/core && tsup",
+                "pub": "cd packages/core && npm publish"
         },
         "devDependencies": {
                 "@tsei/ctrl": "*",

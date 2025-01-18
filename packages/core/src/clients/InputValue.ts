@@ -41,6 +41,11 @@ export function InputValue(props: Props) {
                 init = input.valueAsNumber
                 drag.offset[0] = init
                 drag.onMount(span)
+                if (!set) return
+
+                input.addEventListener('change', (e: Event) => {
+                        set(getInputValue(e))
+                })
         }
 
         const _ = ctrl.create
@@ -64,10 +69,7 @@ export function InputValue(props: Props) {
                                 type: 'number',
                                 step: '0.01',
                                 className: 'pl-6 h-6 w-full bg-[#383838] rounded-sm outline-none',
-                                valueAsNumber: value,
-                                onchange: set
-                                        ? (e: Event) => set(getInputValue(e))
-                                        : null,
+                                defaultValue: value.toString(),
                         }),
                 ]
         )

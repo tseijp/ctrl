@@ -2,7 +2,7 @@
 
 import ctrl from '../index'
 
-let zoom = 1
+let zoom = 0.5
 
 const listeners = new Set<Function>()
 

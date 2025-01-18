@@ -1,6 +1,6 @@
 'use client'
 
-import { useCtrl, Controller } from '@tsei/ctrl/src/react'
+import { Controller, useCtrl } from '@tsei/ctrl/src/react'
 import '@tsei/ctrl/src/style'
 
 // import ctrl, { register, Config } from '@tsei/ctrl'
@@ -9,14 +9,14 @@ import '@tsei/ctrl/src/style'
 
 export default () => {
         const { x } = useCtrl({ x: 1 })
+        const left = <div className="text-white">{x}</div>
+
         return (
-                <Controller>
-                        <div className="w-[1920px] h-[1080px] bg-white">
-                                <iframe
-                                        src="https://tsei.jp"
-                                        className="w-full h-full pointer-events-none"
-                                />
-                        </div>
+                <Controller left={left}>
+                        <iframe
+                                src="https://tsei.jp"
+                                className="w-full h-full pointer-events-none"
+                        />
                 </Controller>
         )
 }

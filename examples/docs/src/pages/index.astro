@@ -2,27 +2,20 @@
 </div>
 
 <script>
-        import ctrl from '@tsei/ctrl/src/index'
-        import { Controller } from '@tsei/ctrl/src/react'
-
-        // import ctrl,{ create as _, render } from '@tsei/ctrl'
-        // import { Controller } from '@tsei/ctrl/react'
-        import '@tsei/ctrl/style'
+        import { ctrl, Controller } from '@tsei/ctrl/src/index'
+        // import { ctrl, Controller } from '@tsei/ctrl'
 
         const root = document.getElementById("root")!
 
-        let pc: HTMLIFrameElement
-        let sp: HTMLIFrameElement;
 
         const _ = ctrl.create
         ctrl.render(
-                _(Controller, {
-                        children: [
-                                pc = _('iframe', {
+                _(Controller, {}, [
+                                _('iframe', {
                                         src: '/id',
                                         className: 'mt-10 w-[1920px] h-[1280px] bg-white',
                                 }),
-                                sp = _('iframe', {
+                                _('iframe', {
                                         src: '/id',
                                         className: 'mt-10 w-[390px] h-[844px] bg-white',
                                 }),
@@ -35,14 +28,9 @@
                                         className: 'mt-10 w-[390px] h-[844px] bg-white',
                                 }),
                         ],
-                }),
+                ),
                 root
         )
-
-        // ctrl({
-        //         sp: "/id",
-        //         pc: "/id",
-        // }).sub()
 </script>
 
 <style>

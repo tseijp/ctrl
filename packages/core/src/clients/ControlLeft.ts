@@ -2,7 +2,8 @@
 
 import ctrl from '../index'
 
-export default function ControlLeft() {
+export default function ControlLeft(props: any) {
+        const { children } = props
         const _ = ctrl.create
         return _(
                 'aside',
@@ -38,10 +39,14 @@ export default function ControlLeft() {
                                         }),
                                 ]
                         ),
-                        _('ul', {
-                                key: 'list', // @TODO
-                                className: 'px-4 text-sm',
-                        }),
+                        _(
+                                'ul',
+                                {
+                                        key: 'list', // @TODO
+                                        className: 'px-4 text-sm',
+                                },
+                                children
+                        ),
                 ]
         )
 }

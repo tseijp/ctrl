@@ -190,11 +190,6 @@ export const createBounding = <El extends HTMLElement>(selectors?: string) => {
         return ref
 }
 
-// export default function useBounding<El extends HTMLElement>() {
-//         const [ref] = useState(createBounding<El>)
-//         return ref
-// }
-
 export default function Bounding<T>(props: T) {
         const ref = createBounding()
         const _ = ctrl.create

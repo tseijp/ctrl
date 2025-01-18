@@ -1,30 +1,53 @@
 'use client'
 
-import ctrl from '../index'
+import ctrl, { merge } from '../index'
 import Bounding from './Bounding'
+import Container from './Container'
 import ControlLeft from './ControlLeft'
 import ControlNav from './ControlNav'
 import ControlRight from './ControlRight'
 import Wheelable from './Wheelable'
 
 interface Props {
-        children: any
+        left?: any
+        right?: any
+        children?: any
+}
+
+const getDir = (x = 0, y = 0, w = 600, h = 600) => {
+        // element center
+        x += w / 2
+        y += h / 2
+        // normalize
+        x /= window.innerWidth
+        y /= window.innerHeight
+        // vector from center
+        x -= 0.5
+        y -= 0.5
+        if (x ** 2 <= y ** 2) {
+                return [0, y > 0 ? 1 : -1]
+        } else return [x > 0 ? 1 : -1, 0]
+}
+
+const ref = (el: HTMLElement) => {
+        if (!el) return
+        console.log(el)
+        const r = el.getBoundingClientRect()
+        const [dx, dy] = getDir(r.x, r.y, r.width, r.height)
+        merge(el, {
+                style: {
+                        transform: `translate(${dx * 1000}px, ${dy * 1000}px)`,
+                },
+        })
 }
 
 export default function Controller(props: Props) {
-        const { children } = props
+        const { children, left, right } = props
         const _ = ctrl.create
         return _('div', {}, [
-                _(ControlNav, { key: 'nav' }),
-                _(ControlLeft, { key: 'left' }),
-                _(
-                        'main',
-                        {
-                                key: 'main', //
-                                className: '_ctrl-main',
-                        },
-                        _(Bounding, {}, _(Wheelable, { children }))
-                ),
-                _(ControlRight, { key: 'right' }),
+                _(ControlNav, { ref, key: 'nav' }),
+                _(ControlLeft, { ref, key: 'left' }, left),
+                _(Bounding, { key: 'main' }, _(Wheelable, { children })),
+                _(ControlRight, { ref, key: 'right' }, _(Container, {}, right)),
         ])
 }

@@ -2,7 +2,8 @@
 
 import ctrl from '../index'
 
-export default function ControlRight() {
+export default function ControlRight(props: any) {
+        const { children } = props
         const _ = ctrl.create
         return _(
                 'aside',
@@ -26,10 +27,14 @@ export default function ControlRight() {
                                         // q ? 'Update' : 'New Creation'
                                 )
                         ),
-                        _('div', {
-                                id: 'ctrl-container',
-                                key: 'container',
-                        }),
+                        _(
+                                'div',
+                                {
+                                        id: 'ctrl-container',
+                                        key: 'container',
+                                },
+                                children
+                        ),
                 ]
         )
 }

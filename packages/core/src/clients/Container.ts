@@ -2,9 +2,11 @@
 
 import ctrl from '../index'
 import { dragEvent } from '../helpers/drag'
-import { merge } from '../helpers/utils'
+import { is, merge } from '../helpers/utils'
 
-export default function Container() {
+export default function Container(props: any) {
+        const { children, title = 'Unknown' } = props
+        const _children = is.arr(children) ? children : [children]
         const { ref } = dragEvent((drag) => {
                 const { offset } = drag
                 const [x, y] = offset
@@ -12,21 +14,25 @@ export default function Container() {
                 const el = drag.target as HTMLDivElement
                 merge(el.style, { transform })
         })
+        console.log(children)
 
         const _ = ctrl.create
         return _(
                 'div',
                 {
                         ref,
-                        className: 'fixed bg-[#2c2c2c] w-[240px] pl-4 pr-2 pb-3 text-[12px] text-white',
+                        className: 'bg-[#2c2c2c] max-w-[240px] pl-4 pr-2 pb-3 text-[12px] text-white',
                 },
-                _(
-                        'div',
-                        {
-                                key: 'Container', //
-                                className: 'leading-[40px] font-medium',
-                        },
-                        'Layout'
-                )
+                [
+                        _(
+                                'div',
+                                {
+                                        key: 'Container', //
+                                        className: 'leading-[40px] font-medium',
+                                },
+                                title
+                        ),
+                        ...children,
+                ]
         )
 }
