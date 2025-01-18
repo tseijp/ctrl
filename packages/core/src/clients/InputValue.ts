@@ -8,6 +8,15 @@ function getInputValue(e: Event) {
         throw ``
 }
 
+function sig(value: number, digit: number) {
+        digit *= -1
+        digit = Math.pow(10, digit)
+        value *= digit
+        value = Math.round(value)
+        value /= digit
+        return value
+}
+
 interface Props {
         icon?: string
         value: number
@@ -27,8 +36,9 @@ export function InputValue(props: Props) {
                 if (drag.isDragEnd) span.style.cursor = ''
                 if (drag.isDragging) {
                         const { offset } = drag
-                        const x = init + offset[0]
-                        input.valueAsNumber = x << 0
+                        let x = init + offset[0] / 100
+                        x = sig(x, -2)
+                        input.valueAsNumber = x
                         if (set) set(x)
                 }
         })
@@ -68,7 +78,7 @@ export function InputValue(props: Props) {
                                 key: 'input',
                                 type: 'number',
                                 step: '0.01',
-                                className: 'pl-6 h-6 w-full bg-[#383838] rounded-sm outline-none',
+                                className: '_ctrl-number pl-6 h-6 w-full bg-[#383838] rounded-sm outline-none',
                                 defaultValue: value.toString(),
                         }),
                 ]

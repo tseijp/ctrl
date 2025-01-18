@@ -68,9 +68,7 @@ export default function Wheelable(props: Props) {
                 wheel.offset[0] = -rect.left
                 wheel.offset[1] = -rect.top
                 window.addEventListener('mousemove', move)
-                setTimeout(() => {
-                        wheel.onMount(el.parentElement as any)
-                }, 100)
+                wheel.onMount(window as any)
         }
 
         const _ = ctrl.create
@@ -78,7 +76,7 @@ export default function Wheelable(props: Props) {
                 'div',
                 {
                         ref,
-                        className: 'origin-top-left _ctrl-main',
+                        className: 'relative origin-top-left _ctrl-main',
                 },
                 children
         )

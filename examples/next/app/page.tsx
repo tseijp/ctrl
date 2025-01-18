@@ -1,5 +1,6 @@
 'use client'
 
+import { Canvas } from '@react-three/fiber'
 import { Controller, useCtrl } from '@tsei/ctrl/src/react'
 import '@tsei/ctrl/src/style'
 
@@ -7,16 +8,22 @@ import '@tsei/ctrl/src/style'
 // import { Controller } from '@tsei/ctrl/react'
 // import '@tsei/ctrl/style'
 
-export default () => {
-        const { x } = useCtrl({ x: 1 })
-        const left = <div className="text-white">{x}</div>
-
+const Box = () => {
+        const { position } = useCtrl({ position: [0, 0, 0] })
         return (
-                <Controller left={left}>
-                        <iframe
-                                src="https://tsei.jp"
-                                className="w-full h-full pointer-events-none"
-                        />
+                <mesh position={[...position]}>
+                        <boxGeometry />
+                        <meshBasicMaterial />
+                </mesh>
+        )
+}
+
+export default () => {
+        return (
+                <Controller>
+                        <Canvas>
+                                <Box />
+                        </Canvas>
                 </Controller>
         )
 }

@@ -22,8 +22,9 @@
 }
 
 ._ctrl-main {
-        overflow: hidden;
-        bottom: 0;
+        position: fixed;
+        top: 0px;
+        bottom: 0px;
         width: 100vw;
         height: 100vh;
         transform: translate(var(--sidebar-width), var(--header-height));
@@ -52,6 +53,12 @@
         display: flex;
         align-items: center;
         justify-content: center;
+}
+
+._ctrl-number::-webkit-outer-spin-button,
+._ctrl-number::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
 }
 
 html,

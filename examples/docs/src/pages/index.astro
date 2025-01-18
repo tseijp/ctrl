@@ -1,33 +1,25 @@
-<div id="root">
-</div>
+---
+import { Prism } from '@astrojs/prism';
+---
+
+<div id="root" />
 
 <script>
         import { ctrl, Controller } from '@tsei/ctrl/src/index'
-        // import { ctrl, Controller } from '@tsei/ctrl'
+        import Noise from '../cases/Noise'
+        import Wrap from '../cases/Wrap'
+        import 'prismjs';
 
         const root = document.getElementById("root")!
 
-
         const _ = ctrl.create
+
+
         ctrl.render(
-                _(Controller, {}, [
-                                _('iframe', {
-                                        src: '/id',
-                                        className: 'mt-10 w-[1920px] h-[1280px] bg-white',
-                                }),
-                                _('iframe', {
-                                        src: '/id',
-                                        className: 'mt-10 w-[390px] h-[844px] bg-white',
-                                }),
-                                _('iframe', {
-                                        src: '/',
-                                        className: 'mt-10 w-[1920px] h-[1280px] bg-white',
-                                }),
-                                _('iframe', {
-                                        src: '/',
-                                        className: 'mt-10 w-[390px] h-[844px] bg-white',
-                                }),
-                        ],
+                _(
+                        Controller,
+                        {},
+                        _(Wrap, { Demo: Noise })
                 ),
                 root
         )

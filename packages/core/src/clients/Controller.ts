@@ -31,7 +31,6 @@ const getDir = (x = 0, y = 0, w = 600, h = 600) => {
 
 const ref = (el: HTMLElement) => {
         if (!el) return
-        console.log(el)
         const r = el.getBoundingClientRect()
         const [dx, dy] = getDir(r.x, r.y, r.width, r.height)
         merge(el, {
@@ -42,9 +41,9 @@ const ref = (el: HTMLElement) => {
 }
 
 export default function Controller(props: Props) {
-        const { children, left, right } = props
+        const { children, left, right, ...other } = props
         const _ = ctrl.create
-        return _('div', {}, [
+        return _('div', other, [
                 _(ControlNav, { ref, key: 'nav' }),
                 _(ControlLeft, { ref, key: 'left' }, left),
                 _(Bounding, { key: 'main' }, _(Wheelable, { children })),

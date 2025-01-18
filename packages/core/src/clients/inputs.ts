@@ -49,7 +49,7 @@ export const Vector = <T extends Config>(props: VectorProps<T>) => {
         const change = (_012 = 0) => {
                 return (value = 0) => {
                         arg[_012] = value
-                        set(k, arg as T[keyof T])
+                        set(k, [...arg] as T[keyof T])
                 }
         }
         const [x, y, z] = arg

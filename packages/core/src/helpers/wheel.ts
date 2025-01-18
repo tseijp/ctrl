@@ -68,7 +68,7 @@ export const wheelEvent = (callback: WheelCallback) => {
 
         const onMount = (target: Element) => {
                 state.target = target
-                target.addEventListener('wheel', onWheeling)
+                target.addEventListener('wheel', onWheeling, { passive: false })
         }
 
         const onClean = () => {

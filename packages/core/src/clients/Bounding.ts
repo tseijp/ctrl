@@ -178,10 +178,10 @@ export const createBounding = <El extends HTMLElement>(selectors?: string) => {
                 el.appendChild(hoverEl)
                 el.appendChild(clickEl)
                 el.appendChild(lineEl)
-
                 const pr = el.parentElement?.getBoundingClientRect()!
+
                 isParent = (rect) =>
-                        pr.width <= rect.width && pr.height <= rect.height
+                        pr?.width <= rect.width && pr.height <= rect.height
         }
 
         if (selectors && typeof window !== 'undefined')

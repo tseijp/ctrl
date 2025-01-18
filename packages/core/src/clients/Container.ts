@@ -14,7 +14,6 @@ export default function Container(props: any) {
                 const el = drag.target as HTMLDivElement
                 merge(el.style, { transform })
         })
-        console.log(children)
 
         const _ = ctrl.create
         return _(
@@ -32,7 +31,7 @@ export default function Container(props: any) {
                                 },
                                 title
                         ),
-                        ...children,
+                        ..._children,
                 ]
         )
 }

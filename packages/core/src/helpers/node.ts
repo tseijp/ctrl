@@ -3,8 +3,11 @@ import { is, merge, Merge } from './utils'
 export type HTMLMap = HTMLElementTagNameMap
 export type HTMLTag = keyof HTMLMap
 export type HTMLNode<T extends HTMLTag = HTMLTag> = HTMLMap[T] | string | null
+export type Component<T extends HTMLTag, P = {}, Child = HTMLMap[T]> = (
+        props: P
+) => Child
 
-type Props<T extends HTMLTag> = {
+export type Props<T extends HTMLTag> = Merge<HTMLMap[T]> & {
         key?: string
         ref?: (el: HTMLMap[T]) => void
         children?: HTMLNode | HTMLNode[]
@@ -21,12 +24,12 @@ export function remove<El extends Node>(child: Node, el: El) {
 
 function create<T extends HTMLTag>(
         type: T,
-        props?: Props<T> & Merge<HTMLMap[T]>,
+        props?: Props<T>,
         child?: HTMLNode | HTMLNode[]
 ): HTMLMap[T]
 
 function create<T extends HTMLTag, P = {}, Child = HTMLMap[T]>(
-        type: (props: P) => Child,
+        type: Component<T, P, Child>,
         props?: P,
         child?: HTMLNode | HTMLNode[]
 ): Child
