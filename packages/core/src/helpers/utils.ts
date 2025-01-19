@@ -33,7 +33,9 @@ export const each = <Value, Key, This>(
         fn: EachFn<Value, Key, This>
 ) => obj.forEach(fn)
 
-export const flush = <Value extends Function, Key, This>(obj: Eachable<Value, Key, This>) => {
+export const flush = <Value extends Function, Key, This>(
+        obj: Eachable<Value, Key, This>
+) => {
         each(obj, (f) => f())
 }
 

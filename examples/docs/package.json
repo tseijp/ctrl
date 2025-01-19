@@ -10,6 +10,7 @@
         },
         "dependencies": {
                 "@astrojs/tailwind": "^5.1.4",
+                "@types/prismjs": "^1.26.5",
                 "astro": "^5.1.2",
                 "glre": "0.21.0",
                 "prismjs": "1.29.0",

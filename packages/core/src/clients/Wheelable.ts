@@ -64,9 +64,8 @@ export default function Wheelable(props: Props) {
                 }
 
                 el = _el
-                const rect = el.getBoundingClientRect()
-                wheel.offset[0] = -rect.left
-                wheel.offset[1] = -rect.top
+                wheel.offset[0] = -240 // var(--sidebar-width) in index.css
+                wheel.offset[1] = -48 // var(--header-height) in index.css
                 window.addEventListener('mousemove', move)
                 wheel.onMount(window as any)
         }

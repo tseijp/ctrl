@@ -11,14 +11,14 @@ const Wrap = <T extends HTMLTag>(props: Props<T>) => {
         return _(
                 'div',
                 {
-                        className: 'grid w-full h-full grid-cols-[390px_1920px] gap-20',
+                        className: 'mt-20 grid w-full h-full grid-cols-[390px_1920px] gap-20 min-h-[1280px]',
                 },
                 [
                         _(Demo, {
-                                className: 'w-[390px] h-[844px]',
+                                className: 'w-[390px] h-[844px] bg-white',
                         }),
                         _(Demo, {
-                                className: 'w-[1920px] h-[1280px]',
+                                className: 'w-[1920px] h-[1280px] bg-white',
                         }),
                 ]
         )

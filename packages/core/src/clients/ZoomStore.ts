@@ -1,6 +1,6 @@
 'use client'
 
-import ctrl from '../index'
+import ctrl, { flush } from '../index'
 
 let zoom = 1
 
@@ -20,7 +20,7 @@ export const zoomStore = {
         },
         set zoom(value) {
                 zoom = value
-                listeners.forEach((f) => f())
+                flush(listeners)
         },
         sub,
 }

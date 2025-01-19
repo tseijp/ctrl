@@ -2,7 +2,7 @@ import Container from './clients/Container'
 import Controller from './clients/Controller'
 import { Bool, Float, Vector } from './clients/inputs'
 import { append, create, remove, HTMLNode } from './helpers/node'
-import { flush, is } from './helpers/utils'
+import { flush, is, merge } from './helpers/utils'
 import { Config } from './types'
 import './index.css'
 
@@ -91,13 +91,8 @@ ctrl.remove = remove
 ctrl.finish = remove
 ctrl.parent = null as null | Node
 
-export function register(override: Record<string, any>) {
-        ctrl.create = override.create ?? create
-        ctrl.append = override.append ?? append
-        ctrl.render = override.render ?? append
-        ctrl.remove = override.remove ?? remove
-        ctrl.finish = override.finish ?? remove
-        ctrl.parent = override.parent ?? null
+export function register(override: any) {
+        merge(ctrl, override)
 }
 
 export type Ctrl = ReturnType<typeof ctrl>

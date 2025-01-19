@@ -1,4 +1,4 @@
-import { is, merge, Merge } from './utils'
+import { each, is, merge, Merge } from './utils'
 
 export type HTMLMap = HTMLElementTagNameMap
 export type HTMLTag = keyof HTMLMap
@@ -35,11 +35,14 @@ function create<T extends HTMLTag, P = {}, Child = HTMLMap[T]>(
 ): Child
 
 function create(type: any, props: any = {}, child: HTMLNode | HTMLNode[] = []) {
-        const { key, ref, children, ...other } = props ?? {}
+        let { key, ref, children = [], ...other } = props ?? {}
 
-        // coordinate props
-        if (children) child = children
+        // coordinate children
+        if (!is.arr(children)) children = [children]
         if (!is.arr(child)) child = [child]
+        child = [...children, ...child]
+
+        // render component
         if (is.fun(type)) {
                 merge(props, { children: child })
                 return type(props)
@@ -49,7 +52,11 @@ function create(type: any, props: any = {}, child: HTMLNode | HTMLNode[] = []) {
         const el = document.createElement(type)
         merge(el, other)
 
-        child.forEach((c) => append(c, el))
+        try {
+                each(child, (c) => append(c, el))
+        } catch (e) {
+                console.log(child)
+        }
         if (ref) ref(el)
         return el
 }
