@@ -3,8 +3,17 @@ import Controller from './clients/Controller'
 import { Bool, Float, Vector } from './clients/inputs'
 import { append, create, remove, HTMLNode } from './helpers/node'
 import { flush, is, merge } from './helpers/utils'
-import { Config } from './types'
+import { Config, Uniform } from './types'
 import './index.css'
+
+/**
+ * utils
+ */
+const isU = <T>(a: unknown): a is Uniform<T> => {
+        if (!is.obj(a)) return false
+        if ('value' in a) return true
+        return false
+}
 
 /**
  * main
@@ -40,8 +49,9 @@ function ctrl<T extends Config>(current: T) {
                 ctrl.remove(el, p)
         }
 
-        const attach = (k: keyof T) => {
-                const arg = current[k]
+        const attach = <K extends keyof T>(k: K) => {
+                let arg = current[k]
+                if (isU<T[K]>(arg)) arg = arg.value
                 const _ = ctrl.create
                 if (is.bol(arg)) return _(Bool<T>, { key: k, k, arg, set })
                 if (is.num(arg)) return _(Float<T>, { key: k, k, arg, set })
@@ -69,7 +79,9 @@ function ctrl<T extends Config>(current: T) {
         }
 
         const set = <K extends keyof T>(key: K, arg: T[K]) => {
-                current[key] = arg
+                if (isU<T[K]>(current[key])) {
+                        current[key].value = arg
+                } else current[key] = arg
                 updated++
                 flush(listeners)
         }
