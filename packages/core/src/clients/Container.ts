@@ -20,7 +20,8 @@ export default function Container(props: any) {
                 'div',
                 {
                         ref,
-                        className: 'bg-[#2c2c2c] max-w-[240px] pl-4 pr-2 pb-3 text-[12px] text-white',
+                        style: { zIndex: '9999' },
+                        className: '_ctrl-container bg-[#2c2c2c] max-w-[240px] pl-4 pr-2 pb-3 text-[12px] text-white',
                 },
                 [
                         _(
