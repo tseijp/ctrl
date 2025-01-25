@@ -33,9 +33,8 @@
                 "typescript": "^5.7.2"
         },
         "workspaces": [
-                "packages/core",
-                "examples/docs",
-                "examples/next"
+                "packages/*",
+                "examples/*"
         ],
         "private": true
 }

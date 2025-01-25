@@ -15,39 +15,40 @@ const isU = <T>(a: unknown): a is Uniform<T> => {
         return false
 }
 
+let counter = 0
+
+const init = () => {
+        if (is.str(ctrl.parent))
+                ctrl.parent = document.getElementById(ctrl.parent)
+        if (ctrl.parent) return
+        ctrl.parent = ctrl.create(Container)
+        ctrl.render(ctrl.parent, document.body)
+}
+
+const mount = (el?: HTMLNode) => {
+        if (!el) return
+        if (!counter++) init()
+        ctrl.append(el, ctrl.parent!)
+        return clean(el)
+}
+
+const clean = (el?: HTMLNode) => () => {
+        const p = ctrl.parent
+        if (!p || is.str(p)) return
+        if (!--counter) return ctrl.finish(p, document.body)
+        if (!el || is.str(el)) return
+        ctrl.remove(el, p)
+}
+
 /**
  * main
  */
-let counter = 0
-
 function ctrl<T extends Config>(current: T) {
         /**
          * private method
          */
         const listeners = new Set<Function>()
         const cleanups = new Set<Function>()
-
-        const init = () => {
-                if (is.str(ctrl.parent))
-                        ctrl.parent = document.getElementById(ctrl.parent)
-                if (ctrl.parent) return
-                ctrl.parent = ctrl.create(Container)
-                ctrl.render(ctrl.parent, document.body)
-        }
-
-        const mount = (el: HTMLNode) => {
-                if (!counter++) init()
-                ctrl.append(el, ctrl.parent!)
-                cleanups.add(clean(el))
-        }
-
-        const clean = (el: HTMLNode) => () => {
-                const p = ctrl.parent
-                if (!p || is.str(p)) return
-                if (!--counter) return ctrl.finish(p, document.body)
-                if (!el || is.str(el)) return
-                ctrl.remove(el, p)
-        }
 
         const attach = <K extends keyof T>(k: K) => {
                 let arg = current[k]
@@ -56,18 +57,21 @@ function ctrl<T extends Config>(current: T) {
                 if (is.bol(arg)) return _(Bool<T>, { key: k, k, arg, set })
                 if (is.num(arg)) return _(Float<T>, { key: k, k, arg, set })
                 if (is.arr(arg)) return _(Vector<T>, { key: k, k, arg, set })
-                throw `Error: not support type`
         }
 
         /**
-         * private method
+         * public method
          */
         let count = 0
         let updated = 0
 
         const sub = (update = () => {}) => {
                 listeners.add(update)
-                if (!count++) for (const i in current) mount(attach(i))
+                if (!count++)
+                        for (const i in current) {
+                                const cleanup = mount(attach(i))
+                                if (cleanup) cleanups.add(cleanup)
+                        }
                 return () => {
                         listeners.delete(update)
                         if (!--count) flush(cleanups)
@@ -86,10 +90,19 @@ function ctrl<T extends Config>(current: T) {
                 flush(listeners)
         }
 
+        let _clean = () => {}
+
+        const ref = (target: T) => {
+                if (!target) return _clean()
+                current = target
+                _clean = sub()
+        }
+
         return {
                 sub,
                 get,
                 set,
+                ref,
                 get current() {
                         return current
                 },
