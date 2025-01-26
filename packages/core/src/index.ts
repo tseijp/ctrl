@@ -35,7 +35,7 @@ const mount = (el?: HTMLNode) => {
 const clean = (el?: HTMLNode) => () => {
         const p = ctrl.parent
         if (!p || is.str(p)) return
-        if (!--counter) return ctrl.finish(p, document.body)
+        if (!--counter) ctrl.finish(p, document.body)
         if (!el || is.str(el)) return
         ctrl.remove(el, p)
 }
