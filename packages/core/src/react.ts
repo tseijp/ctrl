@@ -5,16 +5,23 @@ import React from 'react'
 // @ts-ignore
 import { createElement, useState, useSyncExternalStore } from 'react'
 import _Controller from './clients/Controller'
-import { ctrl, flush, register } from './index'
+import { Ctrl, ctrl, flush, isC, PARENT_ID, register } from './index'
 import { Config } from './types'
 
 export * from './index'
 
-export function useCtrl<T extends Config>(config: T) {
-        const c = useState(() => ctrl<T>(config))[0]
+function useCtrl<T extends Config>(c: Ctrl<T>): T
+
+function useCtrl<T extends Config>(config: T) {
+        const [c] = useState(() => {
+                if (isC(config)) return config
+                return ctrl<T>(config)
+        })
         useSyncExternalStore(c.sub, c.get, c.get)
         return c.current
 }
+
+export { useCtrl }
 
 interface Props {
         left?: React.ReactNode
@@ -54,7 +61,7 @@ function initialize() {
         if (isInitialized) return
         isInitialized = true
         register({
-                parent: 'ctrl-container',
+                parent: PARENT_ID,
                 create: createElement,
                 append,
                 remove,

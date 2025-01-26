@@ -9,13 +9,21 @@ import './index.css'
 /**
  * utils
  */
+export const PARENT_ID = '_ctrl-parent'
+
 export const isU = <T>(a: unknown): a is Uniform<T> => {
         if (!is.obj(a)) return false
         if ('value' in a) return true
         return false
 }
 
-let counter = 0
+export const isC = <T extends Config>(a: unknown): a is Ctrl<T> => {
+        if (!is.obj(a)) return false
+        if ('isC' in a) return true
+        return false
+}
+
+let isInit = 0
 
 const init = () => {
         if (is.str(ctrl.parent))
@@ -27,7 +35,7 @@ const init = () => {
 
 const mount = (el?: HTMLNode) => {
         if (!el) return
-        if (!counter++) init()
+        if (!isInit++) init()
         ctrl.append(el, ctrl.parent!)
         return clean(el)
 }
@@ -35,7 +43,7 @@ const mount = (el?: HTMLNode) => {
 const clean = (el?: HTMLNode) => () => {
         const p = ctrl.parent
         if (!p || is.str(p)) return
-        if (!--counter) ctrl.finish(p, document.body)
+        if (!--isInit) ctrl.finish(p, document.body)
         if (!el || is.str(el)) return
         ctrl.remove(el, p)
 }
@@ -62,19 +70,19 @@ function ctrl<T extends Config>(current: T) {
         /**
          * public method
          */
-        let count = 0
+        let inited = 0
         let updated = 0
 
         const sub = (update = () => {}) => {
                 listeners.add(update)
-                if (!count++)
+                if (!inited++)
                         for (const i in current) {
                                 const cleanup = mount(attach(i))
                                 if (cleanup) cleanups.add(cleanup)
                         }
                 return () => {
                         listeners.delete(update)
-                        if (!--count) flush(cleanups)
+                        if (!--inited) flush(cleanups)
                 }
         }
 
@@ -103,6 +111,7 @@ function ctrl<T extends Config>(current: T) {
                 get,
                 set,
                 ref,
+                isC: true,
                 get current() {
                         return current
                 },
