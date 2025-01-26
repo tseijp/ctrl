@@ -1,8 +1,7 @@
-import Container from './clients/Container'
 import Controller from './clients/Controller'
-import { append, create, remove, HTMLNode } from './helpers/node'
+import { append, create, remove } from './helpers/node'
 import { flush, is, merge } from './helpers/utils'
-import attach from './inputs/attach'
+import { attach, mount } from './inputs/index'
 import { Config, Uniform } from './types'
 import './index.css'
 
@@ -21,31 +20,6 @@ export const isC = <T extends Config>(a: unknown): a is Ctrl<T> => {
         if (!is.obj(a)) return false
         if ('isC' in a) return true
         return false
-}
-
-let isInit = 0
-
-const init = () => {
-        if (is.str(ctrl.parent))
-                ctrl.parent = document.getElementById(ctrl.parent)
-        if (ctrl.parent) return
-        ctrl.parent = ctrl.create(Container)
-        ctrl.render(ctrl.parent, document.body)
-}
-
-const mount = (el?: HTMLNode) => {
-        if (!el) return
-        if (!isInit++) init()
-        ctrl.append(el, ctrl.parent!)
-        return clean(el)
-}
-
-const clean = (el?: HTMLNode) => () => {
-        const p = ctrl.parent
-        if (!p || is.str(p)) return
-        if (!--isInit) ctrl.finish(p, document.body)
-        if (!el || is.str(el)) return
-        ctrl.remove(el, p)
 }
 
 /**

@@ -13,8 +13,6 @@ const c = ctrl({ position: [0, 0, 0], scale: 1, hidden: false, text: 'string' })
 const Box = () => {
         const { position, scale, hidden, text } = useCtrl(c)
 
-        console.log(text)
-
         if (hidden) return null
 
         return (

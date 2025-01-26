@@ -23,6 +23,9 @@ export const is = {
                 !!a && a.constructor.name === 'Object',
 }
 
+/**
+ * each
+ */
 type EachFn<Value, Key, This> = (this: This, value: Value, key: Key) => void
 type Eachable<Value = any, Key = any, This = any> = {
         forEach(cb: EachFn<Value, Key, This>, ctx?: This): void
