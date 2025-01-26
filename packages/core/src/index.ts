@@ -9,7 +9,7 @@ import './index.css'
 /**
  * utils
  */
-const isU = <T>(a: unknown): a is Uniform<T> => {
+export const isU = <T>(a: unknown): a is Uniform<T> => {
         if (!is.obj(a)) return false
         if ('value' in a) return true
         return false
@@ -120,7 +120,7 @@ export function register(override: any) {
         merge(ctrl, override)
 }
 
-export type Ctrl = ReturnType<typeof ctrl>
+export type Ctrl<T extends Config> = ReturnType<typeof ctrl<T>>
 
 export { ctrl, Controller }
 

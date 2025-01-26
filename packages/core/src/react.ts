@@ -1,11 +1,12 @@
 'use client'
 
 // @ts-ignore
+import React from 'react'
+// @ts-ignore
 import { createElement, useState, useSyncExternalStore } from 'react'
 import _Controller from './clients/Controller'
 import { ctrl, flush, register } from './index'
 import { Config } from './types'
-import React from 'react'
 
 export * from './index'
 
@@ -39,14 +40,12 @@ const get = () => updated
 
 function append(el: React.ReactNode) {
         updated++
-        console.log('append', el)
         elements.add(el)
         flush(listeners)
 }
 
 function remove(el: React.ReactNode) {
         updated++
-        console.log('remove', el)
         elements.delete(el)
         flush(listeners)
 }
