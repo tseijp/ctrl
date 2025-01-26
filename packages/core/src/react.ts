@@ -22,7 +22,7 @@ interface Props {
 
 let isInitialized = false
 
-const right = [] as React.ReactNode[]
+const elements = [] as React.ReactNode[]
 const listeners = new Set<Function>()
 
 let updated = 0
@@ -38,7 +38,7 @@ const get = () => updated
 
 function append(el: React.ReactNode) {
         updated++
-        right.push(el)
+        elements.push(el)
         flush(listeners)
 }
 
@@ -56,5 +56,8 @@ export function Controller(props: Props) {
         initialize()
         useSyncExternalStore(sub, get, get)
         const _ = ctrl.create
-        return _(_Controller, { right, ...props }) as unknown as React.ReactNode
+        return _(_Controller, {
+                right: elements,
+                ...props,
+        }) as unknown as React.ReactNode
 }

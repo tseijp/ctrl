@@ -1,14 +1,22 @@
 'use client'
 
-import ctrl from '../index'
+import ctrl, { wheelEvent } from '../index'
 
 export default function ControlRight(props: any) {
         const { children } = props
         const _ = ctrl.create
+        const { ref } = wheelEvent((wheel) => {
+                const { event } = wheel
+                const isZoom = (event as any).ctrlKey
+                if (isZoom) return
+                event.stopPropagation()
+        })
+
         return _(
                 'aside',
                 {
                         key: 'right', //
+                        ref,
                         className: '_ctrl-aside right-0',
                 },
                 [
