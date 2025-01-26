@@ -20,11 +20,12 @@ function sig(value: number, digit: number) {
 interface Props {
         icon?: string
         value: number
+        _ref?: (el: HTMLInputElement) => () => void
         set?: (x: number) => void
 }
 
 export function InputValue(props: Props) {
-        const { icon = '', value, set } = props
+        const { icon = '', value, _ref, set } = props
 
         let input: HTMLInputElement
         let span: HTMLSpanElement
@@ -43,19 +44,24 @@ export function InputValue(props: Props) {
                 }
         })
 
+        const change = (e: Event) => {
+                if (!set) return
+                set(getInputValue(e))
+        }
+
+        let clean = () => {}
+
         const ref = (el: HTMLLabelElement) => {
-                if (!el) return // @ts-ignore
-                ;[span, input] = Array.from(el.childNodes)
+                if (!el) return clean()
+                const children = Array.from(el.childNodes) // @ts-ignore
+                ;[span, input] = children
                 if (!(span instanceof HTMLSpanElement)) return
                 if (!(input instanceof HTMLInputElement)) return
                 init = input.valueAsNumber
                 drag.offset[0] = init
                 drag.onMount(span)
-                if (!set) return
-
-                input.addEventListener('change', (e: Event) => {
-                        set(getInputValue(e))
-                })
+                if (_ref) clean = _ref(input)
+                input.addEventListener('change', change)
         }
 
         const _ = ctrl.create

@@ -34,9 +34,10 @@ export const each = <Value, Key, This>(
 ) => obj.forEach(fn)
 
 export const flush = <Value extends Function, Key, This>(
-        obj: Eachable<Value, Key, This>
+        obj: Eachable<Value, Key, This>,
+        ...args: any[]
 ) => {
-        each(obj, (f) => f())
+        each(obj, (f) => f(...args))
 }
 
 /**

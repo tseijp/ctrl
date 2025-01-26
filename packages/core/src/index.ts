@@ -1,8 +1,8 @@
 import Container from './clients/Container'
 import Controller from './clients/Controller'
-import { Bool, Float, Vector } from './clients/inputs'
 import { append, create, remove, HTMLNode } from './helpers/node'
 import { flush, is, merge } from './helpers/utils'
+import attach from './inputs/attach'
 import { Config, Uniform } from './types'
 import './index.css'
 
@@ -58,15 +58,6 @@ function ctrl<T extends Config>(current: T) {
         const listeners = new Set<Function>()
         const cleanups = new Set<Function>()
 
-        const attach = <K extends keyof T>(k: K) => {
-                let arg = current[k]
-                if (isU<T[K]>(arg)) arg = arg.value
-                const _ = ctrl.create
-                if (is.bol(arg)) return _(Bool<T>, { key: k, k, arg, set })
-                if (is.num(arg)) return _(Float<T>, { key: k, k, arg, set })
-                if (is.arr(arg)) return _(Vector<T>, { key: k, k, arg, set })
-        }
-
         /**
          * public method
          */
@@ -77,7 +68,7 @@ function ctrl<T extends Config>(current: T) {
                 listeners.add(update)
                 if (!inited++)
                         for (const i in current) {
-                                const cleanup = mount(attach(i))
+                                const cleanup = mount(attach<T>(c, i))
                                 if (cleanup) cleanups.add(cleanup)
                         }
                 return () => {
@@ -90,12 +81,12 @@ function ctrl<T extends Config>(current: T) {
                 return updated
         }
 
-        const set = <K extends keyof T>(key: K, arg: T[K]) => {
+        const set = <K extends keyof T>(key: K, a: T[K]) => {
                 if (isU<T[K]>(current[key])) {
-                        current[key].value = arg
-                } else current[key] = arg
+                        current[key].value = a
+                } else current[key] = a
                 updated++
-                flush(listeners)
+                flush(listeners, key, a)
         }
 
         let _clean = () => {}
@@ -106,7 +97,9 @@ function ctrl<T extends Config>(current: T) {
                 _clean = sub()
         }
 
-        return {
+        const c = {
+                listeners,
+                cleanups,
                 sub,
                 get,
                 set,
@@ -116,6 +109,8 @@ function ctrl<T extends Config>(current: T) {
                         return current
                 },
         }
+
+        return c
 }
 
 ctrl.create = create

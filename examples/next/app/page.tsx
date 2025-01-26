@@ -8,12 +8,17 @@ import '@tsei/ctrl/src/style'
 // import { Controller } from '@tsei/ctrl/react'
 // import '@tsei/ctrl/style'
 
-const c = ctrl({ position: [0, 0, 0] })
+const c = ctrl({ position: [0, 0, 0], scale: 1, hidden: false, text: 'string' })
 
 const Box = () => {
-        const { position } = useCtrl(c)
+        const { position, scale, hidden, text } = useCtrl(c)
+
+        console.log(text)
+
+        if (hidden) return null
+
         return (
-                <mesh position={[...position]}>
+                <mesh position={[...position]} scale={scale}>
                         <boxGeometry />
                         <meshBasicMaterial />
                 </mesh>
