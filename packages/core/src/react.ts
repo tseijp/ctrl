@@ -1,18 +1,27 @@
 'use client'
 
 // @ts-ignore
+import React from 'react'
+// @ts-ignore
 import { createElement, useState, useSyncExternalStore } from 'react'
 import _Controller from './clients/Controller'
-import { ctrl, flush, register } from './index'
+import { Ctrl, ctrl, flush, isC, PARENT_ID, register } from './index'
 import { Config } from './types'
 
 export * from './index'
 
-export function useCtrl<T extends Config>(config: T) {
-        const c = useState(() => ctrl<T>(config))[0]
+function useCtrl<T extends Config>(c: Ctrl<T>): T
+
+function useCtrl<T extends Config>(config: T) {
+        const [c] = useState(() => {
+                if (isC(config)) return config
+                return ctrl<T>(config)
+        })
         useSyncExternalStore(c.sub, c.get, c.get)
         return c.current
 }
+
+export { useCtrl }
 
 interface Props {
         left?: React.ReactNode
@@ -22,7 +31,7 @@ interface Props {
 
 let isInitialized = false
 
-const elements = [] as React.ReactNode[]
+const elements = new Set<React.ReactNode>()
 const listeners = new Set<Function>()
 
 let updated = 0
@@ -38,7 +47,13 @@ const get = () => updated
 
 function append(el: React.ReactNode) {
         updated++
-        elements.push(el)
+        elements.add(el)
+        flush(listeners)
+}
+
+function remove(el: React.ReactNode) {
+        updated++
+        elements.delete(el)
         flush(listeners)
 }
 
@@ -46,9 +61,11 @@ function initialize() {
         if (isInitialized) return
         isInitialized = true
         register({
-                parent: 'ctrl-container',
+                parent: PARENT_ID,
                 create: createElement,
                 append,
+                remove,
+                finish() {},
         })
 }
 
@@ -57,7 +74,7 @@ export function Controller(props: Props) {
         useSyncExternalStore(sub, get, get)
         const _ = ctrl.create
         return _(_Controller, {
-                right: elements,
+                right: [...elements],
                 ...props,
         }) as unknown as React.ReactNode
 }

@@ -23,6 +23,9 @@ export const is = {
                 !!a && a.constructor.name === 'Object',
 }
 
+/**
+ * each
+ */
 type EachFn<Value, Key, This> = (this: This, value: Value, key: Key) => void
 type Eachable<Value = any, Key = any, This = any> = {
         forEach(cb: EachFn<Value, Key, This>, ctx?: This): void
@@ -34,9 +37,10 @@ export const each = <Value, Key, This>(
 ) => obj.forEach(fn)
 
 export const flush = <Value extends Function, Key, This>(
-        obj: Eachable<Value, Key, This>
+        obj: Eachable<Value, Key, This>,
+        ...args: any[]
 ) => {
-        each(obj, (f) => f())
+        each(obj, (f) => f(...args))
 }
 
 /**

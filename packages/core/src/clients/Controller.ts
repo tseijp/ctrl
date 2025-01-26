@@ -1,6 +1,6 @@
 'use client'
 
-import ctrl, { merge } from '../index'
+import { ctrl, merge } from '../index'
 import Bounding from './Bounding'
 import Container from './Container'
 import ControlLeft from './ControlLeft'

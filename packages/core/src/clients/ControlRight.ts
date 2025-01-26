@@ -1,6 +1,6 @@
 'use client'
 
-import ctrl, { wheelEvent } from '../index'
+import { ctrl, PARENT_ID, wheelEvent } from '../index'
 
 export default function ControlRight(props: any) {
         const { children } = props
@@ -38,7 +38,7 @@ export default function ControlRight(props: any) {
                         _(
                                 'div',
                                 {
-                                        id: 'ctrl-container',
+                                        id: PARENT_ID,
                                         key: 'container',
                                 },
                                 children

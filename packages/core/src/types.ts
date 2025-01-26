@@ -10,8 +10,8 @@ export type Input =
         | Value<{ x: number }>
         | Value<[x: number, y: number]>
         | Value<[x: number, y: number, z: number]>
-        | Value<{ x: number, y: number }>
-        | Value<{ x: number, y: number, z: number }>
+        | Value<{ x: number; y: number }>
+        | Value<{ x: number; y: number; z: number }>
 
 export interface Config {
         [key: string]: Input

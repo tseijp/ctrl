@@ -1,6 +1,6 @@
 'use client'
 
-import ctrl, { flush } from '../index'
+import { ctrl, flush } from '../index'
 
 let zoom = 1
 

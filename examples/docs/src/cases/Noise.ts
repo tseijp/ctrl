@@ -20,7 +20,7 @@ const fragment = /* CPP */ `
         void main() {
                 vec2 uv = fract(gl_FragCoord.xy / iResolution);
                 vec3 c = vec3(random(uv));
-                gl_FragColor = vec4(c, 1);
+                gl_FragColor = vec4(c, 1.0);
         }
 `
 
@@ -41,7 +41,8 @@ const ref = (el: HTMLCanvasElement) => {
 }
 
 const Noise = (props: Props<'canvas'>) => {
-        return ctrl.create('canvas', { ...props, ref })
+        const _ = ctrl.create
+        return _('canvas', { ...props, ref })
 }
 
 export default Noise

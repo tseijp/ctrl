@@ -51,12 +51,8 @@ function create(type: any, props: any = {}, child: HTMLNode | HTMLNode[] = []) {
         // create element
         const el = document.createElement(type)
         merge(el, other)
+        each(child, (c) => append(c, el))
 
-        try {
-                each(child, (c) => append(c, el))
-        } catch (e) {
-                console.log(child)
-        }
         if (ref) ref(el)
         return el
 }
