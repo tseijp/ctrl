@@ -1,6 +1,6 @@
 'use client'
 
-import ctrl, { Config } from '../index'
+import { ctrl, Config } from '../index'
 import { is } from '../helpers/utils'
 import { InputValue } from './InputValue'
 
