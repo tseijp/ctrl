@@ -1,6 +1,6 @@
 'use client'
 
-import ctrl, { Config, Ctrl } from '../index'
+import { ctrl, Config, Ctrl } from '../index'
 
 interface Props<T extends Config> {
         a: boolean
@@ -33,7 +33,7 @@ export default function Bool<T extends Config>(props: Props<T>) {
                 c.updates.add(update)
 
                 clean = () => {
-                        c.updates.delete(update);
+                        c.updates.delete(update)
                 }
         }
 

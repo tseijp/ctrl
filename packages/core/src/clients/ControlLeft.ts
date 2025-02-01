@@ -1,6 +1,6 @@
 'use client'
 
-import ctrl from '../index'
+import { ctrl } from '../index'
 
 export default function ControlLeft(props: any) {
         const { children } = props

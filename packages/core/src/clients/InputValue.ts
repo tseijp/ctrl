@@ -1,6 +1,6 @@
 'use client'
 
-import ctrl from '../index'
+import { ctrl } from '../index'
 import { dragEvent } from '../helpers/drag'
 
 function getInputValue(e: Event) {

@@ -1,3 +1,5 @@
+export const PARENT_ID = '_ctrl-parent'
+
 export type Uniform<T> = { value: T }
 
 export type Value<T> = Uniform<T> | T

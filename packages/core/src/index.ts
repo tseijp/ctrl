@@ -8,7 +8,6 @@ import './index.css'
 /**
  * utils
  */
-export const PARENT_ID = '_ctrl-parent'
 
 export const isU = <T>(a: unknown): a is Uniform<T> => {
         if (!is.obj(a)) return false
@@ -26,16 +25,10 @@ export const isC = <T extends Config>(a: unknown): a is Ctrl<T> => {
  * main
  */
 function ctrl<T extends Config>(current: T) {
-        /**
-         * private method
-         */
         const listeners = new Set<Function>()
         const cleanups = new Set<Function>()
         const updates = new Set<Function>()
 
-        /**
-         * public method
-         */
         let inited = 0
         let updated = 0
 

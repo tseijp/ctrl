@@ -1,4 +1,4 @@
-import ctrl from '@tsei/ctrl/src/index'
+import { ctrl } from '@tsei/ctrl/src/index'
 import type { HTMLTag, Component } from '@tsei/ctrl/src/index'
 
 interface Props<T extends HTMLTag> {
