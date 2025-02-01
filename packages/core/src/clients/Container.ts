@@ -1,12 +1,24 @@
 'use client'
 
-import ctrl from '../index'
+import { ctrl, register } from '../index'
 import { dragEvent } from '../helpers/drag'
-import { is, merge } from '../helpers/utils'
+import { merge } from '../helpers/utils'
+import { PARENT_ID } from '../types'
+
+let isInitialized = false
+
+function initialize() {
+        if (ctrl.parent) return
+        if (isInitialized) return
+        isInitialized = true
+        register({
+                parent: PARENT_ID,
+        })
+}
 
 export default function Container(props: any) {
+        initialize()
         const { children, title = 'Unknown' } = props
-        const _children = is.arr(children) ? children : [children]
         const { ref } = dragEvent((drag) => {
                 const { offset } = drag
                 const [x, y] = offset
@@ -32,7 +44,14 @@ export default function Container(props: any) {
                                 },
                                 title
                         ),
-                        ..._children,
+                        _(
+                                'div', //
+                                {
+                                        key: 'parent',
+                                        id: PARENT_ID,
+                                },
+                                children
+                        ),
                 ]
         )
 }

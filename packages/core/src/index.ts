@@ -8,7 +8,6 @@ import './index.css'
 /**
  * utils
  */
-export const PARENT_ID = '_ctrl-parent'
 
 export const isU = <T>(a: unknown): a is Uniform<T> => {
         if (!is.obj(a)) return false
@@ -26,15 +25,10 @@ export const isC = <T extends Config>(a: unknown): a is Ctrl<T> => {
  * main
  */
 function ctrl<T extends Config>(current: T) {
-        /**
-         * private method
-         */
         const listeners = new Set<Function>()
         const cleanups = new Set<Function>()
+        const updates = new Set<Function>()
 
-        /**
-         * public method
-         */
         let inited = 0
         let updated = 0
 
@@ -55,12 +49,19 @@ function ctrl<T extends Config>(current: T) {
                 return updated
         }
 
-        const set = <K extends keyof T>(key: K, a: T[K]) => {
-                if (isU<T[K]>(current[key])) {
-                        current[key].value = a
-                } else current[key] = a
+        const set = <K extends keyof T>(k: K, a: T[K]) => {
                 updated++
-                flush(listeners, key, a)
+                sync(k, a)
+                flush(listeners, k, a)
+        }
+
+        const sync = <K extends keyof T>(k: K, a = current[k]) => {
+                if (isU<T[K]>(a)) a = a.value
+                if (isU<T[K]>(current[k])) {
+                        current[k].value = a
+                } else current[k] = a
+                if (isU<T[K]>(a)) a = a.value
+                flush(updates, k, a)
         }
 
         let _clean = () => {}
@@ -74,6 +75,8 @@ function ctrl<T extends Config>(current: T) {
         const c = {
                 listeners,
                 cleanups,
+                updates,
+                sync,
                 sub,
                 get,
                 set,

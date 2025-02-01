@@ -1,6 +1,6 @@
 'use client'
 
-import ctrl, { Config, Ctrl } from '../index'
+import { ctrl, Config, Ctrl } from '../index'
 
 interface Props<T extends Config> {
         a: boolean
@@ -30,10 +30,10 @@ export default function Bool<T extends Config>(props: Props<T>) {
                         el.checked = value
                 }
 
-                c.listeners.add(update)
+                c.updates.add(update)
 
                 clean = () => {
-                        c.listeners.delete(update)
+                        c.updates.delete(update)
                 }
         }
 

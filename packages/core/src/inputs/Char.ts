@@ -1,6 +1,6 @@
 'use client'
 
-import ctrl, { Config, Ctrl } from '../index'
+import { ctrl, Config, Ctrl } from '../index'
 
 interface Props<T extends Config> {
         a: string
@@ -30,10 +30,10 @@ export default function Char<T extends Config>(props: Props<T>) {
                         el.value = value
                 }
 
-                c.listeners.add(update)
+                c.updates.add(update)
 
                 clean = () => {
-                        c.listeners.delete(update)
+                        c.updates.delete(update)
                 }
         }
 

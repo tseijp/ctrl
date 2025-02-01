@@ -1,6 +1,6 @@
 'use client'
 
-import ctrl from '../index'
+import { ctrl } from '../index'
 import { zoomStore } from './ZoomStore'
 import { merge } from '../helpers/utils'
 

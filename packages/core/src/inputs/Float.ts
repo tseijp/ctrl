@@ -19,9 +19,9 @@ export default function Float<T extends Config>(props: Props<T>) {
                         if (k !== key) return
                         el.value = args.toString()
                 }
-                c.listeners.add(update)
+                c.updates.add(update);
                 return () => {
-                        c.listeners.delete(update)
+                        c.updates.delete(update);
                 }
         }
 

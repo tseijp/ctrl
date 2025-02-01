@@ -1,6 +1,6 @@
 'use client'
 
-import ctrl from '../index'
+import { ctrl } from '../index'
 import { merge, subV } from '../helpers/utils'
 import { wheelEvent } from '../helpers/wheel'
 import { zoomStore } from './ZoomStore'

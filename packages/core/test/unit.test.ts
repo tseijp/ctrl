@@ -1,5 +1,5 @@
 import { each, is } from '../src/helpers/utils'
-import ctrl from '../src/index'
+import { ctrl } from '../src/index'
 
 it('test', () => {
         expect(ctrl({})).toBeTruthy()
