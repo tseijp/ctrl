@@ -49,7 +49,7 @@ export default function QuickStarted(props: Props<'pre'>) {
                 _(
                         'code',
                         { ref: esmRef, className: 'language-javascript' },
-                        basicsCode
+                        esmCode
                 ),
         ])
 }
