@@ -8,22 +8,44 @@ interface Props<T extends Config> {
         k: keyof T
 }
 
+function isTextArea(a: unknown): a is HTMLTextAreaElement {
+        return a instanceof HTMLTextAreaElement
+}
+
+function updateHeight(el: HTMLTextAreaElement) {
+        el.style.height = 'auto'
+        el.style.height = `${el.scrollHeight}px`
+}
+
 export default function Char<T extends Config>(props: Props<T>) {
         const { a, c, k } = props
 
-        const change = (e: Event) => {
-                const { target } = e
-                if (!(target instanceof HTMLInputElement)) return
-                const { checked } = target
-                c.set(k, checked as T[keyof T])
+        const input = (e: Event) => {
+                if (!isTextArea(e.target)) return
+                updateHeight(e.target)
+                const { value } = e.target
+                c.set(k, value as T[keyof T])
         }
 
+        const dblclick = async (e: Event) => {
+                if (!isTextArea(e.target)) return
+                const { value } = e.target
+                try {
+                        await navigator.clipboard.writeText(value)
+                        alert('Text copied to clipboard!')
+                } catch (err) {
+                        alert('Failed to copy text')
+                }
+        }
         let clean = () => {}
 
-        const ref = (el: HTMLInputElement) => {
+        const ref = (el: HTMLTextAreaElement) => {
                 if (!el) return clean()
-                el.addEventListener('change', change)
+                el.addEventListener('input', input)
+                el.addEventListener('dblclick', dblclick)
                 el.defaultValue = a
+
+                setTimeout(() => updateHeight(el))
 
                 const update = (key: string, value: string) => {
                         if (key !== k) return
@@ -47,10 +69,11 @@ export default function Char<T extends Config>(props: Props<T>) {
                         },
                         k as string
                 ),
-                _('input', {
+                _('textarea', {
                         ref,
-                        key: 'input',
-                        className: '_ctrl-input',
+                        key: 'textarea',
+                        rows: 1,
+                        className: '_ctrl-input bg-[#383838] rounded-sm px-2 py-1 leading-[20px] w-full block text-12px',
                         defaultValue: a,
                 }),
         ])

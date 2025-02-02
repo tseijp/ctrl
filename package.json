@@ -10,7 +10,7 @@
         "scripts": {
                 "dev": "cd examples/docs && npm run dev",
                 "build": "cd examples/docs && npm run build",
-                "start": "cd examples/docs && npm run start",
+                "start": "cd examples/docs && npm run preview",
                 "next": "cd examples/next && npm run dev",
                 "test": "jest --watch",
                 "tsup": "cd packages/core && tsup",

@@ -1,22 +1,20 @@
 import { ctrl, type Props } from '@tsei/ctrl/src/index'
 
 const c = ctrl({
-        // @ts-ignore
-        select0: ['#f00', '#0f0', '#00f'], // or
-        // @ts-ignore
-        select1: { value: ['#f00', '#0f0', '#00f'] },
+        boolean0: true, // or
+        boolean1: { value: false },
 })
 
 const code = () =>
         /* TS */ `
-// Select
+// Boolean
 const c = ctrl({
-        select0: ${JSON.stringify(c.current.select0)}, // @TODO SUPPORT
-        select1: ${JSON.stringify(c.current.select1)}, // @TODO SUPPORT
+        boolean0: ${JSON.stringify(c.current.boolean0)}, // or
+        boolean1: ${JSON.stringify(c.current.boolean1)},
 })
 `.trim()
 
-export default function SelectCase(props: Props<'pre'>) {
+export default function BooleanCase(props: Props<'pre'>) {
         const _ = ctrl.create
 
         const ref = (el: HTMLElement) => {
@@ -25,7 +23,7 @@ export default function SelectCase(props: Props<'pre'>) {
         }
 
         return _('pre', props, [
-                _('h3', { className: 'font-bold mb-4' }, '### Select Cases'),
+                _('h3', { className: 'font-bold mb-4' }, '### Boolean Cases'),
                 _('code', { ref, className: 'language-javascript' }, code()),
         ])
 }

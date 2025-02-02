@@ -16,9 +16,15 @@ function initialize() {
         })
 }
 
-export default function Container(props: any) {
+interface Props {
+        children?: any
+        title?: string
+        isDraggable?: boolean
+}
+
+export default function Container(props: Props) {
         initialize()
-        const { children, title = 'Unknown' } = props
+        const { children, title = 'Unknown', isDraggable } = props
         const { ref } = dragEvent((drag) => {
                 const { offset } = drag
                 const [x, y] = offset
@@ -31,7 +37,7 @@ export default function Container(props: any) {
         return _(
                 'div',
                 {
-                        ref,
+                        ref: isDraggable ? ref : void 0,
                         style: { zIndex: '9999' },
                         className: '_ctrl-container bg-[#2c2c2c] max-w-[240px] pl-4 pr-2 pb-3 text-[12px] text-white',
                 },

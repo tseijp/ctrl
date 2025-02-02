@@ -32,9 +32,9 @@ export default function Vector<T extends Config>(props: Props<T>) {
                                 if (k !== key) return
                                 el.value = args[_012].toString()
                         }
-                        c.updates.add(update);
+                        c.updates.add(update)
                         return () => {
-                                c.updates.delete(update);
+                                c.updates.delete(update)
                         }
                 }
 
