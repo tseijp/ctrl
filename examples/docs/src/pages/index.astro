@@ -1,37 +1,10 @@
 <div id="root" />
-
 <script>
-        import Prism from 'prismjs'
-        import { ctrl, Controller } from '@tsei/ctrl/src/index'
-        import Noise from '../cases/Noise'
-        import NumberCase from '../cases/Number'
-        import VectorCase from '../cases/Vector'
-        import Wrap from '../cases/Wrap'
-        import 'prismjs'
-        import 'prismjs/themes/prism.css'
-
-        const root = document.getElementById("root")!
-
-        const _ = ctrl.create
-        const ref = () => void Prism.highlightAll()
-
-        ctrl.render(
-                _<'div'>(
-                        Controller,
-                        { ref, className: 'flex flex-col gap-20' },
-                        [
-                                _(Wrap, { Demo: Noise }),
-                                _(Wrap, { Demo: NumberCase }),
-                                _(Wrap, { Demo: VectorCase }),
-                        ]
-                ),
-                root
-        )
+        import App from "./App"
+        window.addEventListener("DOMContentLoaded", App)
 </script>
-
 <style>
-        html,
-        body {
+        html, body {
                 margin: 0;
                 width: 100dvw;
                 height: 100dvh;

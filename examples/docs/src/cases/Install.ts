@@ -1,20 +1,15 @@
 import { ctrl, type Props } from '@tsei/ctrl/src/index'
 
 const c = ctrl({
-        number0: 0.0,
-        number1: { value: 0.0 },
+        INSTALL: 'npm i @tsei/ctrl', // @TODO
 })
 
 const code = () =>
         /* TS */ `
-// Number
-const c = ctrl({
-        number0: ${JSON.stringify(c.current.number0)},
-        number1: ${JSON.stringify(c.current.number1)}
-}) // or
+npm i @tsei/ctrl
 `.trim()
 
-export default function NumberCase(props: Props<'pre'>) {
+export default function Installation(props: Props<'pre'>) {
         const _ = ctrl.create
 
         const ref = (el: HTMLElement) => {
@@ -23,7 +18,7 @@ export default function NumberCase(props: Props<'pre'>) {
         }
 
         return _('pre', props, [
-                _('h3', { className: 'font-bold mb-4' }, '### Number Cases'),
+                _('h3', { className: 'font-bold mb-4' }, '### Installation'),
                 _('code', { ref, className: 'language-javascript' }, code()),
         ])
 }
