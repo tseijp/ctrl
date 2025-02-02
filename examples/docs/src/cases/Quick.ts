@@ -7,7 +7,7 @@ function MyComponent() {
         const { hello } = useCtrl({ hello: 'world' })
         return <div>{hello}</div>
 }
-`
+`.trim()
 
 const esmCode = /* html */ `
 <div id="root" />
@@ -20,7 +20,7 @@ const esmCode = /* html */ `
                 root.innerText = c.current.value
         })
 </script>
-`
+`.trim()
 
 const c = ctrl({ basicsCode, esmCode })
 
@@ -45,7 +45,7 @@ export default function QuickStarted(props: Props<'pre'>) {
                         { ref: basicsRef, className: 'language-javascript' },
                         basicsCode
                 ),
-                _('h6', { className: 'font-bold mt-4' }, '###### ESM SUPPORT'),
+                _('h6', { className: 'font-bold my-4' }, '###### ESM SUPPORT'),
                 _(
                         'code',
                         { ref: esmRef, className: 'language-javascript' },

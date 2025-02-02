@@ -4,7 +4,7 @@
 
 @tsei/ctrl is Open Source figma like cms controller
 
-### [🌐 Website ▶︎](https://ctrl.tsei.jp)&emsp;|&emsp;[💬 Discussion forum ▶︎](https://github.com/tseijp/ctrl/discussions)&emsp;|&emsp;[😎 Awesome list ▶︎](https://github.com/tseijp/ctrl/discussions/)
+### [🌐 Website ▶︎](https://ctrl.tsei.jp)&emsp;|&emsp;[💬 Discussion forum ▶︎](https://github.com/tseijp/ctrl/discussions)&emsp;|&emsp;[😎 Showcase submission ▶︎](https://github.com/tseijp/ctrl/discussions/7)
 
 </div>
 

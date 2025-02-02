@@ -46,11 +46,14 @@
         display: none;
 }
 
+._ctrl-input::-webkit-scrollbar {
+        display: none;
+}
+
 ._ctrl-input {
         border: none;
         outline: none;
-        font-size: 14px;
-        background-color: transparent;
+        resize: none;
 }
 
 ._ctrl-button {

@@ -47,6 +47,10 @@ export default function Controller(props: Props) {
                 _(ControlNav, { ref, key: 'nav' }),
                 _(ControlLeft, { ref, key: 'left' }, left),
                 _(Bounding, { key: 'main' }, _(Wheelable, { children })),
-                _(ControlRight, { ref, key: 'right' }, _(Container, {}, right)),
+                _(
+                        ControlRight,
+                        { ref, key: 'right' },
+                        _(Container, { isDraggable: false }, right)
+                ),
         ])
 }

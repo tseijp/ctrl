@@ -19,13 +19,64 @@ export default function App() {
 
         const _ = ctrl.create
         const ref = () => void Prism.highlightAll()
-        const left = _('div', {}, [_('a', { href: '/' }, 'Getting Started')])
+        const left = _('ul', { className: 'flex flex-col gap-4 py-4' }, [
+                _(
+                        'li',
+                        {},
+                        _(
+                                'a',
+                                {
+                                        href: '/',
+                                },
+                                'Documentation'
+                        )
+                ),
+                _(
+                        'li',
+                        {},
+                        _(
+                                'a',
+                                {
+                                        href: 'https://github.com/tseijp/ctrl',
+                                        target: '_blank',
+                                        rel: 'noopener noreferrer',
+                                },
+                                'Github Source Code'
+                        )
+                ),
+                _(
+                        'li',
+                        {},
+                        _(
+                                'a',
+                                {
+                                        href: 'https://github.com/tseijp/ctrl/discussions',
+                                        target: '_blank',
+                                        rel: 'noopener noreferrer',
+                                },
+                                'Discussion forum'
+                        )
+                ),
+                _(
+                        'li',
+                        {},
+                        _(
+                                'a',
+                                {
+                                        href: 'https://github.com/tseijp/ctrl/discussions/7',
+                                        target: '_blank',
+                                        rel: 'noopener noreferrer',
+                                },
+                                'Showcase submission'
+                        )
+                ),
+        ])
 
         ctrl.render(
                 _<'div'>(
                         Controller,
-                        { ref, left, className: 'flex flex-col gap-4' },
-                        [
+                        { ref, left },
+                        _('div', { className: 'flex flex-col gap-4' }, [
                                 _(Installation),
                                 _(QuickStarted),
                                 _(NumberCase),
@@ -37,7 +88,7 @@ export default function App() {
                                 _(SelectCase),
                                 _(ImageCase),
                                 _(Noise),
-                        ]
+                        ])
                 ),
                 root
         )

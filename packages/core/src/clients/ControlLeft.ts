@@ -34,7 +34,7 @@ export default function ControlLeft(props: any) {
                                         ),
                                         _('input', {
                                                 key: 'input',
-                                                className: '_ctrl-input',
+                                                className: '_ctrl-input bg-transparent text-sm',
                                                 placeholder: 'Find...',
                                         }),
                                 ]
