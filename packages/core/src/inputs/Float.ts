@@ -1,15 +1,15 @@
 'use client'
 
-import { ctrl, Config, Ctrl } from '../index'
+import { ctrl, Ctrl, Target } from '../index'
 import { InputValue } from '../clients/InputValue'
 
-interface Props<T extends Config> {
+interface Props<T extends Target> {
         a: number
         c: Ctrl<T>
         k: keyof T
 }
 
-export default function Float<T extends Config>(props: Props<T>) {
+export default function Float<T extends Target>(props: Props<T>) {
         const { a, c, k } = props
 
         const set = (value: number) => c.set(k, value as T[keyof T])
@@ -19,9 +19,9 @@ export default function Float<T extends Config>(props: Props<T>) {
                         if (k !== key) return
                         el.value = args.toString()
                 }
-                c.updates.add(update);
+                c.updates.add(update)
                 return () => {
-                        c.updates.delete(update);
+                        c.updates.delete(update)
                 }
         }
 

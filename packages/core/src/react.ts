@@ -6,15 +6,15 @@ import React from 'react'
 import { createElement, useState, useSyncExternalStore } from 'react'
 import _Controller from './clients/Controller'
 import { Ctrl, ctrl, flush, isC, register } from './index'
-import { Config, PARENT_ID } from './types'
+import { PARENT_ID, Target } from './types'
 
 export * from './index'
 
-function useCtrl<T extends Config>(c: Ctrl<T>): T
+function useCtrl<T extends Target>(c: Ctrl<T>): T
 
-function useCtrl<T extends Config>(config: T): T
+function useCtrl<T extends Target>(config: T): T
 
-function useCtrl<T extends Config>(config: T) {
+function useCtrl<T extends Target>(config: T) {
         const [c] = useState(() => {
                 if (isC(config)) return config
                 return ctrl<T>(config)
