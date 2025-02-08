@@ -1,30 +1,11 @@
 import Controller from './clients/Controller'
 import { append, create, remove } from './helpers/node'
-import { flush, is, merge } from './helpers/utils'
+import { flush, merge } from './helpers/utils'
 import { attach, mount } from './inputs/index'
-import { Config, Uniform } from './types'
+import { isU, Target } from './types'
 import './index.css'
 
-/**
- * utils
- */
-
-export const isU = <T>(a: unknown): a is Uniform<T> => {
-        if (!is.obj(a)) return false
-        if ('value' in a) return true
-        return false
-}
-
-export const isC = <T extends Config>(a: unknown): a is Ctrl<T> => {
-        if (!is.obj(a)) return false
-        if ('isC' in a) return true
-        return false
-}
-
-/**
- * main
- */
-function ctrl<T extends Config>(current: T) {
+function ctrl<T extends Target>(current: T = {} as T) {
         const listeners = new Set<Function>()
         const cleanups = new Set<Function>()
         const updates = new Set<Function>()
@@ -51,7 +32,11 @@ function ctrl<T extends Config>(current: T) {
 
         const set = <K extends keyof T>(k: K, a: T[K]) => {
                 updated++
-                sync(k, a)
+                try {
+                        sync(k, a) // error if set to a read-only value
+                } catch (error) {
+                        console.log(error)
+                }
                 flush(listeners, k, a)
         }
 
@@ -101,7 +86,7 @@ export function register(override: any) {
         merge(ctrl, override)
 }
 
-export type Ctrl<T extends Config> = ReturnType<typeof ctrl<T>>
+export type Ctrl<T extends Target> = ReturnType<typeof ctrl<T>>
 
 export { ctrl, Controller }
 

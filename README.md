@@ -63,14 +63,10 @@ function MyComponent() {
 <script type="module">
         import {
                 Controller,
-                register,
-                PARENT_ID,
                 ctrl,
         } from 'https://esm.sh/@tsei/ctrl@0.7.0/es2022'
         const c = ctrl({ a: 0, b: 0, c: 0 })
         const _ = ctrl.create
-
-        register({ parent: PARENT_ID })
 
         ctrl.render(
                 _(
@@ -96,9 +92,9 @@ function MyComponent() {
 ###### Float
 
 ```ts
-ctrl({
-        boolean0: ${JSON.stringify(c.current.string0)}, // or
-        boolean1: ${JSON.stringify(c.current.string1)},
+const c = ctrl({
+        boolean0: true // or
+        boolean1: { value: false },
 })
 ```
 
@@ -129,30 +125,46 @@ const c = ctrl({
         color1: { value: '#fff' }, // or
         color2: { r: 1, g: 1, b: 1 }, // or
         color3: { h: 0, s: 0, l: 100 }, // or
-        color4: { Y: 1, x: 1, y: 1 },
+        color4: { Y: 1, x: 1, y: 1 }, // or
+        color5: { value: { r: 1, g: 1, b: 1 } }, // or
+        color6: { value: { h: 0, s: 0, l: 100 } }, // or
+        color7: { value: { Y: 1, x: 1, y: 1 } },
 })
 ```
 
 ###### Button
 
 ```ts
-useCtrl({ 'CLICK ME': () => console.log('CLICKED') }) // or
-useCtrl({ 'CLICK ME': { value: () => console.log('CLICKED') } })
+const c = ctrl({
+        button0: { onclick: () => console.log('CLICKED') }, // or
+        button1: { value: { onclick: () => console.log('CLICKED') } }, // or
+        button2: document.querySelector('button'), // or
+        button3: { value: document.querySelector('button') }, // or
+})
 ```
 
 ###### Select
 
 ```ts
 const c = ctrl({
-        select0: ['#f00', '#0f0', '#00f'], // or
-        select1: { value: ['#f00', '#0f0', '#00f'] },
+        select0: { options: ['#f00', '#0f0', '#00f'] }, // or
+        select1: { value: { options: ['#f00', '#0f0', '#00f'] } }, // or
+        select2: { options: document.querySelectorAll('options') }, // or
+        select3: { value: { options: document.querySelectorAll('options') } }, // or
+        button4: document.querySelector('select'), // or
+        button5: { value: document.querySelector('select') }, // or
 })
 ```
 
 ###### Image
 
 ```ts
-const { image } = useCtrl({ image: 'https://r.tsei.jp/block.png' })
+const c = ctrl({
+        image0: { src: 'https://r.tsei.jp/block.png' }, // or
+        image1: { value: { src: 'https://r.tsei.jp/block.png' } }, // or
+        image2: document.querySelector('img'), // or
+        image3: { value: document.querySelector('img') }, // or
+})
 ```
 
 ### Update value

@@ -1,30 +1,31 @@
 'use client'
 
-import { ctrl, Config, Ctrl } from '../index'
+import { ctrl, Ctrl, Target, XYZVector } from '../index'
 import { is } from '../helpers/utils'
 import { InputValue } from '../clients/InputValue'
 
-interface Props<T extends Config> {
-        a: number[]
+interface Props<T extends Target> {
+        a: number[] | XYZVector
         c: Ctrl<T>
         k: keyof T
 }
 
-const keys = ['X', 'Y', 'Z']
+const keys: (keyof XYZVector)[] = ['x', 'y', 'z', 'w']
 
-export default function Vector<T extends Config>(props: Props<T>) {
+export default function Vector<T extends Target>(props: Props<T>) {
         const { a, c, k } = props
-
+        const isXYZ = !is.arr(a)
         const _ = ctrl.create
 
-        const children = [0, 1, 2].map((_012) => {
-                const key = keys[_012]
-                const value = a[_012]
+        const children = [0, 1, 2, 3].map((_012) => {
+                const _xyz = keys[_012]
+                const value = isXYZ ? a[_xyz] : a[_012]
                 if (!is.num(value)) return null
 
                 const set = (value: number) => {
-                        a[_012] = value
-                        c.set(k, [...a] as T[keyof T])
+                        if (isXYZ) a[_xyz] = value
+                        else a[_012] = value
+                        c.set(k, a as T[keyof T])
                 }
 
                 const _ref = (el: HTMLInputElement) => {
@@ -38,7 +39,13 @@ export default function Vector<T extends Config>(props: Props<T>) {
                         }
                 }
 
-                return _(InputValue, { icon: key, key, value, set, _ref })
+                return _(InputValue, {
+                        icon: _xyz?.toUpperCase(),
+                        key: _xyz,
+                        value,
+                        set,
+                        _ref,
+                })
         })
 
         return _('div', {}, [

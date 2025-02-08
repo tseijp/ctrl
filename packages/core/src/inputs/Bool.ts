@@ -1,14 +1,14 @@
 'use client'
 
-import { ctrl, Config, Ctrl } from '../index'
+import { ctrl, Ctrl, Target } from '../index'
 
-interface Props<T extends Config> {
+interface Props<T extends Target> {
         a: boolean
         c: Ctrl<T>
         k: keyof T
 }
 
-export default function Bool<T extends Config>(props: Props<T>) {
+export default function Bool<T extends Target>(props: Props<T>) {
         const { a, c, k } = props
 
         const change = (e: Event) => {

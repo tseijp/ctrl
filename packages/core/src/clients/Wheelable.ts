@@ -28,8 +28,8 @@ export default function Wheelable(props: Props) {
                 if (isZoom) {
                         const { clientX, clientY } = cache
                         const dz = (-delta[1] / 750) * (zoomStore.zoom * 10)
-                        const dx = (-dz * (clientX - 240 - x)) / zoomStore.zoom
-                        const dy = (-dz * (clientY - 48 - y)) / zoomStore.zoom
+                        const dx = (-dz * (clientX - x)) / zoomStore.zoom
+                        const dy = (-dz * (clientY - y)) / zoomStore.zoom
 
                         // coord
                         x += dx

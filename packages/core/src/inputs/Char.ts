@@ -1,8 +1,8 @@
 'use client'
 
-import { ctrl, Config, Ctrl } from '../index'
+import { ctrl, Ctrl, Target } from '../index'
 
-interface Props<T extends Config> {
+interface Props<T extends Target> {
         a: string
         c: Ctrl<T>
         k: keyof T
@@ -17,7 +17,7 @@ function updateHeight(el: HTMLTextAreaElement) {
         el.style.height = `${el.scrollHeight}px`
 }
 
-export default function Char<T extends Config>(props: Props<T>) {
+export default function Char<T extends Target>(props: Props<T>) {
         const { a, c, k } = props
 
         const input = (e: Event) => {
