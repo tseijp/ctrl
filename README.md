@@ -2,9 +2,15 @@
 
 <div align="center">
 
-@tsei/ctrl is Open Source figma like cms controller
+[@tsei/ctrl is Open Source figma like cms controller](https://github.com/tseijp/ctrl)
 
-### [🌐 Website ▶︎](https://ctrl.tsei.jp)&emsp;|&emsp;[💬 Discussion forum ▶︎](https://github.com/tseijp/ctrl/discussions)&emsp;|&emsp;[😎 Showcase submission ▶︎](https://github.com/tseijp/ctrl/discussions/7)
+###### [🌐 Website ▶︎&emsp;|&emsp;](https://ctrl.tsei.jp)[💬 Discussion forum ▶︎&emsp;|&emsp;](https://github.com/tseijp/ctrl/discussions)[😎 Showcase submission ▶︎](https://github.com/tseijp/ctrl/discussions/7)
+
+[![ npm version ](https://img.shields.io/npm/v/@tsei/ctrl?style=flat&colorA=0968DA&colorB=0968DA)](https://www.npmjs.com/package/@tsei/ctrl)
+[![ downloads ](https://img.shields.io/npm/dm/@tsei/ctrl.svg?style=flat&colorA=0968DA&colorB=0968DA)](https://www.npmtrends.com/@tsei/ctrl)
+[![ license MIT ](https://img.shields.io/npm/l/@tsei/ctrl?style=flat&colorA=0968DA&colorB=0968DA)](https://github.com/tseijp/ctrl)
+[![ docs available ](https://img.shields.io/badge/docs-available-0968DA.svg?style=flat&colorA=0968DA)](https://ctrl.tsei.jp/>)
+[![ bundle size ](https://img.shields.io/bundlephobia/minzip/@tsei/ctrl?style=flat&colorA=0968DA&colorB=0968DA)](https://bundlephobia.com/package/@tsei/ctrl@latest)
 
 </div>
 
