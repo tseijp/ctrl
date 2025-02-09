@@ -1,17 +1,17 @@
 import { ctrl, type Props } from '@tsei/ctrl/src/index'
 
 const c = ctrl({
-        number0: 0.0,
-        number1: { value: 0.0 },
+        number0: 0, // or
+        number1: { value: 1 },
 })
 
 const code = () =>
         /* TS */ `
 // Number
 const c = ctrl({
-        number0: ${JSON.stringify(c.current.number0)},
+        number0: ${JSON.stringify(c.current.number0)}, // or
         number1: ${JSON.stringify(c.current.number1)}
-}) // or
+})
 `.trim()
 
 export default function NumberCase(props: Props<'pre'>) {

@@ -2,15 +2,17 @@
 
 import { ctrl, Ctrl, Target } from '../index'
 
-interface Props<T extends Target> {
-        a: boolean
+type Arg = null
+
+interface Props<T extends Target, K extends keyof T = keyof T> {
+        a: T[K] & Arg
         c: Ctrl<T>
-        k: keyof T
+        k: K
         children?: string
 }
 
 export default function Null<T extends Target>(props: Props<T>) {
-        const { a, k, children = 'null' } = props
+        const { k, children = 'null' } = props
 
         const _ = ctrl.create
 

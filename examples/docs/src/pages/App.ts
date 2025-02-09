@@ -1,7 +1,8 @@
 import Prism from 'prismjs'
 import { ctrl, Controller } from '@tsei/ctrl/src/index'
 import Installation from '../cases/Install'
-import QuickStarted from '../cases/Quick'
+import QuickStart from '../cases/QuickStart'
+import RenderUI from '../cases/RenderUI'
 import NumberCase from '../cases/Number'
 import VectorCase from '../cases/Vector'
 import StringCase from '../cases/String'
@@ -78,7 +79,8 @@ export default function App() {
                         { ref, left },
                         _('div', { className: 'flex flex-col gap-4' }, [
                                 _(Installation),
-                                _(QuickStarted),
+                                _(QuickStart),
+                                _(RenderUI),
                                 _(NumberCase),
                                 _(VectorCase),
                                 _(StringCase),

@@ -1,18 +1,24 @@
 import { ctrl, type Props } from '@tsei/ctrl/src/index'
 
 const c = ctrl({
-        // @ts-ignore
-        select0: ['#f00', '#0f0', '#00f'], // or
-        // @ts-ignore
-        select1: { value: ['#f00', '#0f0', '#00f'] },
+        select0: { options: ['#f00', '#0f0', '#00f'] }, // or
+        select1: { options: document.querySelectorAll('option') }, // or
+        select2: document.querySelector('select'), // or
+        select3: { value: { options: ['#f00', '#0f0', '#00f'] } }, // or
+        select4: { value: { options: document.querySelectorAll('option') } }, // or
+        select5: { value: document.querySelector('select') },
 })
 
 const code = () =>
         /* TS */ `
 // Select
 const c = ctrl({
-        select0: ${JSON.stringify(c.current.select0)}, // @TODO SUPPORT
-        select1: ${JSON.stringify(c.current.select1)}, // @TODO SUPPORT
+        select0: { options: ['#f00', '#0f0', '#00f'] }, // or
+        select1: { options: document.querySelectorAll('option') }, // or
+        select2: document.querySelector('select'), // or
+        select3: { value: { options: ['#f00', '#0f0', '#00f'] } }, // or
+        select4: { value: { options: document.querySelectorAll('option') } }, // or
+        select5: { value: document.querySelector('select') },
 })
 `.trim()
 

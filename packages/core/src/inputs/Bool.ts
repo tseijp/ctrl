@@ -2,20 +2,23 @@
 
 import { ctrl, Ctrl, Target } from '../index'
 
-interface Props<T extends Target> {
-        a: boolean
+type Arg = boolean
+
+interface Props<T extends Target, K extends keyof T = keyof T> {
+        a: Arg & T[K]
         c: Ctrl<T>
-        k: keyof T
+        k: K
 }
 
 export default function Bool<T extends Target>(props: Props<T>) {
+        type K = keyof T
         const { a, c, k } = props
 
         const change = (e: Event) => {
                 const { target } = e
                 if (!(target instanceof HTMLInputElement)) return
                 const { checked } = target
-                c.set(k, checked as T[keyof T])
+                c.set(k, checked as T[K])
         }
 
         let clean = () => {}
@@ -25,9 +28,9 @@ export default function Bool<T extends Target>(props: Props<T>) {
                 el.addEventListener('change', change)
                 el.defaultChecked = a
 
-                const update = (key: string, value: boolean) => {
+                const update = (key: K, arg: Arg) => {
                         if (key !== k) return
-                        el.checked = value
+                        el.checked = arg
                 }
 
                 c.updates.add(update)

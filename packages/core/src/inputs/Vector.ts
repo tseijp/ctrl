@@ -1,37 +1,47 @@
 'use client'
 
 import { ctrl, Ctrl, Target, XYZVector } from '../index'
-import { is } from '../helpers/utils'
 import { InputValue } from '../clients/InputValue'
+import { is } from '../helpers/utils'
 
-interface Props<T extends Target> {
-        a: number[] | XYZVector
+type Arg = number[] | XYZVector
+
+interface Props<T extends Target, K extends keyof T = keyof T> {
+        a: T[K] & Arg
         c: Ctrl<T>
-        k: keyof T
+        k: K
 }
 
+const ids = [0, 1, 2, 3]
 const keys: (keyof XYZVector)[] = ['x', 'y', 'z', 'w']
 
 export default function Vector<T extends Target>(props: Props<T>) {
+        type K = keyof T
         const { a, c, k } = props
-        const isXYZ = !is.arr(a)
         const _ = ctrl.create
 
-        const children = [0, 1, 2, 3].map((_012) => {
-                const _xyz = keys[_012]
-                const value = isXYZ ? a[_xyz] : a[_012]
-                if (!is.num(value)) return null
+        const children = ids.map((_0) => {
+                const _x = keys[_0]
 
-                const set = (value: number) => {
-                        if (isXYZ) a[_xyz] = value
-                        else a[_012] = value
-                        c.set(k, a as T[keyof T])
+                const get = (arg: Arg) => {
+                        const isXYZ = !is.arr(arg)
+                        return isXYZ ? arg[_x]! : arg[_0]
                 }
 
+                const set = (next: number) => {
+                        const isXYZ = !is.arr(a)
+                        if (isXYZ) a[_x] = next
+                        else a[_0] = next
+                        c.set(k, a)
+                }
+
+                const value = get(a)
+                if (!is.num(value)) return null
+
                 const _ref = (el: HTMLInputElement) => {
-                        const update = (key: string, args: number[]) => {
+                        const update = (key: K, arg: Arg) => {
                                 if (k !== key) return
-                                el.value = args[_012].toString()
+                                el.value = `${get(arg)}`
                         }
                         c.updates.add(update)
                         return () => {
@@ -40,8 +50,8 @@ export default function Vector<T extends Target>(props: Props<T>) {
                 }
 
                 return _(InputValue, {
-                        icon: _xyz?.toUpperCase(),
-                        key: _xyz,
+                        icon: _x?.toUpperCase(),
+                        key: _x,
                         value,
                         set,
                         _ref,
