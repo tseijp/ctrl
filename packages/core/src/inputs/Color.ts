@@ -8,7 +8,7 @@ function hex2rgb(hex = '#fff') {
                 hex.length <= 4
                         ? hex.split('').map((c) => c + c)
                         : hex.match(/.{1,2}/g) ?? []
-        const [r, g, b, a = 1] = rgba.map((x) => parseInt(x, 16) / 255)
+        const [r, g, b, a] = rgba.map((x) => parseInt(x, 16) / 255)
         return { r, g, b, a }
 }
 
@@ -24,13 +24,16 @@ function rgb2hex(color: RGBColor) {
         return hex
 }
 
-interface Props<T extends Target> {
-        a: string | RGBColor
+type Arg = string | RGBColor
+
+interface Props<T extends Target, K extends keyof T = keyof T> {
+        a: Arg & T[K]
         c: Ctrl<T>
-        k: keyof T
+        k: K
 }
 
 export default function Color<T extends Target>(props: Props<T>) {
+        type K = keyof T
         const { a, c, k } = props
 
         const change = (e: Event) => {
@@ -41,17 +44,15 @@ export default function Color<T extends Target>(props: Props<T>) {
                 const rgb = hex2rgb(hex)
                 if (isRGB) {
                         merge(a, rgb)
-                        c.set(k, a as T[keyof T])
-                } else {
-                        c.set(k, hex as T[keyof T])
-                }
+                        c.set(k, a)
+                } else c.set(k, hex as T[K])
         }
 
         let clean = () => {}
 
-        const get = (value: string | RGBColor) => {
-                const isRGB = !is.str(value)
-                return isRGB ? rgb2hex(value) : value
+        const get = (arg: Arg) => {
+                const isRGB = !is.str(arg)
+                return isRGB ? rgb2hex(arg) : arg
         }
 
         const ref = (el: HTMLInputElement) => {
@@ -59,9 +60,9 @@ export default function Color<T extends Target>(props: Props<T>) {
                 el.addEventListener('input', change)
                 el.value = get(a)
 
-                const update = (key: string, value: string | RGBColor) => {
+                const update = (key: K, arg: Arg) => {
                         if (key !== k) return
-                        el.value = get(value)
+                        el.value = get(arg)
                 }
 
                 c.updates.add(update)

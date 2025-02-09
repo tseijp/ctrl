@@ -3,6 +3,7 @@
 import { Canvas } from '@react-three/fiber'
 import { Controller, ctrl, useCtrl } from '@tsei/ctrl/react'
 import '@tsei/ctrl/src/style'
+import { IgnoreScale } from './utils'
 
 const c = ctrl({ position: [0, 0, 0], scale: 1, hidden: false, text: 'string' })
 
@@ -22,10 +23,11 @@ const Box = () => {
 export default () => {
         return (
                 <Controller>
-                        <Canvas>
+                        <Canvas style={{ width: 1280, height: 800 }}>
+                                <Box />
                                 <ambientLight />
                                 <pointLight />
-                                <Box />
+                                <IgnoreScale />
                         </Canvas>
                 </Controller>
         )

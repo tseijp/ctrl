@@ -1,18 +1,20 @@
 import { ctrl, type Props } from '@tsei/ctrl/src/index'
 
 const c = ctrl({
-        // @ts-ignore
-        button0: () => alert('CLICKED'), // or
-        // @ts-ignore
-        button1: { value: () => alert('CLICKED') },
+        button0: { onclick: () => console.log('CLICKED') }, // or
+        button1: document.querySelector('button'), // or
+        button2: { value: { onclick: () => console.log('CLICKED') } }, // or
+        button3: { value: document.querySelector('button') },
 })
 
 const code = () =>
         /* TS */ `
 // Button
 const c = ctrl({
-        button0: ${JSON.stringify(c.current.button0)}, // @TODO SUPPORT
-        button1: ${JSON.stringify(c.current.button1)}, // @TODO SUPPORT
+        button0: { onclick: () => console.log('CLICKED') }, // or
+        button1: document.querySelector('button'), // or
+        button2: { value: { onclick: () => console.log('CLICKED') } }, // or
+        button3: { value: document.querySelector('button') },
 })
 `.trim()
 

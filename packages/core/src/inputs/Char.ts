@@ -2,10 +2,12 @@
 
 import { ctrl, Ctrl, Target } from '../index'
 
-interface Props<T extends Target> {
-        a: string
+type Arg = string
+
+interface Props<T extends Target, K extends keyof T = keyof T> {
+        a: Arg & T[K]
         c: Ctrl<T>
-        k: keyof T
+        k: K
 }
 
 function isTextArea(a: unknown): a is HTMLTextAreaElement {
@@ -18,13 +20,14 @@ function updateHeight(el: HTMLTextAreaElement) {
 }
 
 export default function Char<T extends Target>(props: Props<T>) {
+        type K = keyof T
         const { a, c, k } = props
 
         const input = (e: Event) => {
                 if (!isTextArea(e.target)) return
                 updateHeight(e.target)
                 const { value } = e.target
-                c.set(k, value as T[keyof T])
+                c.set(k, value as T[K])
         }
 
         const dblclick = async (e: Event) => {
@@ -47,9 +50,9 @@ export default function Char<T extends Target>(props: Props<T>) {
 
                 setTimeout(() => updateHeight(el))
 
-                const update = (key: string, value: string) => {
+                const update = (key: K, arg: Arg) => {
                         if (key !== k) return
-                        el.value = value
+                        el.value = arg
                 }
 
                 c.updates.add(update)

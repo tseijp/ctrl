@@ -3,21 +3,24 @@
 import { ctrl, Ctrl, Target } from '../index'
 import { InputValue } from '../clients/InputValue'
 
-interface Props<T extends Target> {
-        a: number
+type Arg = number
+
+interface Props<T extends Target, K extends keyof T = keyof T> {
+        a: Arg & T[K]
         c: Ctrl<T>
-        k: keyof T
+        k: K
 }
 
 export default function Float<T extends Target>(props: Props<T>) {
+        type K = keyof T
         const { a, c, k } = props
 
-        const set = (value: number) => c.set(k, value as T[keyof T])
+        const _set = (value: number) => c.set(k, value as T[K])
 
         const _ref = (el: HTMLInputElement) => {
-                const update = (key: string, args: number) => {
+                const update = (key: K, arg: Arg) => {
                         if (k !== key) return
-                        el.value = args.toString()
+                        el.value = `${arg}`
                 }
                 c.updates.add(update)
                 return () => {
@@ -42,7 +45,7 @@ export default function Float<T extends Target>(props: Props<T>) {
                                 key: 'values',
                                 className: 'grid gap-x-2 grid-cols-[1fr_1fr_1fr]',
                         },
-                        _(InputValue, { icon: 'X', value: a, set, _ref })
+                        _(InputValue, { icon: 'X', value: a, _set, _ref })
                 ),
         ])
 }

@@ -1,7 +1,7 @@
 import { ctrl, type Props } from '@tsei/ctrl/src/index'
 
 const c = ctrl({
-        string0: 'HELLO',
+        string0: 'HELLO', // or
         string1: { value: 'WORLD' },
 })
 
@@ -9,7 +9,7 @@ const code = () =>
         /* TS */ `
 // String
 const c = ctrl({
-        string0: ${JSON.stringify(c.current.string0)},
+        string0: ${JSON.stringify(c.current.string0)}, // or
         string1: ${JSON.stringify(c.current.string1)},
 })
 `.trim()
