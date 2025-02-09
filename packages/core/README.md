@@ -2,9 +2,15 @@
 
 <div align="center">
 
-@tsei/ctrl is Open Source figma like cms controller
+[@tsei/ctrl is Open Source figma like cms controller](https://github.com/tseijp/ctrl)
 
-### [🌐 Website ▶︎](https://ctrl.tsei.jp)&emsp;|&emsp;[💬 Discussion forum ▶︎](https://github.com/tseijp/ctrl/discussions)&emsp;|&emsp;[😎 Showcase submission ▶︎](https://github.com/tseijp/ctrl/discussions/7)
+###### [🌐 Website ▶︎&emsp;|&emsp;](https://ctrl.tsei.jp)[💬 Discussion forum ▶︎&emsp;|&emsp;](https://github.com/tseijp/ctrl/discussions)[😎 Showcase submission ▶︎](https://github.com/tseijp/ctrl/discussions/7)
+
+[![ npm version ](https://img.shields.io/npm/v/@tsei/ctrl?style=flat&colorA=0968DA&colorB=0968DA)](https://www.npmjs.com/package/@tsei/ctrl)
+[![ downloads ](https://img.shields.io/npm/dm/@tsei/ctrl.svg?style=flat&colorA=0968DA&colorB=0968DA)](https://www.npmtrends.com/@tsei/ctrl)
+[![ license MIT ](https://img.shields.io/npm/l/@tsei/ctrl?style=flat&colorA=0968DA&colorB=0968DA)](https://github.com/tseijp/ctrl)
+[![ docs available ](https://img.shields.io/badge/docs-available-0968DA.svg?style=flat&colorA=0968DA)](https://ctrl.tsei.jp/>)
+[![ bundle size ](https://img.shields.io/bundlephobia/minzip/@tsei/ctrl?style=flat&colorA=0968DA&colorB=0968DA)](https://bundlephobia.com/package/@tsei/ctrl@latest)
 
 </div>
 
@@ -14,7 +20,7 @@
 npm i @tsei/ctrl
 ```
 
-### Quick start
+### Quick Start
 
 ###### Basics
 
@@ -30,19 +36,19 @@ function MyComponent() {
 ###### ESM Support
 
 ```html
-<div id="root" />
+<div id="root">world</div>
 <script type="module">
-        import { ctrl } from 'https://esm.sh/@tsei/ctrl@0.10.0/es2022'
-        const c = ctrl({ value: 0 })
+        import { ctrl } from 'https://esm.sh/@tsei/ctrl@0.11.0/es2022'
+        const c = ctrl({ hello: 'world' })
         const root = document.getElementById('root')
 
         c.sub(() => {
-                root.innerText = c.current.value
+                root.innerText = c.current.hello
         })
 </script>
 ```
 
-### Render Controller
+### Render UI
 
 ###### Basics
 
@@ -51,26 +57,30 @@ import { Controller, useCtrl } from '@tsei/ctrl/react'
 import '@tsei/ctrl/style'
 
 function MyComponent() {
-        const { hello } = useCtrl({ hello: 'world' })
-        return <Controller>{hello}</Controller>
+        const { a, b, c } = useCtrl({ a: 0, b: 0, c: 0 })
+        return (
+                <Controller>
+                        <ul>
+                                <li>{a}</li>
+                                <li>{b}</li>
+                                <li>{c}</li>
+                        </ul>
+                </Controller>
+        )
 }
 ```
 
 ###### ESM Support
 
 ```html
-<link rel="stylesheet" href="https://esm.sh/@tsei/ctrl@0.7.0/dist/index.css" />
+<link rel="stylesheet" href="https://esm.sh/@tsei/ctrl@0.11.0/dist/index.css" />
 <script type="module">
         import {
                 Controller,
-                register,
-                PARENT_ID,
                 ctrl,
-        } from 'https://esm.sh/@tsei/ctrl@0.7.0/es2022'
+        } from 'https://esm.sh/@tsei/ctrl@0.11.0/es2022'
         const c = ctrl({ a: 0, b: 0, c: 0 })
         const _ = ctrl.create
-
-        register({ parent: PARENT_ID })
 
         ctrl.render(
                 _(
@@ -93,12 +103,12 @@ function MyComponent() {
 
 ### Input Types
 
-###### Float
+###### Number
 
 ```ts
-ctrl({
-        boolean0: ${JSON.stringify(c.current.string0)}, // or
-        boolean1: ${JSON.stringify(c.current.string1)},
+const c = ctrl({
+        number0: 0 // or
+        number1: { value: 1 },
 })
 ```
 
@@ -107,8 +117,18 @@ ctrl({
 ```ts
 const c = ctrl({
         vector0: [0, 0, 0], // or
-        vector1: { value: [0, 0, 0] }, // or
-        vector2: { x: 1, y: 1, z: 1 }, // @TODO SUPPORT
+        vector1: { x: 1, y: 1, z: 1 }, // or
+        vector2: { value: [0, 0, 0] }, // or
+        vector3: { value: { x: 1, y: 1, z: 1 } },
+})
+```
+
+###### String
+
+```ts
+const c = ctrl({
+        string0: 'HELLO', // or
+        string1: { value: 'WORLD' },
 })
 ```
 
@@ -116,8 +136,8 @@ const c = ctrl({
 
 ```ts
 const c = ctrl({
-        string0: true, // or
-        string1: { value: false },
+        boolean0: true // or
+        boolean1: { value: false },
 })
 ```
 
@@ -126,33 +146,49 @@ const c = ctrl({
 ```ts
 const c = ctrl({
         color0: '#fff', // or
-        color1: { value: '#fff' }, // or
-        color2: { r: 1, g: 1, b: 1 }, // or
-        color3: { h: 0, s: 0, l: 100 }, // or
-        color4: { Y: 1, x: 1, y: 1 },
+        color1: { r: 1, g: 1, b: 1 }, // or
+        color2: { h: 0, s: 0, l: 100 }, // or
+        color3: { Y: 1, x: 1, y: 1 }, // or
+        color4: { value: '#fff' }, // or
+        color5: { value: { r: 1, g: 1, b: 1 } }, // or
+        color6: { value: { h: 0, s: 0, l: 100 } }, // or
+        color7: { value: { Y: 1, x: 1, y: 1 } },
 })
 ```
 
 ###### Button
 
 ```ts
-useCtrl({ 'CLICK ME': () => console.log('CLICKED') }) // or
-useCtrl({ 'CLICK ME': { value: () => console.log('CLICKED') } })
+const c = ctrl({
+        button0: { onclick: () => console.log('CLICKED') }, // or
+        button1: document.querySelector('button'), // or
+        button2: { value: { onclick: () => console.log('CLICKED') } }, // or
+        button3: { value: document.querySelector('button') },
+})
 ```
 
 ###### Select
 
 ```ts
 const c = ctrl({
-        select0: ['#f00', '#0f0', '#00f'], // or
-        select1: { value: ['#f00', '#0f0', '#00f'] },
+        select0: { options: ['#f00', '#0f0', '#00f'] }, // or
+        select1: { options: document.querySelectorAll('option') }, // or
+        select2: document.querySelector('select'), // or
+        select3: { value: { options: ['#f00', '#0f0', '#00f'] } }, // or
+        select4: { value: { options: document.querySelectorAll('option') } }, // or
+        select5: { value: document.querySelector('select') },
 })
 ```
 
 ###### Image
 
 ```ts
-const { image } = useCtrl({ image: 'https://r.tsei.jp/block.png' })
+const c = ctrl({
+        image0: { src: 'https://r.tsei.jp/block.png' }, // or
+        image1: document.querySelector('img'), // or
+        image2: { value: { src: 'https://r.tsei.jp/block.png' } }, // or
+        image3: { value: document.querySelector('img') },
+})
 ```
 
 ### Update value
