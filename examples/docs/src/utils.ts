@@ -1,6 +1,6 @@
 import type { EditorView } from '@codemirror/view'
 
-export const codemirror = async (element: HTMLElement, code: () => string) => {
+export const codemirror = (element: HTMLElement, code: () => string) => {
         let view: EditorView
         ;(async () => {
                 const [{ EditorView }, { javascript }, { githubLight }] =
