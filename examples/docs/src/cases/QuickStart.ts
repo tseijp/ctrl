@@ -10,7 +10,7 @@ function MyComponent() {
 `.trim()
 
 const esmCode = /* html */ `
-<div id="root" />
+<div id="root">world</div>
 <script type="module">
         import { ctrl } from 'https://esm.sh/@tsei/ctrl@0.11.0/es2022'
         const c = ctrl({ hello: 'world' })
