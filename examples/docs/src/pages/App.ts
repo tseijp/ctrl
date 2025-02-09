@@ -12,14 +12,12 @@ import ButtonCase from '../cases/Button'
 import SelectCase from '../cases/Select'
 import ImageCase from '../cases/Image'
 import Noise from '../cases/Noise'
-import 'prismjs'
 import 'prismjs/themes/prism.css'
 
 export default function App() {
         const root = document.getElementById('root')!
 
         const _ = ctrl.create
-        const ref = () => void Prism.highlightAll()
         const left = _('ul', { className: 'flex flex-col gap-4 py-4' }, [
                 _(
                         'li',
@@ -76,7 +74,7 @@ export default function App() {
         ctrl.render(
                 _<'div'>(
                         Controller,
-                        { ref, left },
+                        { left },
                         _('div', { className: 'flex flex-col gap-4' }, [
                                 _(Installation),
                                 _(QuickStart),
@@ -94,4 +92,6 @@ export default function App() {
                 ),
                 root
         )
+
+        Prism.highlightAll()
 }
