@@ -4,8 +4,6 @@ import { ctrl, wheelEvent } from '../index'
 
 export default function ControlRight(props: any) {
         const { children } = props
-        const _ = ctrl.create
-
         const wheel = wheelEvent((wheel) => {
                 const { event } = wheel
                 const isZoom = (event as any).ctrlKey
@@ -13,6 +11,7 @@ export default function ControlRight(props: any) {
                 event.stopPropagation()
         })
 
+        const _ = ctrl.create
         return _(
                 'aside',
                 {
