@@ -1,24 +1,24 @@
-import { ctrl, type Props } from '@tsei/ctrl/src/index'
+import { ctrl } from '@tsei/ctrl/src/index'
+import { codemirror } from '../utils'
 
 const c = ctrl({
         INSTALL: 'npm i @tsei/ctrl', // @TODO
 })
 
-const code = () =>
-        /* TS */ `
+const code = /* TS */ `
 npm i @tsei/ctrl
 `.trim()
 
-export default function Installation(props: Props<'pre'>) {
+export default function Installation() {
         const _ = ctrl.create
 
         const ref = (el: HTMLElement) => {
-                const update = () => (el.innerText = code())
+                const update = codemirror(el, () => c.current.INSTALL)
                 setTimeout(() => c.sub(update))
         }
 
-        return _('pre', props, [
+        return _('div', { className: 'p-4 bg-white rounded' }, [
                 _('h3', { className: 'font-bold mb-4' }, '### Installation'),
-                _('code', { ref, className: 'language-javascript' }, code()),
+                _('div', { ref }),
         ])
 }

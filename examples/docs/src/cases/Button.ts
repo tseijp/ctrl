@@ -1,4 +1,5 @@
-import { ctrl, type Props } from '@tsei/ctrl/src/index'
+import { ctrl } from '@tsei/ctrl/src/index'
+import { codemirror } from '../utils'
 
 const c = ctrl({
         button0: { onclick: () => console.log('CLICKED') }, // or
@@ -18,16 +19,16 @@ const c = ctrl({
 })
 `.trim()
 
-export default function ButtonCase(props: Props<'pre'>) {
+export default function ButtonCase() {
         const _ = ctrl.create
 
         const ref = (el: HTMLElement) => {
-                const update = () => (el.innerText = code())
+                const update = codemirror(el, code)
                 setTimeout(() => c.sub(update))
         }
 
-        return _('pre', props, [
+        return _('div', { className: 'p-4 bg-white rounded' }, [
                 _('h3', { className: 'font-bold mb-4' }, '### Button Cases'),
-                _('code', { ref, className: 'language-javascript' }, code()),
+                _('div', { ref }),
         ])
 }

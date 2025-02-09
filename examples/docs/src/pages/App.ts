@@ -1,4 +1,3 @@
-import Prism from 'prismjs'
 import { ctrl, Controller } from '@tsei/ctrl/src/index'
 import Installation from '../cases/Install'
 import QuickStart from '../cases/QuickStart'
@@ -12,7 +11,6 @@ import ButtonCase from '../cases/Button'
 import SelectCase from '../cases/Select'
 import ImageCase from '../cases/Image'
 import Noise from '../cases/Noise'
-import 'prismjs/themes/prism.css'
 
 export default function App() {
         const root = document.getElementById('root')!
@@ -92,6 +90,4 @@ export default function App() {
                 ),
                 root
         )
-
-        Prism.highlightAll()
 }
