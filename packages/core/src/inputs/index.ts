@@ -9,7 +9,7 @@ import Float from './Float'
 import Null from './Null'
 import Vector from './Vector'
 import { ctrl, Ctrl, is } from '../index'
-import { isColor, isU, isVector, Target } from '../types'
+import { isColor, isHex, isU, isVector, Target } from '../types'
 
 export function attach<T extends Target>(c: Ctrl<T>, k: keyof T) {
         const _ = ctrl.create
@@ -20,9 +20,13 @@ export function attach<T extends Target>(c: Ctrl<T>, k: keyof T) {
                 if (isVector(a)) return _(Vector<T>, { key: k, k, a, c })
         }
 
+        if (is.str(a)) {
+                if (isHex(a)) return _(Color<T>, { key: k, k, a, c })
+                return _(Char<T>, { key: k, k, a, c })
+        }
+
         if (is.nul(a)) return _(Null<T>, { key: k, k, a, c })
         if (is.bol(a)) return _(Bool<T>, { key: k, k, a, c })
-        if (is.str(a)) return _(Char<T>, { key: k, k, a, c })
         if (is.num(a)) return _(Float<T>, { key: k, k, a, c })
         if (is.arr(a)) return _(Vector<T>, { key: k, k, a, c })
         console.log(`ctrl Warn: not support input:`, k, a)

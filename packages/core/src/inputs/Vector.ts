@@ -28,15 +28,15 @@ export default function Vector<T extends Target>(props: Props<T>) {
                         return isXYZ ? arg[_x]! : arg[_0]
                 }
 
-                const set = (next: number) => {
+                const value = get(a)
+                if (!is.num(value)) return null
+
+                const _set = (next: number) => {
                         const isXYZ = !is.arr(a)
                         if (isXYZ) a[_x] = next
                         else a[_0] = next
                         c.set(k, a)
                 }
-
-                const value = get(a)
-                if (!is.num(value)) return null
 
                 const _ref = (el: HTMLInputElement) => {
                         const update = (key: K, arg: Arg) => {
@@ -53,7 +53,7 @@ export default function Vector<T extends Target>(props: Props<T>) {
                         icon: _x?.toUpperCase(),
                         key: _x,
                         value,
-                        set,
+                        _set,
                         _ref,
                 })
         })

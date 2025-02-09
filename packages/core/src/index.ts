@@ -41,7 +41,8 @@ function ctrl<T extends Target>(current: T = {} as T) {
         }
 
         const sync = <K extends keyof T>(k: K, a = current[k]) => {
-                if (isU<T[K]>(current[k])) current[k].value = a = a.value
+                if (isU<T[K]>(a)) a = a.value
+                if (isU<T[K]>(current[k])) current[k].value = a
                 else current[k] = a
                 flush(updates, k, a)
         }
@@ -64,6 +65,7 @@ function ctrl<T extends Target>(current: T = {} as T) {
                 set,
                 ref,
                 isC: true,
+                cache: {} as any,
                 get current() {
                         return current
                 },

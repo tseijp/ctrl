@@ -21,43 +21,42 @@ interface Props {
         icon?: string
         value: number
         _ref?: (el: HTMLInputElement) => () => void
-        set?: (x: number) => void
+        _set?: (x: number) => void
 }
 
 export function InputValue(props: Props) {
-        const { icon = '', value, _ref, set } = props
-
-        let input: HTMLInputElement
-        let span: HTMLSpanElement
-        let init: number
+        const { icon = '', value, _ref, _set } = props
 
         const drag = dragEvent(() => {
-                drag.event?.stopPropagation()
-                if (drag.isDragStart) span.style.cursor = 'ew-resize'
-                if (drag.isDragEnd) span.style.cursor = ''
-                if (drag.isDragging) {
+                const { event, isDragStart, isDragging, isDragEnd, memo } = drag
+                const { input, span, init } = memo as any
+                event?.stopPropagation()
+                if (isDragStart) span.style.cursor = 'ew-resize'
+                if (isDragEnd) span.style.cursor = ''
+                if (isDragging) {
                         const { offset } = drag
                         let x = init + offset[0] / 100
                         x = sig(x, -2)
                         input.valueAsNumber = x
-                        if (set) set(x)
+                        if (_set) _set(x)
                 }
         })
 
         const change = (e: Event) => {
-                if (!set) return
-                set(getInputValue(e))
+                if (!_set) return
+                _set(getInputValue(e))
         }
 
         let clean = () => {}
 
         const ref = (el: HTMLLabelElement) => {
                 if (!el) return clean()
-                const children = Array.from(el.childNodes) // @ts-ignore
-                ;[span, input] = children
+                const children = Array.from(el.childNodes)
+                const [span, input] = children
                 if (!(span instanceof HTMLSpanElement)) return
                 if (!(input instanceof HTMLInputElement)) return
-                init = input.valueAsNumber
+                const init = input.valueAsNumber
+                Object.assign(drag.memo, { span, input, init })
                 drag.offset[0] = init
                 drag.onMount(span)
                 if (_ref) clean = _ref(input)

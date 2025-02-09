@@ -56,6 +56,10 @@ export interface RGBColor {
         a?: number
 }
 
+export const isHex = (a: string) => {
+        return /^#([0-9A-Fa-f]{3}|[0-9A-Fa-f]{6}|[0-9A-Fa-f]{8})$/.test(a)
+}
+
 export const isColor = (a: object): a is RGBColor => {
         if (!a) return false
         if ('r' in a) return true

@@ -3,7 +3,7 @@
 // @ts-ignore
 import React from 'react'
 // @ts-ignore
-import { createElement, useState, useSyncExternalStore } from 'react'
+import { createElement, useMemo, useState, useSyncExternalStore } from 'react'
 import _Controller from './clients/Controller'
 import { Ctrl, ctrl, flush, isC, register } from './index'
 import { PARENT_ID, Target } from './types'
@@ -75,8 +75,12 @@ export function Controller(props: Props) {
         initialize()
         useSyncExternalStore(sub, get, get)
         const _ = ctrl.create
-        return _(_Controller, {
-                right: [...elements],
-                ...props,
-        }) as unknown as React.ReactNode
+        return useMemo(
+                () =>
+                        _(_Controller, {
+                                right: Array.from(elements),
+                                ...props,
+                        }),
+                [updated]
+        ) as unknown as React.ReactNode
 }
