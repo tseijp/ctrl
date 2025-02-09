@@ -2,11 +2,11 @@ import { ctrl, type Props } from '@tsei/ctrl/src/index'
 
 const c = ctrl({
         select0: { options: ['#f00', '#0f0', '#00f'] }, // or
-        select1: { options: document.querySelectorAll('option') }, // or
-        select2: document.querySelector('select'), // or
+        select1: { options: ['#f00', '#0f0', '#00f'] }, // or
+        select2: { options: ['#f00', '#0f0', '#00f'] }, // or
         select3: { value: { options: ['#f00', '#0f0', '#00f'] } }, // or
-        select4: { value: { options: document.querySelectorAll('option') } }, // or
-        select5: { value: document.querySelector('select') },
+        select4: { value: { options: ['#f00', '#0f0', '#00f'] } }, // or
+        select5: { value: { options: ['#f00', '#0f0', '#00f'] } }, // or
 })
 
 const code = () =>
