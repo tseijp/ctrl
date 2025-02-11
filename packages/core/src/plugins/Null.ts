@@ -10,7 +10,7 @@ export default function Null<T extends Target>(props: Attach<Arg, T>) {
 
         const _ = ctrl.create
 
-        return _('div', {}, [
+        return _('fieldset', {}, [
                 _(InputLabel, { key: 'key', k }),
                 _(
                         'div',

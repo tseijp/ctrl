@@ -52,7 +52,7 @@ export default function CSS(props: Attach<CSSStyle>) {
                 )
         }
 
-        return _('div', {}, children)
+        return _('fieldset', {}, children)
 }
 
 export { CSS }

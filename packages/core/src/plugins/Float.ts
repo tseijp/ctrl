@@ -25,7 +25,7 @@ export default function Float<T extends Target>(props: Attach<Arg, T>) {
 
         const _ = ctrl.create
 
-        return _('div', {}, [
+        return _('fieldset', {}, [
                 _(InputLabel, { key: 'key', k }),
                 _(
                         'div',
@@ -33,7 +33,12 @@ export default function Float<T extends Target>(props: Attach<Arg, T>) {
                                 key: 'values',
                                 className: 'grid gap-x-2 grid-cols-[1fr_1fr_1fr]',
                         },
-                        _(InputValue, { icon: 'X', value: a, _set, _ref })
+                        _(InputValue, {
+                                icon: 'X',
+                                value: a,
+                                _set,
+                                _ref,
+                        })
                 ),
         ])
 }

@@ -53,7 +53,7 @@ export default function Vector<T extends Target>(props: Attach<Arg, T>) {
                 })
         })
 
-        return _('div', {}, [
+        return _('fieldset', {}, [
                 _(InputLabel, { key: 'key', k }),
                 _(
                         'div',

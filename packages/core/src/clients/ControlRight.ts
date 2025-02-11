@@ -24,13 +24,13 @@ export default function ControlRight(props: any) {
                                 'div',
                                 {
                                         key: 'top',
-                                        className: 'h-10 border-1 border-y border-[rgb(68,68,68)]',
+                                        className: 'h-12 border-1 border-y border-[rgb(68,68,68)]',
                                 },
                                 _(
                                         'span',
                                         {
                                                 key: 'span',
-                                                className: 'mx-4 leading-10 font-bold',
+                                                className: 'mx-4 text-[13px] leading-[22px] font-bold',
                                         }
                                         // q ? 'Update' : 'New Creation'
                                 )

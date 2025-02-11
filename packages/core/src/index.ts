@@ -5,11 +5,14 @@ import { Plugin, mount } from './plugins/index'
 import { isU, Target } from './types'
 import './index.css'
 
+let index = 0
+
 function ctrl<T extends Target>(current: T = {} as T) {
         const listeners = new Set<Function>()
         const cleanups = new Set<Function>()
         const updates = new Set<Function>()
 
+        let title = 'ctrl' + index++
         let inited = 0
         let updated = 0
 
@@ -75,6 +78,9 @@ function ctrl<T extends Target>(current: T = {} as T) {
                 ref,
                 isC: true,
                 cache: {} as any,
+                set title(_title: string) {
+                        title = _title
+                },
                 get current() {
                         return current
                 },

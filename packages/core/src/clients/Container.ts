@@ -1,20 +1,9 @@
 'use client'
 
-import { ctrl, register } from '../index'
+import { ctrl } from '../index'
 import { dragEvent } from '../helpers/drag'
 import { merge } from '../helpers/utils'
 import { PARENT_ID } from '../types'
-
-let isInitialized = false
-
-function initialize() {
-        if (ctrl.parent) return
-        if (isInitialized) return
-        isInitialized = true
-        register({
-                parent: PARENT_ID,
-        })
-}
 
 interface Props {
         children?: any
@@ -23,7 +12,6 @@ interface Props {
 }
 
 export default function Container(props: Props) {
-        initialize()
         const { children, title = 'default', isDraggable } = props
         const { ref } = dragEvent((drag) => {
                 const { offset } = drag
@@ -45,15 +33,21 @@ export default function Container(props: Props) {
                         _(
                                 'div',
                                 {
-                                        key: 'Container', //
-                                        className: 'leading-[40px] font-[11px]',
+                                        key: '0', //
+                                        className: 'h-10 grid items-center',
                                 },
-                                title
+                                _(
+                                        'div',
+                                        {
+                                                className: 'font-[11px] leading-[16px] font-bold',
+                                        },
+                                        title
+                                )
                         ),
                         _(
                                 'div', //
                                 {
-                                        key: 'parent',
+                                        key: '1', //
                                         id: PARENT_ID,
                                 },
                                 children

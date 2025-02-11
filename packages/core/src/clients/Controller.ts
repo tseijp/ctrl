@@ -1,6 +1,6 @@
 'use client'
 
-import { ctrl, merge } from '../index'
+import { ctrl, merge, PARENT_ID, register } from '../index'
 import Bounding from './Bounding'
 import Container from './Container'
 import ControlLeft from './ControlLeft'
@@ -40,13 +40,26 @@ const ref = (el: HTMLElement) => {
         })
 }
 
+let isInitialized = false
+
+function initialize() {
+        if (ctrl.parent) return
+        if (isInitialized) return
+        isInitialized = true
+        register({
+                parent: PARENT_ID,
+        })
+}
+
 export default function Controller(props: Props) {
+        initialize()
         const { children, left, right, ...other } = props
         const _ = ctrl.create
         return _('div', other, [
                 _(ControlNav, { ref, key: 'nav' }),
                 _(ControlLeft, { ref, key: 'left' }, left),
                 _(Bounding, { key: 'main' }, _(Wheelable, { children })),
+                // _(ControlRight, { ref, key: 'right', id: PARENT_ID }),
                 _(
                         ControlRight,
                         { ref, key: 'right' },
