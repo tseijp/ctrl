@@ -24,7 +24,7 @@ export default function ControlRight(props: any) {
                                 'div',
                                 {
                                         key: 'top',
-                                        className: 'h-12 border-1 border-y border-[rgb(68,68,68)]',
+                                        className: 'h-12 border-1 border-t border-[rgb(68,68,68)]',
                                 },
                                 _(
                                         'span',

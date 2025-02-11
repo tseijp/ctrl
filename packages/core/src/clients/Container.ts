@@ -26,7 +26,7 @@ export default function Container(props: Props) {
                 {
                         ref: isDraggable ? ref : void 0,
                         style: { zIndex: '9999' },
-                        className: '_ctrl-container bg-[#2c2c2c] max-w-[240px] pl-4 pr-2 pb-3 text-[12px] text-white',
+                        className: '_ctrl-container bg-[#2c2c2c] max-w-[240px] pl-4 pr-2 pb-3 text-[12px] text-white border-1 border-t border-[rgb(68,68,68)]',
                 },
                 [
                         _(

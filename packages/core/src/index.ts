@@ -13,7 +13,6 @@ let isInit = 0
 export const init = () => {
         if (is.str(ctrl.parent))
                 ctrl.parent = document.getElementById(ctrl.parent)
-        console.log(ctrl.parent)
 }
 
 export const mount = (el?: HTMLNode) => {
@@ -55,7 +54,7 @@ function ctrl<T extends Target>(current: T = {} as T) {
         const sub = (update = () => {}) => {
                 if (!inited++) {
                         for (const k in current) attach(k)
-                        const props = { title, isDraggable: false }
+                        const props = { title, key: title, isDraggable: false }
                         const _ = ctrl.create
                         const el = _(Container, props, elements)
                         const cleanup = mount(el)
