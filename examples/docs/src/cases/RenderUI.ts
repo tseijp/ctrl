@@ -1,12 +1,15 @@
 import { ctrl } from '@tsei/ctrl/src/index'
 import { codemirror } from '../utils'
 
-const basicsCode = /* TS */ `
+const c = ctrl({ a: 0, b: 0, c: 0 })
+
+const basicsCode = () =>
+        /* TS */ `
 import { Controller, useCtrl } from '@tsei/ctrl/react'
 import '@tsei/ctrl/style'
 
 function MyComponent() {
-        const { a, b, c } = useCtrl({ a: 0, b: 0, c: 0 })
+        const { a, b, c } = useCtrl({ a: ${c.current.a}, b: ${c.current.b}, c: ${c.current.c} })
         return (
                 <Controller>
                         <ul>
@@ -19,14 +22,15 @@ function MyComponent() {
 }
 `.trim()
 
-const esmCode = /* html */ `
+const esmCode = () =>
+        /* html */ `
 <link rel="stylesheet" href="https://esm.sh/@tsei/ctrl@0.11.0/dist/index.css" />
 <script type="module">
         import {
                 Controller,
                 ctrl,
         } from 'https://esm.sh/@tsei/ctrl@0.11.0/es2022'
-        const c = ctrl({ a: 0, b: 0, c: 0 })
+        const c = ctrl({ a: ${c.current.a}, b: ${c.current.b}, c: ${c.current.c} })
         const _ = ctrl.create
 
         ctrl.render(
@@ -48,18 +52,16 @@ const esmCode = /* html */ `
 </script>
 `.trim()
 
-const c = ctrl({ basicsCode, esmCode })
-
 export default function RenderUI() {
         const _ = ctrl.create
 
         const basicsRef = (el: HTMLElement) => {
-                const update = codemirror(el, () => c.current.basicsCode)
+                const update = codemirror(el, basicsCode)
                 setTimeout(() => c.sub(update))
         }
 
         const esmRef = (el: HTMLElement) => {
-                const update = codemirror(el, () => c.current.esmCode)
+                const update = codemirror(el, esmCode)
                 setTimeout(() => c.sub(update))
         }
 

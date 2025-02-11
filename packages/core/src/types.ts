@@ -109,3 +109,16 @@ export const isC = <T extends Target>(a: unknown): a is Ctrl<T> => {
         if ('isC' in a) return true
         return false
 }
+
+export interface Attach<
+        Arg,
+        T extends Target = Target,
+        K extends keyof T = keyof T
+> {
+        children?: string
+        a: Arg & T[K]
+        c: Ctrl<T>
+        k: K
+}
+
+export type Plugins<Arg> = <T extends Target>(args: Attach<Arg, T>) => any

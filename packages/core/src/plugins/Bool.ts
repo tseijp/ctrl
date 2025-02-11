@@ -1,16 +1,11 @@
 'use client'
 
-import { ctrl, Ctrl, Target } from '../index'
+import InputLabel from '../clients/InputLabel'
+import { Attach, ctrl, Target } from '../index'
 
 type Arg = boolean
 
-interface Props<T extends Target, K extends keyof T = keyof T> {
-        a: Arg & T[K]
-        c: Ctrl<T>
-        k: K
-}
-
-export default function Bool<T extends Target>(props: Props<T>) {
+export default function Bool<T extends Target>(props: Attach<Arg, T>) {
         type K = keyof T
         const { a, c, k } = props
 
@@ -43,14 +38,7 @@ export default function Bool<T extends Target>(props: Props<T>) {
         const _ = ctrl.create
 
         return _('div', {}, [
-                _(
-                        'div',
-                        {
-                                key: 'key',
-                                className: 'text-[10px] leading-[14px] mt-1',
-                        },
-                        k as string
-                ),
+                _(InputLabel, { key: 'key', k }),
                 _('input', {
                         ref,
                         key: 'input',

@@ -11,6 +11,7 @@ import ButtonCase from '../cases/Button'
 import SelectCase from '../cases/Select'
 import ImageCase from '../cases/Image'
 import Noise from '../cases/Noise'
+import PluginCase from '../cases/Plugin'
 
 export default function App() {
         const root = document.getElementById('root')!
@@ -85,6 +86,7 @@ export default function App() {
                                 _(ButtonCase),
                                 _(SelectCase),
                                 _(ImageCase),
+                                _(PluginCase),
                                 _(Noise),
                         ])
                 ),

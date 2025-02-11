@@ -8,29 +8,29 @@ import Color from './Color'
 import Float from './Float'
 import Null from './Null'
 import Vector from './Vector'
-import { ctrl, Ctrl, is } from '../index'
-import { isColor, isHex, isU, isVector, Target } from '../types'
+import { ctrl, is } from '../index'
+import { Attach, isColor, isHex, isVector, Target } from '../types'
 
-export function attach<T extends Target>(c: Ctrl<T>, k: keyof T) {
+export function Plugin<T extends Target>(props: Attach<unknown, T>) {
+        const { a, k } = props
         const _ = ctrl.create
-        let a = c.current[k]
-        if (isU<T[keyof T]>(a)) a = a.value
+
         if (typeof a === 'object') {
-                if (isColor(a)) return _(Color<T>, { key: k, k, a, c })
-                if (isVector(a)) return _(Vector<T>, { key: k, k, a, c })
+                if (isColor(a)) return _(Color<T>, props)
+                if (isVector(a)) return _(Vector<T>, props)
         }
 
         if (is.str(a)) {
-                if (isHex(a)) return _(Color<T>, { key: k, k, a, c })
-                return _(Char<T>, { key: k, k, a, c })
+                if (isHex(a)) return _(Color<T>, props)
+                return _(Char<T>, props)
         }
 
-        if (is.nul(a)) return _(Null<T>, { key: k, k, a, c })
-        if (is.bol(a)) return _(Bool<T>, { key: k, k, a, c })
-        if (is.num(a)) return _(Float<T>, { key: k, k, a, c })
-        if (is.arr(a)) return _(Vector<T>, { key: k, k, a, c })
-        console.log(`ctrl Warn: not support input:`, k, a)
-        return _(Null<T>, { key: k, k, a, c }, 'not support')
+        if (is.nul(a)) return _(Null<T>, props)
+        if (is.bol(a)) return _(Bool<T>, props)
+        if (is.num(a)) return _(Float<T>, props)
+        if (is.arr(a)) return _(Vector<T>, props)
+        console.log(`ctrl Warn: not support`, k, a)
+        return _(Null<T>, props, 'not support')
 }
 
 let isInit = 0

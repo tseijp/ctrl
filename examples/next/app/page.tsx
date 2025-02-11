@@ -1,7 +1,7 @@
 'use client'
 
 import { Canvas } from '@react-three/fiber'
-import { Controller, ctrl, useCtrl } from '@tsei/ctrl/react'
+import { Controller, ctrl, useCtrl } from '@tsei/ctrl/src/react'
 import '@tsei/ctrl/src/style'
 import { IgnoreScale } from './utils'
 

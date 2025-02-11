@@ -1,7 +1,7 @@
 import Controller from './clients/Controller'
 import { append, create, remove } from './helpers/node'
 import { flush, merge } from './helpers/utils'
-import { attach, mount } from './inputs/index'
+import { Plugin, mount } from './plugins/index'
 import { isU, Target } from './types'
 import './index.css'
 
@@ -13,11 +13,20 @@ function ctrl<T extends Target>(current: T = {} as T) {
         let inited = 0
         let updated = 0
 
+        const attach = (k = '') => {
+                let a = current[k]
+                if (isU<T[keyof T]>(a)) a = a.value
+                for (const El of ctrl.plugin) {
+                        const el = ctrl.create(El, { key: k, a, c, k })
+                        if (el) return el
+                }
+        }
+
         const sub = (update = () => {}) => {
                 listeners.add(update)
                 if (!inited++)
-                        for (const i in current) {
-                                const cleanup = mount(attach<T>(c, i))
+                        for (const k in current) {
+                                const cleanup = mount(attach(k))
                                 if (cleanup) cleanups.add(cleanup)
                         }
                 return () => {
@@ -80,6 +89,8 @@ ctrl.render = append
 ctrl.remove = remove
 ctrl.finish = remove
 ctrl.parent = null as null | Node
+ctrl.plugin = [Plugin]
+ctrl.use = (...args: any[]) => ctrl.plugin.unshift(...args)
 
 export function register(override: any) {
         merge(ctrl, override)
