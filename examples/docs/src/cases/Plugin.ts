@@ -1,8 +1,8 @@
 import { ctrl } from '@tsei/ctrl/src/index'
-import { css } from '@tsei/ctrl/src/plugins/css/index'
+import { CSS } from '@tsei/ctrl/src/plugins/css/index'
 import { codemirror } from '../utils'
 
-ctrl.use(css)
+ctrl.use(CSS)
 
 const c = ctrl({
         cssPlugin0: { style: { width: '1280px', height: '800px' } }, // or

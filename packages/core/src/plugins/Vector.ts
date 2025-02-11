@@ -3,6 +3,7 @@
 import { Attach, ctrl, Target, XYZVector } from '../index'
 import { InputValue } from '../clients/InputValue'
 import { is } from '../helpers/utils'
+import InputLabel from '../clients/InputLabel'
 
 type Arg = number[] | XYZVector
 
@@ -53,14 +54,7 @@ export default function Vector<T extends Target>(props: Attach<Arg, T>) {
         })
 
         return _('div', {}, [
-                _(
-                        'div',
-                        {
-                                key: 'key',
-                                className: 'text-[10px] leading-[14px] mt-1',
-                        },
-                        k as string
-                ),
+                _(InputLabel, { key: 'key', k }),
                 _(
                         'div',
                         {

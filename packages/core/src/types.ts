@@ -110,9 +110,12 @@ export const isC = <T extends Target>(a: unknown): a is Ctrl<T> => {
         return false
 }
 
-export interface Attach<Arg, T extends Target, K extends keyof T = keyof T> {
+export interface Attach<
+        Arg,
+        T extends Target = Target,
+        K extends keyof T = keyof T
+> {
         children?: string
-        key?: K
         a: Arg & T[K]
         c: Ctrl<T>
         k: K

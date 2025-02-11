@@ -1,5 +1,6 @@
 'use client'
 
+import InputLabel from '../clients/InputLabel'
 import { Attach, ctrl, Target } from '../index'
 
 type Arg = boolean
@@ -37,14 +38,7 @@ export default function Bool<T extends Target>(props: Attach<Arg, T>) {
         const _ = ctrl.create
 
         return _('div', {}, [
-                _(
-                        'div',
-                        {
-                                key: 'key',
-                                className: 'text-[10px] leading-[14px] mt-1',
-                        },
-                        k as string
-                ),
+                _(InputLabel, { key: 'key', k }),
                 _('input', {
                         ref,
                         key: 'input',

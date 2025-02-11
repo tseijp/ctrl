@@ -1,5 +1,6 @@
 'use client'
 
+import InputLabel from '../clients/InputLabel'
 import { Attach, ctrl, is, merge, RGBColor, Target } from '../index'
 
 function hex2rgb(hex = '#fff') {
@@ -69,14 +70,7 @@ export default function Color<T extends Target>(props: Attach<Arg, T>) {
         const _ = ctrl.create
 
         return _('div', {}, [
-                _(
-                        'div',
-                        {
-                                key: 'key',
-                                className: 'text-[10px] leading-[14px] mt-1',
-                        },
-                        k as string
-                ),
+                _(InputLabel, { key: 'key', k }),
                 _('input', {
                         ref,
                         key: 'input',

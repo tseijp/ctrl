@@ -2,6 +2,7 @@
 
 import { Attach, ctrl, Target } from '../index'
 import { InputValue } from '../clients/InputValue'
+import InputLabel from '../clients/InputLabel'
 
 type Arg = number
 
@@ -25,14 +26,7 @@ export default function Float<T extends Target>(props: Attach<Arg, T>) {
         const _ = ctrl.create
 
         return _('div', {}, [
-                _(
-                        'div',
-                        {
-                                key: 'key',
-                                className: 'text-[10px] leading-[14px] mt-1',
-                        },
-                        k as string
-                ),
+                _(InputLabel, { key: 'key', k }),
                 _(
                         'div',
                         {

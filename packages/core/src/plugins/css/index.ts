@@ -1,12 +1,14 @@
 import { css2js, js2css, str2px } from './utils'
-import { is } from '../../helpers/utils'
-import ctrl from '../../index'
-import { Plugins } from '../../types'
+import { ctrl, is } from '../../index'
+import { Attach } from '../../types'
 import { InputValue } from '../../clients/InputValue'
+import InputLabel from '../../clients/InputLabel'
 
-type CSS = { style: string | object }
+type CSSStyle = { style: string | CSSStyleDeclaration }
 
-const isCSS = (a: object): a is CSS => {
+const isCSS = (a: unknown): a is CSSStyle => {
+        if (!a) return false
+        if (!is.obj(a)) return false
         if ('style' in a) {
                 if (is.obj(a.style)) return true
                 if (is.str(a.style)) return true
@@ -14,47 +16,29 @@ const isCSS = (a: object): a is CSS => {
         return false
 }
 
-const css: Plugins<CSS> = (props) => {
+export default function CSS(props: Attach<CSSStyle>) {
         const { a, c, k } = props
         if (!isCSS(a)) return null
-        let style = a.style
-        if (is.str(a.style)) style = css2js(a.style)
+        const style = is.str(a.style) ? css2js(a.style) : a.style
 
         const _ = ctrl.create
         const children = []
 
-        children.push(
-                _(
-                        'div',
-                        {
-                                key: 'key',
-                                className: 'text-[10px] leading-[14px] mt-1',
-                        },
-                        k as string
-                )
-        )
+        children.push(_(InputLabel, { key: 'key', k }))
 
         for (const key in style) {
                 const px = str2px(style[key])
                 if (!px) return null
+
                 const _set = (x: number) => {
                         style[key] = `${x}${px[1]}`
-                        let next = style
-                        if (is.str(a.style)) next = js2css(style)
-                        a.style = next
+                        a.style = is.str(a.style) ? js2css(style) : style
                         c.set(k, a)
                 }
 
                 children.push(
                         _('div', {}, [
-                                _(
-                                        'div',
-                                        {
-                                                key: 'key',
-                                                className: 'text-[10px] leading-[14px] mt-1',
-                                        },
-                                        key
-                                ),
+                                _(InputLabel, { key: 'key', k: key }),
                                 _(
                                         InputValue,
                                         {
@@ -71,6 +55,4 @@ const css: Plugins<CSS> = (props) => {
         return _('div', {}, children)
 }
 
-export { css }
-
-export default css
+export { CSS }

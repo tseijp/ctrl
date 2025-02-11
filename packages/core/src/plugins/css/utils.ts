@@ -5,7 +5,7 @@
 const propertyValuePattern = /\s*([^\s]+)\s*:\s*(.+?)\s*$/
 
 export const css2js = (str = '') => {
-        if (str.trim() === '') return
+        if (str.trim() === '') return {} as CSSStyleDeclaration
         const ret = {}
         for (const style of str.split(';')) {
                 let match = propertyValuePattern.exec(style)
@@ -13,7 +13,7 @@ export const css2js = (str = '') => {
                 // @ts-ignore
                 ret[match[1]] = match[2]
         }
-        return ret
+        return ret as CSSStyleDeclaration
 }
 
 export const js2css = <T>(obj: T) => {
