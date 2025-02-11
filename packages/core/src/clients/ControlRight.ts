@@ -1,9 +1,9 @@
 'use client'
 
-import { ctrl, wheelEvent } from '../index'
+import { ctrl, PARENT_ID, wheelEvent } from '../index'
 
 export default function ControlRight(props: any) {
-        const { children } = props
+        const { children, ...other } = props
         const wheel = wheelEvent((wheel) => {
                 const { event } = wheel
                 const isZoom = (event as any).ctrlKey
@@ -39,6 +39,7 @@ export default function ControlRight(props: any) {
                                 'div',
                                 {
                                         key: 'container',
+                                        id: PARENT_ID,
                                 },
                                 children
                         ),

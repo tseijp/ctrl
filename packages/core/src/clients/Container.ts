@@ -3,7 +3,6 @@
 import { ctrl } from '../index'
 import { dragEvent } from '../helpers/drag'
 import { merge } from '../helpers/utils'
-import { PARENT_ID } from '../types'
 
 interface Props {
         children?: any
@@ -48,7 +47,6 @@ export default function Container(props: Props) {
                                 'div', //
                                 {
                                         key: '1', //
-                                        id: PARENT_ID,
                                 },
                                 children
                         ),

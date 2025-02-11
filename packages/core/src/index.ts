@@ -1,16 +1,42 @@
+import Container from './clients/Container'
 import Controller from './clients/Controller'
-import { append, create, remove } from './helpers/node'
-import { flush, merge } from './helpers/utils'
-import { Plugin, mount } from './plugins/index'
+import { append, create, HTMLNode, remove } from './helpers/node'
+import { flush, is, merge } from './helpers/utils'
+import { Plugin } from './plugins/index'
 import { isU, Target } from './types'
 import './index.css'
 
 let index = 0
 
+let isInit = 0
+
+export const init = () => {
+        if (is.str(ctrl.parent))
+                ctrl.parent = document.getElementById(ctrl.parent)
+        console.log(ctrl.parent)
+}
+
+export const mount = (el?: HTMLNode) => {
+        if (!el) return
+        if (!isInit++) init()
+        ctrl.append(el, ctrl.parent ?? document.body)
+        return clean(el)
+}
+
+export const clean = (el?: HTMLNode) => () => {
+        const p = ctrl.parent
+        if (!p || is.str(p)) return
+        if (!--isInit) ctrl.finish(p, document.body)
+        if (!el || is.str(el)) return
+        ctrl.remove(el, p)
+}
+
 function ctrl<T extends Target>(current: T = {} as T) {
         const listeners = new Set<Function>()
         const cleanups = new Set<Function>()
         const updates = new Set<Function>()
+        const mounts = new Set<Function>()
+        const elements = [] as HTMLNode[]
 
         let title = 'ctrl' + index++
         let inited = 0
@@ -18,29 +44,34 @@ function ctrl<T extends Target>(current: T = {} as T) {
 
         const attach = (k = '') => {
                 let a = current[k]
+                const _ = ctrl.create
                 if (isU<T[keyof T]>(a)) a = a.value
                 for (const El of ctrl.plugin) {
-                        const el = ctrl.create(El, { key: k, a, c, k })
-                        if (el) return el
+                        const el = _(El, { key: k, a, c, k })
+                        if (el) return elements.push(el)
                 }
         }
 
         const sub = (update = () => {}) => {
+                if (!inited++) {
+                        for (const k in current) attach(k)
+                        const props = { title, isDraggable: false }
+                        const _ = ctrl.create
+                        const el = _(Container, props, elements)
+                        const cleanup = mount(el)
+                        if (cleanup) cleanups.add(cleanup)
+                }
                 listeners.add(update)
-                if (!inited++)
-                        for (const k in current) {
-                                const cleanup = mount(attach(k))
-                                if (cleanup) cleanups.add(cleanup)
-                        }
+                flush(mounts)
                 return () => {
                         listeners.delete(update)
                         if (!--inited) flush(cleanups)
                 }
         }
 
-        const get = () => {
-                return updated
-        }
+        const get = () => updated
+
+        const _get = () => inited
 
         const set = <K extends keyof T>(k: K, a: T[K]) => {
                 updated++
@@ -71,9 +102,12 @@ function ctrl<T extends Target>(current: T = {} as T) {
                 listeners,
                 cleanups,
                 updates,
+                mounts,
+                elements,
                 sync,
                 sub,
                 get,
+                _get,
                 set,
                 ref,
                 isC: true,

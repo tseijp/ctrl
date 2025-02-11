@@ -2,7 +2,6 @@
 
 import { ctrl, merge, PARENT_ID, register } from '../index'
 import Bounding from './Bounding'
-import Container from './Container'
 import ControlLeft from './ControlLeft'
 import ControlNav from './ControlNav'
 import ControlRight from './ControlRight'
@@ -59,11 +58,6 @@ export default function Controller(props: Props) {
                 _(ControlNav, { ref, key: 'nav' }),
                 _(ControlLeft, { ref, key: 'left' }, left),
                 _(Bounding, { key: 'main' }, _(Wheelable, { children })),
-                // _(ControlRight, { ref, key: 'right', id: PARENT_ID }),
-                _(
-                        ControlRight,
-                        { ref, key: 'right' },
-                        _(Container, { isDraggable: false }, right)
-                ),
+                _(ControlRight, { ref, key: 'right' }, right),
         ])
 }
