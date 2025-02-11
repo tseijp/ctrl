@@ -24,7 +24,7 @@ interface Props {
 
 export default function Container(props: Props) {
         initialize()
-        const { children, title = 'Unknown', isDraggable } = props
+        const { children, title = 'default', isDraggable } = props
         const { ref } = dragEvent((drag) => {
                 const { offset } = drag
                 const [x, y] = offset
@@ -46,7 +46,7 @@ export default function Container(props: Props) {
                                 'div',
                                 {
                                         key: 'Container', //
-                                        className: 'leading-[40px] font-medium',
+                                        className: 'leading-[40px] font-[11px]',
                                 },
                                 title
                         ),

@@ -38,14 +38,14 @@ const listeners = new Set<Function>()
 
 let updated = 0
 
+const get = () => updated
+
 const sub = (update = () => {}) => {
         listeners.add(update)
         return () => {
                 listeners.delete(update)
         }
 }
-
-const get = () => updated
 
 function append(el: React.ReactNode) {
         updated++
@@ -71,16 +71,19 @@ function initialize() {
         })
 }
 
+function Plugins() {
+        useSyncExternalStore(sub, get, get)
+        return [...elements]
+}
+
 export function Controller(props: Props) {
         initialize()
         useSyncExternalStore(sub, get, get)
         const _ = ctrl.create
-        return useMemo(
-                () =>
-                        _(_Controller, {
-                                right: Array.from(elements),
-                                ...props,
-                        }),
-                [updated]
-        ) as unknown as React.ReactNode
+        return useState(() =>
+                _(_Controller, {
+                        right: createElement(Plugins),
+                        ...props,
+                })
+        )[0] as unknown as React.ReactNode
 }

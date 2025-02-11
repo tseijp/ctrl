@@ -5,15 +5,24 @@ import { Controller, ctrl, useCtrl } from '@tsei/ctrl/src/react'
 import '@tsei/ctrl/src/style'
 import { IgnoreScale } from './utils'
 
-const c = ctrl({ position: [0, 0, 0], scale: 1, hidden: false, text: 'string' })
+const c = ctrl({
+        position: [0, 0, 0] as const,
+        scale: 1,
+        hidden: false,
+        text: 'string',
+})
 
 const Box = () => {
-        const { position, scale, hidden } = useCtrl(c)
+        const {
+                position: [...position],
+                scale,
+                hidden,
+        } = useCtrl(c)
 
         if (hidden) return null
 
         return (
-                <mesh position={[...position]} scale={scale}>
+                <mesh position={position} scale={scale}>
                         <boxGeometry />
                         <meshPhysicalMaterial />
                 </mesh>

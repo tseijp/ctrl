@@ -7,5 +7,9 @@ interface Props {
 export default function InputLabel(props: Props) {
         const { k } = props
         const _ = ctrl.create
-        return _('div', { className: 'text-[10px] leading-[14px] mt-1' }, k)
+        return _(
+                'div',
+                { className: 'text-[9px] leading-[14px] mt-1 opacity-70' },
+                k
+        )
 }
