@@ -1,20 +1,24 @@
 import { ctrl } from '@tsei/ctrl/src/index'
 import { codemirror } from '../utils'
 
-const basicsCode = /* TS */ `
+const c = ctrl({ hello: 'world' })
+
+const basicsCode = () =>
+        /* TS */ `
 import { useCtrl } from '@tsei/ctrl/react'
 
 function MyComponent() {
-        const { hello } = useCtrl({ hello: 'world' })
+        const { hello } = useCtrl({ hello: \`${c.current.hello}\` })
         return <div>{hello}</div>
 }
 `.trim()
 
-const esmCode = /* html */ `
+const esmCode = () =>
+        /* html */ `
 <div id="root">world</div>
 <script type="module">
         import { ctrl } from 'https://esm.sh/@tsei/ctrl@0.11.0/es2022'
-        const c = ctrl({ hello: 'world' })
+        const c = ctrl({ hello: \`${c.current.hello}\` })
         const root = document.getElementById('root')
 
         c.sub(() => {
@@ -23,18 +27,16 @@ const esmCode = /* html */ `
 </script>
 `.trim()
 
-const c = ctrl({ basicsCode, esmCode })
-
 export default function QuickStart() {
         const _ = ctrl.create
 
         const basicsRef = (el: HTMLElement) => {
-                const update = codemirror(el, () => c.current.basicsCode)
+                const update = codemirror(el, basicsCode)
                 setTimeout(() => c.sub(update))
         }
 
         const esmRef = (el: HTMLElement) => {
-                const update = codemirror(el, () => c.current.esmCode)
+                const update = codemirror(el, esmCode)
                 setTimeout(() => c.sub(update))
         }
 

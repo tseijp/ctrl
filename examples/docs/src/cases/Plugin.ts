@@ -5,8 +5,10 @@ import { codemirror } from '../utils'
 ctrl.use(CSS)
 
 const c = ctrl({
-        cssPlugin0: { style: { width: '1280px', height: '800px' } }, // or
-        cssPlugin1: { style: 'width:1280px; height:800px;' },
+        cssPlugin0: { style: 'width:1280px; height:800px;' }, // or
+        cssPlugin1: { style: { width: '1280px', height: '800px' } }, // or
+        cssPlugin2: { value: { style: 'width:1280px; height:800px;' } }, // or
+        cssPlugin3: { value: { style: { width: '1280px', height: '800px' } } },
 })
 
 const code = () =>
@@ -18,8 +20,10 @@ ctrl.use(css)
 
 const c = ctrl({
       cssPlugin0: ${JSON.stringify(c.current.cssPlugin0)}, // or
-      cssPlugin1: ${JSON.stringify(c.current.cssPlugin1)}
-})
+      cssPlugin1: ${JSON.stringify(c.current.cssPlugin1)}, // or
+      cssPlugin2: ${JSON.stringify(c.current.cssPlugin2)}, // or
+      cssPlugin3: ${JSON.stringify(c.current.cssPlugin3)},
+}
 `.trim()
 
 export default function PluginCase() {
