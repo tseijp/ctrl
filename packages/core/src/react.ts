@@ -3,7 +3,7 @@
 // @ts-ignore
 import React from 'react'
 // @ts-ignore
-import { createElement, useMemo, useState, useSyncExternalStore } from 'react'
+import { createElement, useState, useSyncExternalStore } from 'react'
 import _Controller from './clients/Controller'
 import { Ctrl, ctrl, flush, isC, register } from './index'
 import { PARENT_ID, Target } from './types'
