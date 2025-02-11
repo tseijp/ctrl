@@ -1,21 +1,15 @@
 'use client'
 
-import { ctrl, Ctrl, Target, XYZVector } from '../index'
+import { Attach, ctrl, Target, XYZVector } from '../index'
 import { InputValue } from '../clients/InputValue'
 import { is } from '../helpers/utils'
 
 type Arg = number[] | XYZVector
 
-interface Props<T extends Target, K extends keyof T = keyof T> {
-        a: T[K] & Arg
-        c: Ctrl<T>
-        k: K
-}
-
-const ids = [0, 1, 2, 3]
+const ids = [0, 1, 2, 3] as const
 const keys: (keyof XYZVector)[] = ['x', 'y', 'z', 'w']
 
-export default function Vector<T extends Target>(props: Props<T>) {
+export default function Vector<T extends Target>(props: Attach<Arg, T>) {
         type K = keyof T
         const { a, c, k } = props
         const _ = ctrl.create

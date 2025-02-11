@@ -1,14 +1,8 @@
 'use client'
 
-import { ctrl, Ctrl, Target } from '../index'
+import { Attach, ctrl, Target } from '../index'
 
 type Arg = string
-
-interface Props<T extends Target, K extends keyof T = keyof T> {
-        a: Arg & T[K]
-        c: Ctrl<T>
-        k: K
-}
 
 function isTextArea(a: unknown): a is HTMLTextAreaElement {
         return a instanceof HTMLTextAreaElement
@@ -19,7 +13,7 @@ function updateHeight(el: HTMLTextAreaElement) {
         el.style.height = `${el.scrollHeight}px`
 }
 
-export default function Char<T extends Target>(props: Props<T>) {
+export default function Char<T extends Target>(props: Attach<Arg, T>) {
         type K = keyof T
         const { a, c, k } = props
 

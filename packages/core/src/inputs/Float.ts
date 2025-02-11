@@ -1,17 +1,11 @@
 'use client'
 
-import { ctrl, Ctrl, Target } from '../index'
+import { Attach, ctrl, Target } from '../index'
 import { InputValue } from '../clients/InputValue'
 
 type Arg = number
 
-interface Props<T extends Target, K extends keyof T = keyof T> {
-        a: Arg & T[K]
-        c: Ctrl<T>
-        k: K
-}
-
-export default function Float<T extends Target>(props: Props<T>) {
+export default function Float<T extends Target>(props: Attach<Arg, T>) {
         type K = keyof T
         const { a, c, k } = props
 

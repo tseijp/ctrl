@@ -1,17 +1,10 @@
 'use client'
 
-import { ctrl, Ctrl, Target } from '../index'
+import { Attach, ctrl, Target } from '../index'
 
 type Arg = null
 
-interface Props<T extends Target, K extends keyof T = keyof T> {
-        a: T[K] & Arg
-        c: Ctrl<T>
-        k: K
-        children?: string
-}
-
-export default function Null<T extends Target>(props: Props<T>) {
+export default function Null<T extends Target>(props: Attach<Arg, T>) {
         const { k, children = 'null' } = props
 
         const _ = ctrl.create

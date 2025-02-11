@@ -2,7 +2,7 @@ import Controller from './clients/Controller'
 import { append, create, remove } from './helpers/node'
 import { flush, merge } from './helpers/utils'
 import { attach, mount } from './inputs/index'
-import { isU, Target } from './types'
+import { isU, Plugins, Target } from './types'
 import './index.css'
 
 function ctrl<T extends Target>(current: T = {} as T) {
@@ -80,6 +80,12 @@ ctrl.render = append
 ctrl.remove = remove
 ctrl.finish = remove
 ctrl.parent = null as null | Node
+
+/**
+ * register plugin
+ */
+ctrl.plugins = new Set<Plugins<unknown>>()
+ctrl.use = (plugin: Plugins<unknown>) => ctrl.plugins.add(plugin)
 
 export function register(override: any) {
         merge(ctrl, override)

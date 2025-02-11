@@ -12,10 +12,15 @@ import { ctrl, Ctrl, is } from '../index'
 import { isColor, isHex, isU, isVector, Target } from '../types'
 
 export function attach<T extends Target>(c: Ctrl<T>, k: keyof T) {
-        const _ = ctrl.create
+        const { plugins, create: _ } = ctrl
         let a = c.current[k]
         if (isU<T[keyof T]>(a)) a = a.value
+
         if (typeof a === 'object') {
+                for (const Plugin of plugins) {
+                        const ret = _(Plugin, { key: k, a, c, k })
+                        if (ret) return ret
+                }
                 if (isColor(a)) return _(Color<T>, { key: k, k, a, c })
                 if (isVector(a)) return _(Vector<T>, { key: k, k, a, c })
         }
@@ -29,7 +34,7 @@ export function attach<T extends Target>(c: Ctrl<T>, k: keyof T) {
         if (is.bol(a)) return _(Bool<T>, { key: k, k, a, c })
         if (is.num(a)) return _(Float<T>, { key: k, k, a, c })
         if (is.arr(a)) return _(Vector<T>, { key: k, k, a, c })
-        console.log(`ctrl Warn: not support input:`, k, a)
+        console.log(`ctrl Warn: not support`, k, a)
         return _(Null<T>, { key: k, k, a, c }, 'not support')
 }
 
