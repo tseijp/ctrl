@@ -8,6 +8,8 @@ const c = ctrl({
         button3: { value: { onclick: () => console.log('CLICKED') } }, // or
 })
 
+c.title = 'Button'
+
 const code = () =>
         /* TS */ `
 // Button

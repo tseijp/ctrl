@@ -6,71 +6,70 @@ import { Plugin } from './plugins/index'
 import { isU, Target } from './types'
 import './index.css'
 
+let count = 0
+
+const _mount = (el: HTMLNode) => () => {
+        if (!count++ && is.str(ctrl.parent))
+                ctrl.parent = document.getElementById(ctrl.parent)
+        ctrl.append(el, ctrl.parent ?? document.body)
+}
+
+const _clean = (el: HTMLNode) => () => {
+        if (!ctrl.parent) return
+        if (!--count) ctrl.finish(ctrl.parent, document.body)
+        if (!el || is.str(el)) return
+        ctrl.remove(el, ctrl.parent)
+}
+
 let index = 0
 
-let isInit = 0
-
-export const init = () => {
-        if (is.str(ctrl.parent))
-                ctrl.parent = document.getElementById(ctrl.parent)
-}
-
-export const mount = (el?: HTMLNode) => {
-        if (!el) return
-        if (!isInit++) init()
-        ctrl.append(el, ctrl.parent ?? document.body)
-        return clean(el)
-}
-
-export const clean = (el?: HTMLNode) => () => {
-        const p = ctrl.parent
-        if (!p || is.str(p)) return
-        if (!--isInit) ctrl.finish(p, document.body)
-        if (!el || is.str(el)) return
-        ctrl.remove(el, p)
-}
-
-function ctrl<T extends Target>(current: T = {} as T) {
+function ctrl<T extends Target>(
+        current: T = {} as T,
+        title = 'controll' + index++
+) {
+        const children = [] as HTMLNode[]
         const listeners = new Set<Function>()
         const cleanups = new Set<Function>()
         const updates = new Set<Function>()
         const mounts = new Set<Function>()
-        const elements = [] as HTMLNode[]
 
-        let title = 'ctrl' + index++
-        let inited = 0
         let updated = 0
+        let mounted = 0
 
-        const attach = (k = '') => {
+        const attach = <K extends keyof T>(k: K) => {
                 let a = current[k]
-                const _ = ctrl.create
-                if (isU<T[keyof T]>(a)) a = a.value
+                if (isU(a)) a = a.value
                 for (const El of ctrl.plugin) {
-                        const el = _(El, { key: k, a, c, k })
-                        if (el) return elements.push(el)
+                        const el = ctrl.create(El, { key: k, a, c, k })
+                        if (el) return children.push(el)
                 }
         }
 
-        const sub = (update = () => {}) => {
-                if (!inited++) {
-                        for (const k in current) attach(k)
-                        const props = { title, key: title, isDraggable: false }
-                        const _ = ctrl.create
-                        const el = _(Container, props, elements)
-                        const cleanup = mount(el)
-                        if (cleanup) cleanups.add(cleanup)
-                }
-                listeners.add(update)
+        const mount = () => {
+                if (mounted++) return
+                for (const k in current) attach(k)
+                const props = { key: title, title }
+                const el = ctrl.create(Container, props, children)
+                mounts.add(_mount(el))
+                cleanups.add(_clean(el))
                 flush(mounts)
+        }
+
+        const clean = () => {
+                if (--mounted) return
+                flush(cleanups)
+        }
+
+        const sub = (update = () => {}) => {
+                listeners.add(update)
+                mount()
                 return () => {
                         listeners.delete(update)
-                        if (!--inited) flush(cleanups)
+                        clean()
                 }
         }
 
         const get = () => updated
-
-        const _get = () => inited
 
         const set = <K extends keyof T>(k: K, a: T[K]) => {
                 updated++
@@ -83,34 +82,39 @@ function ctrl<T extends Target>(current: T = {} as T) {
         }
 
         const sync = <K extends keyof T>(k: K, a = current[k]) => {
-                if (isU<T[K]>(a)) a = a.value
-                if (isU<T[K]>(current[k])) current[k].value = a
+                if (isU(a)) a = a.value
+                if (isU(current[k])) current[k].value = a
                 else current[k] = a
                 flush(updates, k, a)
         }
 
-        let _clean = () => {}
-
         const ref = (target: T) => {
-                if (!target) return _clean()
+                if (!target) return clean()
                 current = target
-                _clean = sub()
+                mount()
         }
 
         const c = {
+                children,
                 listeners,
                 cleanups,
                 updates,
                 mounts,
-                elements,
+                mount,
+                clean,
                 sync,
                 sub,
                 get,
-                _get,
                 set,
                 ref,
                 isC: true,
                 cache: {} as any,
+                get updated() {
+                        return updated
+                },
+                get mounted() {
+                        return mounted
+                },
                 set title(_title: string) {
                         title = _title
                 },

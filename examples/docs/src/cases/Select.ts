@@ -10,6 +10,8 @@ const c = ctrl({
         select5: { value: { options: ['#f00', '#0f0', '#00f'] } }, // or
 })
 
+c.title = 'Select'
+
 const code = () =>
         /* TS */ `
 // Select

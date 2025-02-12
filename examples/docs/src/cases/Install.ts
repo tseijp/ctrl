@@ -2,12 +2,10 @@ import { ctrl } from '@tsei/ctrl/src/index'
 import { codemirror } from '../utils'
 
 const c = ctrl({
-        INSTALL: 'npm i @tsei/ctrl', // @TODO
+        INSTALL: 'npm i @tsei/ctrl',
 })
 
-const code = /* TS */ `
-npm i @tsei/ctrl
-`.trim()
+c.title = 'Installation'
 
 export default function Installation() {
         const _ = ctrl.create

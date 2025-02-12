@@ -3,6 +3,8 @@ import { codemirror } from '../utils'
 
 const c = ctrl({ a: 0, b: 0, c: 0 })
 
+c.title = 'Render UI'
+
 const basicsCode = () =>
         /* TS */ `
 import { Controller, useCtrl } from '@tsei/ctrl/react'

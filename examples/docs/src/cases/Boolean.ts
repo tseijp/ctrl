@@ -6,6 +6,8 @@ const c = ctrl({
         boolean1: { value: false },
 })
 
+c.title = 'Boolean'
+
 const code = () =>
         /* TS */ `
 // Boolean

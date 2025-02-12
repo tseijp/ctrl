@@ -7,12 +7,11 @@ import { merge } from '../helpers/utils'
 interface Props {
         children?: any
         title?: string
-        isDraggable?: boolean
 }
 
 export default function Container(props: Props) {
-        const { children, title = 'default', isDraggable } = props
-        const { ref } = dragEvent((drag) => {
+        const { children, title = 'default' } = props
+        const drag = dragEvent((drag) => {
                 const { offset } = drag
                 const [x, y] = offset
                 const transform = `translate(${x}px, ${y}px)`
@@ -21,12 +20,15 @@ export default function Container(props: Props) {
         })
 
         const _ = ctrl.create
+        const sizeClasses = 'max-w-[240px] pl-4 pr-2 pb-3 text-[12px] z-100'
+        const baseClasses = '_ctrl-container text-white bg-[#2c2c2c]'
+        const borderClasses = 'border-1 border-t border-[rgb(68,68,68)]'
+        const ref = ctrl.parent ? void 0 : drag.ref
         return _(
                 'div',
                 {
-                        ref: isDraggable ? ref : void 0,
-                        style: { zIndex: '9999' },
-                        className: '_ctrl-container bg-[#2c2c2c] max-w-[240px] pl-4 pr-2 pb-3 text-[12px] text-white border-1 border-t border-[rgb(68,68,68)]',
+                        ref,
+                        className: `${baseClasses} ${sizeClasses} ${borderClasses}`,
                 },
                 [
                         _(

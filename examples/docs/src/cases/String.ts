@@ -6,6 +6,8 @@ const c = ctrl({
         string1: { value: 'WORLD' },
 })
 
+c.title = 'String'
+
 const code = () =>
         /* TS */ `
 // String

@@ -3,6 +3,8 @@ import { codemirror } from '../utils'
 
 const c = ctrl({ hello: 'world' })
 
+c.title = 'Quick Start'
+
 const basicsCode = () =>
         /* TS */ `
 import { useCtrl } from '@tsei/ctrl/react'

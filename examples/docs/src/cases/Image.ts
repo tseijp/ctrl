@@ -8,6 +8,8 @@ const c = ctrl({
         image3: { value: { src: 'https://r.tsei.jp/block.png' } }, // or
 })
 
+c.title = 'Image'
+
 const code = () =>
         /* TS */ `
 // Image

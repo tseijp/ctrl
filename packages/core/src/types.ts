@@ -120,5 +120,3 @@ export interface Attach<
         c: Ctrl<T>
         k: K
 }
-
-export type Plugins<Arg> = <T extends Target>(args: Attach<Arg, T>) => any

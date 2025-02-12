@@ -12,6 +12,8 @@ const c = ctrl({
         color7: { value: { Y: 1, x: 1, y: 1 } },
 })
 
+c.title = 'Color'
+
 const code = () =>
         /* TS */ `
 // Color

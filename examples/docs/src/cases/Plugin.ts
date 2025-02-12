@@ -11,6 +11,8 @@ const c = ctrl({
         cssPlugin3: { value: { style: { width: '1280px', height: '800px' } } },
 })
 
+c.title = 'css Plugin'
+
 const code = () =>
         /* TS */ `
 import { ctrl } from '@tsei/ctrl/react'
@@ -19,10 +21,10 @@ import { css } from '@tsei/ctrl/css'
 ctrl.use(css)
 
 const c = ctrl({
-      cssPlugin0: ${JSON.stringify(c.current.cssPlugin0)}, // or
-      cssPlugin1: ${JSON.stringify(c.current.cssPlugin1)}, // or
-      cssPlugin2: ${JSON.stringify(c.current.cssPlugin2)}, // or
-      cssPlugin3: ${JSON.stringify(c.current.cssPlugin3)},
+        cssPlugin0: ${JSON.stringify(c.current.cssPlugin0)}, // or
+        cssPlugin1: ${JSON.stringify(c.current.cssPlugin1)}, // or
+        cssPlugin2: ${JSON.stringify(c.current.cssPlugin2)}, // or
+        cssPlugin3: ${JSON.stringify(c.current.cssPlugin3)},
 }
 `.trim()
 

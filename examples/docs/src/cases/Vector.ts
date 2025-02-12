@@ -8,6 +8,8 @@ const c = ctrl({
         vector3: { value: { x: 1, y: 1, z: 1 } },
 })
 
+c.title = 'Vector'
+
 const code = () =>
         /* TS */ `
 // Vector

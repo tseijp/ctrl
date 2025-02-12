@@ -6,6 +6,8 @@ const c = ctrl({
         number1: { value: 1 },
 })
 
+c.title = 'Number'
+
 const code = () =>
         /* TS */ `
 // Number
