@@ -1,4 +1,5 @@
 import type { EditorView } from '@codemirror/view'
+import { PARENT_ID } from '@tsei/ctrl/src/types'
 
 export const codemirror = (element: HTMLElement, code: () => string) => {
         let view: EditorView
@@ -33,5 +34,16 @@ export const codemirror = (element: HTMLElement, code: () => string) => {
                                 insert: code(),
                         },
                 })
+        }
+}
+
+export const scrollTo = (id = '') => {
+        const click = () => {
+                const el = document.getElementById(id)
+                if (!el) return
+                el.scrollIntoView({ behavior: 'smooth' })
+        }
+        return (element: HTMLElement) => {
+                element.addEventListener('click', click)
         }
 }

@@ -1,5 +1,5 @@
 import { ctrl } from '@tsei/ctrl/src/index'
-import { codemirror } from '../utils'
+import { codemirror, scrollTo } from '../utils'
 
 const c = ctrl({
         color0: '#fff', // or
@@ -11,6 +11,8 @@ const c = ctrl({
         color6: { value: { h: 0, s: 0, l: 100 } }, // or
         color7: { value: { Y: 1, x: 1, y: 1 } },
 })
+
+c.id = 'Color'
 
 const code = () =>
         /* TS */ `
@@ -35,8 +37,19 @@ export default function ColorCase() {
                 setTimeout(() => c.sub(update))
         }
 
-        return _('div', { className: 'p-4 bg-white rounded' }, [
-                _('h3', { className: 'font-bold mb-4' }, '### Color Cases'),
-                _('div', { ref }),
-        ])
+        return _(
+                'div',
+                {
+                        ref: scrollTo(c.id), //
+                        className: 'p-4 bg-white rounded',
+                },
+                [
+                        _(
+                                'h3',
+                                { className: 'font-bold mb-4' },
+                                '### Color Cases'
+                        ),
+                        _('div', { ref }),
+                ]
+        )
 }

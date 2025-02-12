@@ -1,46 +1,72 @@
+import Container from './clients/Container'
 import Controller from './clients/Controller'
-import { append, create, remove } from './helpers/node'
-import { flush, merge } from './helpers/utils'
-import { Plugin, mount } from './plugins/index'
+import { append, create, HTMLNode, remove } from './helpers/node'
+import { flush, is, merge } from './helpers/utils'
+import { Plugin } from './plugins/index'
 import { isU, Target } from './types'
 import './index.css'
 
+let count = 0
+
+const _mount = (el: HTMLNode) => () => {
+        if (!count++ && is.str(ctrl.parent))
+                ctrl.parent = document.getElementById(ctrl.parent)
+        ctrl.append(el, ctrl.parent ?? document.body)
+}
+
+const _clean = (el: HTMLNode) => () => {
+        if (!ctrl.parent) return
+        if (!--count) ctrl.finish(ctrl.parent, document.body)
+        if (!el || is.str(el)) return
+        ctrl.remove(el, ctrl.parent)
+}
+
 let index = 0
 
-function ctrl<T extends Target>(current: T = {} as T) {
+function ctrl<T extends Target>(current: T = {} as T, id = 'c' + index++) {
+        const children = [] as HTMLNode[]
         const listeners = new Set<Function>()
         const cleanups = new Set<Function>()
         const updates = new Set<Function>()
+        const mounts = new Set<Function>()
 
-        let title = 'ctrl' + index++
-        let inited = 0
         let updated = 0
+        let mounted = 0
 
-        const attach = (k = '') => {
+        const attach = <K extends keyof T>(k: K) => {
                 let a = current[k]
-                if (isU<T[keyof T]>(a)) a = a.value
+                if (isU(a)) a = a.value
                 for (const El of ctrl.plugin) {
                         const el = ctrl.create(El, { key: k, a, c, k })
-                        if (el) return el
+                        if (el) return children.push(el)
                 }
+        }
+
+        const mount = () => {
+                if (mounted++) return
+                for (const k in current) attach(k)
+                const props = { key: id, title: id, id }
+                const el = ctrl.create(Container, props, children)
+                mounts.add(_mount(el))
+                cleanups.add(_clean(el))
+                flush(mounts)
+        }
+
+        const clean = () => {
+                if (--mounted) return
+                flush(cleanups)
         }
 
         const sub = (update = () => {}) => {
                 listeners.add(update)
-                if (!inited++)
-                        for (const k in current) {
-                                const cleanup = mount(attach(k))
-                                if (cleanup) cleanups.add(cleanup)
-                        }
+                mount()
                 return () => {
                         listeners.delete(update)
-                        if (!--inited) flush(cleanups)
+                        clean()
                 }
         }
 
-        const get = () => {
-                return updated
-        }
+        const get = () => updated
 
         const set = <K extends keyof T>(k: K, a: T[K]) => {
                 updated++
@@ -53,24 +79,26 @@ function ctrl<T extends Target>(current: T = {} as T) {
         }
 
         const sync = <K extends keyof T>(k: K, a = current[k]) => {
-                if (isU<T[K]>(a)) a = a.value
-                if (isU<T[K]>(current[k])) current[k].value = a
+                if (isU(a)) a = a.value
+                if (isU(current[k])) current[k].value = a
                 else current[k] = a
                 flush(updates, k, a)
         }
 
-        let _clean = () => {}
-
         const ref = (target: T) => {
-                if (!target) return _clean()
+                if (!target) return clean()
                 current = target
-                _clean = sub()
+                mount()
         }
 
         const c = {
+                children,
                 listeners,
                 cleanups,
                 updates,
+                mounts,
+                mount,
+                clean,
                 sync,
                 sub,
                 get,
@@ -78,8 +106,17 @@ function ctrl<T extends Target>(current: T = {} as T) {
                 ref,
                 isC: true,
                 cache: {} as any,
-                set title(_title: string) {
-                        title = _title
+                get updated() {
+                        return updated
+                },
+                get mounted() {
+                        return mounted
+                },
+                get id() {
+                        return id
+                },
+                set id(_id: string) {
+                        id = _id
                 },
                 get current() {
                         return current

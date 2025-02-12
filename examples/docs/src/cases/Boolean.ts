@@ -1,10 +1,12 @@
 import { ctrl } from '@tsei/ctrl/src/index'
-import { codemirror } from '../utils'
+import { codemirror, scrollTo } from '../utils'
 
 const c = ctrl({
         boolean0: true, // or
         boolean1: { value: false },
 })
+
+c.id = 'Boolean'
 
 const code = () =>
         /* TS */ `
@@ -23,8 +25,19 @@ export default function BooleanCase() {
                 setTimeout(() => c.sub(update))
         }
 
-        return _('div', { className: 'p-4 bg-white rounded' }, [
-                _('h3', { className: 'font-bold mb-4' }, '### Boolean Cases'),
-                _('div', { ref }),
-        ])
+        return _(
+                'div',
+                {
+                        ref: scrollTo(c.id), //
+                        className: 'p-4 bg-white rounded',
+                },
+                [
+                        _(
+                                'h3',
+                                { className: 'font-bold mb-4' },
+                                '### Boolean Cases'
+                        ),
+                        _('div', { ref }),
+                ]
+        )
 }

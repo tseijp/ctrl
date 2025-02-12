@@ -1,5 +1,5 @@
 import { ctrl } from '@tsei/ctrl/src/index'
-import { codemirror } from '../utils'
+import { codemirror, scrollTo } from '../utils'
 
 const c = ctrl({
         select0: { options: ['#f00', '#0f0', '#00f'] }, // or
@@ -9,6 +9,8 @@ const c = ctrl({
         select4: { value: { options: ['#f00', '#0f0', '#00f'] } }, // or
         select5: { value: { options: ['#f00', '#0f0', '#00f'] } }, // or
 })
+
+c.id = 'Select'
 
 const code = () =>
         /* TS */ `
@@ -31,8 +33,19 @@ export default function SelectCase() {
                 setTimeout(() => c.sub(update))
         }
 
-        return _('div', { className: 'p-4 bg-white rounded' }, [
-                _('h3', { className: 'font-bold mb-4' }, '### Select Cases'),
-                _('div', { ref }),
-        ])
+        return _(
+                'div',
+                {
+                        ref: scrollTo(c.id), //
+                        className: 'p-4 bg-white rounded',
+                },
+                [
+                        _(
+                                'h3',
+                                { className: 'font-bold mb-4' },
+                                '### Select Cases'
+                        ),
+                        _('div', { ref }),
+                ]
+        )
 }

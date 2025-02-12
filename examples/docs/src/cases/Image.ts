@@ -1,5 +1,5 @@
 import { ctrl } from '@tsei/ctrl/src/index'
-import { codemirror } from '../utils'
+import { codemirror, scrollTo } from '../utils'
 
 const c = ctrl({
         image0: { src: 'https://r.tsei.jp/block.png' }, // or
@@ -7,6 +7,8 @@ const c = ctrl({
         image2: { value: { src: 'https://r.tsei.jp/block.png' } }, // or
         image3: { value: { src: 'https://r.tsei.jp/block.png' } }, // or
 })
+
+c.id = 'Image'
 
 const code = () =>
         /* TS */ `
@@ -27,8 +29,19 @@ export default function ImageCase() {
                 setTimeout(() => c.sub(update))
         }
 
-        return _('div', { className: 'p-4 bg-white rounded' }, [
-                _('h3', { className: 'font-bold mb-4' }, '### Image Cases'),
-                _('div', { ref }),
-        ])
+        return _(
+                'div',
+                {
+                        ref: scrollTo(c.id), //
+                        className: 'p-4 bg-white rounded',
+                },
+                [
+                        _(
+                                'h3',
+                                { className: 'font-bold mb-4' },
+                                '### Image Cases'
+                        ),
+                        _('div', { ref }),
+                ]
+        )
 }

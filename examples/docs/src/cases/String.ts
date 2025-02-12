@@ -1,10 +1,12 @@
 import { ctrl } from '@tsei/ctrl/src/index'
-import { codemirror } from '../utils'
+import { codemirror, scrollTo } from '../utils'
 
 const c = ctrl({
         string0: 'HELLO', // or
         string1: { value: 'WORLD' },
 })
+
+c.id = 'String'
 
 const code = () =>
         /* TS */ `
@@ -23,8 +25,19 @@ export default function StringCase() {
                 setTimeout(() => c.sub(update))
         }
 
-        return _('div', { className: 'p-4 bg-white rounded' }, [
-                _('h3', { className: 'font-bold mb-4' }, '### String Cases'),
-                _('div', { ref }),
-        ])
+        return _(
+                'div',
+                {
+                        ref: scrollTo(c.id), //
+                        className: 'p-4 bg-white rounded',
+                },
+                [
+                        _(
+                                'h3',
+                                { className: 'font-bold mb-4' },
+                                '### String Cases'
+                        ),
+                        _('div', { ref }),
+                ]
+        )
 }
