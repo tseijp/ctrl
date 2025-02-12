@@ -1,6 +1,6 @@
 import { ctrl } from '@tsei/ctrl/src/index'
 import { CSS } from '@tsei/ctrl/src/plugins/css/index'
-import { codemirror } from '../utils'
+import { codemirror, scrollTo } from '../utils'
 
 ctrl.use(CSS)
 
@@ -11,7 +11,7 @@ const c = ctrl({
         cssPlugin3: { value: { style: { width: '1280px', height: '800px' } } },
 })
 
-c.title = 'css Plugin'
+c.id = 'css Plugin'
 
 const code = () =>
         /* TS */ `
@@ -36,8 +36,19 @@ export default function PluginCase() {
                 setTimeout(() => c.sub(update))
         }
 
-        return _('div', { className: 'p-4 bg-white rounded' }, [
-                _('h3', { className: 'font-bold mb-4' }, '### CSS Plugin'),
-                _('div', { ref }),
-        ])
+        return _(
+                'div',
+                {
+                        ref: scrollTo(c.id), //
+                        className: 'p-4 bg-white rounded',
+                },
+                [
+                        _(
+                                'h3',
+                                { className: 'font-bold mb-4' },
+                                '### CSS Plugin'
+                        ),
+                        _('div', { ref }),
+                ]
+        )
 }

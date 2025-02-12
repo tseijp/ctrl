@@ -23,10 +23,7 @@ const _clean = (el: HTMLNode) => () => {
 
 let index = 0
 
-function ctrl<T extends Target>(
-        current: T = {} as T,
-        title = 'controll' + index++
-) {
+function ctrl<T extends Target>(current: T = {} as T, id = 'c' + index++) {
         const children = [] as HTMLNode[]
         const listeners = new Set<Function>()
         const cleanups = new Set<Function>()
@@ -48,7 +45,7 @@ function ctrl<T extends Target>(
         const mount = () => {
                 if (mounted++) return
                 for (const k in current) attach(k)
-                const props = { key: title, title }
+                const props = { key: id, title: id, id }
                 const el = ctrl.create(Container, props, children)
                 mounts.add(_mount(el))
                 cleanups.add(_clean(el))
@@ -115,8 +112,11 @@ function ctrl<T extends Target>(
                 get mounted() {
                         return mounted
                 },
-                set title(_title: string) {
-                        title = _title
+                get id() {
+                        return id
+                },
+                set id(_id: string) {
+                        id = _id
                 },
                 get current() {
                         return current

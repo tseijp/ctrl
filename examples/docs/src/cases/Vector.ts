@@ -1,5 +1,5 @@
 import { ctrl } from '@tsei/ctrl/src/index'
-import { codemirror } from '../utils'
+import { codemirror, scrollTo } from '../utils'
 
 const c = ctrl({
         vector0: [0, 0, 0], // or
@@ -8,7 +8,7 @@ const c = ctrl({
         vector3: { value: { x: 1, y: 1, z: 1 } },
 })
 
-c.title = 'Vector'
+c.id = 'Vector'
 
 const code = () =>
         /* TS */ `
@@ -29,8 +29,19 @@ export default function VectorCase() {
                 setTimeout(() => c.sub(update))
         }
 
-        return _('div', { className: 'p-4 bg-white rounded' }, [
-                _('h3', { className: 'font-bold mb-4' }, '### Vector Cases'),
-                _('div', { ref }),
-        ])
+        return _(
+                'div',
+                {
+                        ref: scrollTo(c.id), //
+                        className: 'p-4 bg-white rounded',
+                },
+                [
+                        _(
+                                'h3',
+                                { className: 'font-bold mb-4' },
+                                '### Vector Cases'
+                        ),
+                        _('div', { ref }),
+                ]
+        )
 }

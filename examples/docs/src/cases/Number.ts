@@ -1,12 +1,12 @@
 import { ctrl } from '@tsei/ctrl/src/index'
-import { codemirror } from '../utils'
+import { codemirror, scrollTo } from '../utils'
 
 const c = ctrl({
         number0: 0, // or
         number1: { value: 1 },
 })
 
-c.title = 'Number'
+c.id = 'Number'
 
 const code = () =>
         /* TS */ `
@@ -25,8 +25,19 @@ export default function NumberCase() {
                 setTimeout(() => c.sub(update))
         }
 
-        return _('div', { className: 'p-4 bg-white rounded' }, [
-                _('h3', { className: 'font-bold mb-4' }, '### Number Cases'),
-                _('div', { ref }),
-        ])
+        return _(
+                'div',
+                {
+                        ref: scrollTo(c.id), //
+                        className: 'p-4 bg-white rounded',
+                },
+                [
+                        _(
+                                'h3',
+                                { className: 'font-bold mb-4' },
+                                '### Number Cases'
+                        ),
+                        _('div', { ref }),
+                ]
+        )
 }

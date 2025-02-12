@@ -15,19 +15,26 @@ import PluginCase from '../cases/Plugin'
 
 export default function Cases() {
         const _ = ctrl.create
-        return _('div', { className: 'flex flex-col gap-4' }, [
-                _(Installation),
-                _(QuickStart),
-                _(RenderUI),
-                _(NumberCase),
-                _(VectorCase),
-                _(StringCase),
-                _(BooleanCase),
-                _(ColorCase),
-                _(ButtonCase),
-                _(SelectCase),
-                _(ImageCase),
-                _(PluginCase),
-                _(Noise),
-        ])
+
+        return _(
+                'div',
+                {
+                        className: 'flex flex-col gap-4', //
+                },
+                [
+                        _(Installation),
+                        _(QuickStart),
+                        _(RenderUI),
+                        _(NumberCase),
+                        _(VectorCase),
+                        _(StringCase),
+                        _(BooleanCase),
+                        _(ColorCase),
+                        _(ButtonCase),
+                        _(SelectCase),
+                        _(ImageCase),
+                        _(PluginCase),
+                        _(Noise),
+                ]
+        )
 }

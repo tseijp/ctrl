@@ -10,7 +10,7 @@ interface Props {
 }
 
 export default function Container(props: Props) {
-        const { children, title = 'default' } = props
+        const { children, title = 'default', ...other } = props
         const drag = dragEvent((drag) => {
                 const { offset } = drag
                 const [x, y] = offset
@@ -29,6 +29,7 @@ export default function Container(props: Props) {
                 {
                         ref,
                         className: `${baseClasses} ${sizeClasses} ${borderClasses}`,
+                        ...other,
                 },
                 [
                         _(
