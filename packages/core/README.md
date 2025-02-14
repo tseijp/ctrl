@@ -12,6 +12,10 @@
 [![ docs available ](https://img.shields.io/badge/docs-available-0968DA.svg?style=flat&colorA=0968DA)](https://ctrl.tsei.jp/>)
 [![ bundle size ](https://img.shields.io/bundlephobia/minzip/@tsei/ctrl?style=flat&colorA=0968DA&colorB=0968DA)](https://bundlephobia.com/package/@tsei/ctrl@latest)
 
+<a href="https://ctrl.tsei.jp" target="_blank">
+  <img width="640px" alt=" " src="https://github.com/user-attachments/assets/12de2025-52ec-4c22-b736-54cb3f9a3301" />
+</a>
+
 </div>
 
 ### Installation
