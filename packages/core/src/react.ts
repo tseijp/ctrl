@@ -3,11 +3,12 @@
 // @ts-ignore
 import React from 'react'
 // @ts-ignore
-import { createElement, useState, useSyncExternalStore } from 'react'
+import { createElement as _, useState, useSyncExternalStore } from 'react'
 import _Controller from './clients/Controller'
+import { Ctrl, ctrl, flush, isC, register } from './index'
+import { Target } from './types'
+import { Plugin } from './plugins/index'
 import LayersItem from './clients/LayersItem'
-import { Ctrl, ctrl, flush, isC, register, store } from './index'
-import { PARENT_ID, Target } from './types'
 
 export * from './index'
 
@@ -34,7 +35,8 @@ interface Props {
 
 let isInitialized = false
 
-const elements = new Set<React.ReactNode>()
+const layersElements = new Set<React.ReactNode>()
+const pluginElements = new Set<React.ReactNode>()
 const listeners = new Set<Function>()
 
 let updated = 0
@@ -48,49 +50,44 @@ const sub = (update = () => {}) => {
         }
 }
 
-function append(el: React.ReactNode) {
+function mount(c: Ctrl) {
         updated++
-        elements.add(el)
+        // elements.add(el)
+        pluginElements.add(_(Plugin, { c, key: c.id }))
+        layersElements.add(_(LayersItem, { id: c.id, key: c.id }))
         flush(listeners)
 }
 
-function remove(el: React.ReactNode) {
+function clean(c: Ctrl) {
         updated++
-        elements.delete(el)
+        // elements.delete(el)
         flush(listeners)
 }
 
 function initialize() {
         if (isInitialized) return
         isInitialized = true
-        register({
-                parent: PARENT_ID,
-                create: createElement,
-                append,
-                remove,
-                finish() {},
-        })
+        register({ create: _, mount, clean })
 }
 
 function Plugins() {
         useSyncExternalStore(sub, get, get)
-        return [...elements]
+        return [...pluginElements]
 }
 
 function Layers() {
         useSyncExternalStore(sub, get, get)
         const _ = ctrl.create
-        return [...store].map(({ id }: any) => _(LayersItem, { key: id, id }))
+        return [...layersElements]
 }
 
 export function Controller(props: Props) {
         initialize()
         useSyncExternalStore(sub, get, get)
-        const _ = ctrl.create
         return useState(() =>
                 _(_Controller, {
-                        right: createElement(Plugins),
-                        layers: createElement(Layers),
+                        right: _(Plugins),
+                        layers: _(Layers),
                         ...props,
                 })
         )[0] as unknown as React.ReactNode

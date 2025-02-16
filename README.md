@@ -86,7 +86,7 @@ function MyComponent() {
         const c = ctrl({ a: 0, b: 0, c: 0 })
         const _ = ctrl.create
 
-        ctrl.render(
+        ctrl.append(
                 _(
                         Controller,
                         {},

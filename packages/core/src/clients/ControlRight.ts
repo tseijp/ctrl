@@ -1,6 +1,10 @@
 'use client'
 
-import { ctrl, PARENT_ID, wheelEvent } from '../index'
+import { ctrl, wheelEvent } from '../index'
+
+const ref = (el: Node | null) => {
+        ctrl.pluginParent = el
+}
 
 export default function ControlRight(props: any) {
         const { children } = props
@@ -40,7 +44,7 @@ export default function ControlRight(props: any) {
                                 'div',
                                 {
                                         key: 'container',
-                                        id: PARENT_ID,
+                                        ref,
                                 },
                                 children
                         ),

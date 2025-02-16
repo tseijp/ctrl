@@ -1,8 +1,6 @@
 import { Ctrl } from './index'
 import { is } from './helpers/utils'
 
-export const PARENT_ID = '_ctrl-parent'
-
 /**
  * Vector
  */

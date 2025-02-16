@@ -2,6 +2,10 @@
 
 import { ctrl, dragEvent } from '../index'
 
+const ref = (el: Node | null) => {
+        ctrl.layersParent = el
+}
+
 export default function LeftLayers(props: any) {
         const { children } = props
         const _ = ctrl.create
@@ -36,6 +40,7 @@ export default function LeftLayers(props: any) {
                                 'div',
                                 {
                                         key: 'bottom', //
+                                        ref,
                                         className: 'pl-4 text-[11px]',
                                 },
                                 children

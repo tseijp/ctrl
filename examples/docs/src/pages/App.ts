@@ -58,5 +58,5 @@ export default function App() {
                 ),
         ])
 
-        ctrl.render(_<'div'>(Controller, { left }, _(Cases)), root)
+        ctrl.append(_<'div'>(Controller, { left }, _(Cases)), root)
 }
