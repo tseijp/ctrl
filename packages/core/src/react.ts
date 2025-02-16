@@ -27,6 +27,8 @@ function useCtrl<T extends Target>(config: T, id?: string) {
 
 export { useCtrl }
 
+export default useCtrl
+
 interface Props {
         left?: React.ReactNode
         right?: React.ReactNode
