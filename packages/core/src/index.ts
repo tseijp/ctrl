@@ -21,9 +21,9 @@ const _clean = (el: HTMLNode) => () => {
         ctrl.remove(el, ctrl.parent)
 }
 
-let index = 0
+const store = new Set()
 
-function ctrl<T extends Target>(current: T = {} as T, id = 'c' + index++) {
+function ctrl<T extends Target>(current: T = {} as T, id = `c${store.size}`) {
         const children = [] as HTMLNode[]
         const listeners = new Set<Function>()
         const cleanups = new Set<Function>()
@@ -123,6 +123,8 @@ function ctrl<T extends Target>(current: T = {} as T, id = 'c' + index++) {
                 },
         }
 
+        store.add(c)
+
         return c
 }
 
@@ -139,9 +141,9 @@ export function register(override: any) {
         merge(ctrl, override)
 }
 
-export type Ctrl<T extends Target> = ReturnType<typeof ctrl<T>>
+export type Ctrl<T extends Target = Target> = ReturnType<typeof ctrl<T>>
 
-export { ctrl, Controller }
+export { ctrl, Controller, store }
 
 export default ctrl
 

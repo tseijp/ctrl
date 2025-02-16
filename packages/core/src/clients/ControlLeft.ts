@@ -1,15 +1,16 @@
 'use client'
 
 import { ctrl } from '../index'
+import LeftLayers from './LeftLayers'
 
 export default function ControlLeft(props: any) {
-        const { children } = props
+        const { children, layers } = props
         const _ = ctrl.create
         return _(
                 'aside',
                 {
                         key: 'left', //
-                        className: '_ctrl-aside left-0',
+                        className: '_ctrl-aside left-0 relative',
                 },
                 [
                         _(
@@ -40,12 +41,19 @@ export default function ControlLeft(props: any) {
                                 ]
                         ),
                         _(
-                                'ul',
+                                'div',
                                 {
                                         key: 'list', // @TODO
                                         className: 'px-4 text-sm',
                                 },
                                 children
+                        ),
+                        _(
+                                LeftLayers,
+                                {
+                                        key: 'layers', //
+                                },
+                                layers
                         ),
                 ]
         )

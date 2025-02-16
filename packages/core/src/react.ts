@@ -5,19 +5,20 @@ import React from 'react'
 // @ts-ignore
 import { createElement, useState, useSyncExternalStore } from 'react'
 import _Controller from './clients/Controller'
-import { Ctrl, ctrl, flush, isC, register } from './index'
+import LayersItem from './clients/LayersItem'
+import { Ctrl, ctrl, flush, isC, register, store } from './index'
 import { PARENT_ID, Target } from './types'
 
 export * from './index'
 
-function useCtrl<T extends Target>(c: Ctrl<T>): T
+function useCtrl<T extends Target>(c: Ctrl<T>, id?: string): T
 
-function useCtrl<T extends Target>(config: T): T
+function useCtrl<T extends Target>(config: T, id?: string): T
 
-function useCtrl<T extends Target>(config: T) {
+function useCtrl<T extends Target>(config: T, id?: string) {
         const [c] = useState(() => {
                 if (isC(config)) return config
-                return ctrl<T>(config)
+                return ctrl<T>(config, id)
         })
         useSyncExternalStore(c.sub, c.get, c.get)
         return c.current
@@ -76,6 +77,12 @@ function Plugins() {
         return [...elements]
 }
 
+function Layers() {
+        useSyncExternalStore(sub, get, get)
+        const _ = ctrl.create
+        return [...store].map(({ id }: any) => _(LayersItem, { key: id, id }))
+}
+
 export function Controller(props: Props) {
         initialize()
         useSyncExternalStore(sub, get, get)
@@ -83,6 +90,7 @@ export function Controller(props: Props) {
         return useState(() =>
                 _(_Controller, {
                         right: createElement(Plugins),
+                        layers: createElement(Layers),
                         ...props,
                 })
         )[0] as unknown as React.ReactNode
