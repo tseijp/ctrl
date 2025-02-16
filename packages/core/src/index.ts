@@ -7,6 +7,7 @@ import './index.css'
 import LayersItem from './clients/LayersItem'
 
 const store = new Set()
+
 function ctrl<T extends Target>(current: T = {} as T, id = `c${store.size}`) {
         const listeners = new Set<Function>()
         const cleanups = new Set<Function>()
