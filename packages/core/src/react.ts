@@ -5,10 +5,10 @@ import React from 'react'
 // @ts-ignore
 import { createElement as _, useState, useSyncExternalStore } from 'react'
 import _Controller from './clients/Controller'
+import LayersItem from './clients/LayersItem'
+import { PluginItem } from './plugins/index'
 import { Ctrl, ctrl, flush, isC, register } from './index'
 import { Target } from './types'
-import { Plugin } from './plugins/index'
-import LayersItem from './clients/LayersItem'
 
 export * from './index'
 
@@ -52,22 +52,25 @@ const sub = (update = () => {}) => {
 
 function mount(c: Ctrl) {
         updated++
-        // elements.add(el)
-        pluginElements.add(_(Plugin, { c, key: c.id }))
-        layersElements.add(_(LayersItem, { id: c.id, key: c.id }))
+        const plugin = _(PluginItem, { c, key: c.id })
+        pluginElements.add(plugin)
+        c.cleanups.add(() => pluginElements.delete(plugin))
+        if (ctrl.layersParent) {
+                const layers = _(LayersItem, { id: c.id, key: c.id })
+                layersElements.add(layers)
+                c.cleanups.add(() => pluginElements.delete(plugin))
+        }
         flush(listeners)
-}
-
-function clean(c: Ctrl) {
-        updated++
-        // elements.delete(el)
-        flush(listeners)
+        c.cleanups.add(() => {
+                updated++
+                flush(listeners)
+        })
 }
 
 function initialize() {
         if (isInitialized) return
         isInitialized = true
-        register({ create: _, mount, clean })
+        register({ create: _, mount })
 }
 
 function Plugins() {

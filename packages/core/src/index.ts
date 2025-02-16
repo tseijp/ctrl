@@ -1,7 +1,7 @@
 import Controller from './clients/Controller'
 import { append, create, remove } from './helpers/node'
-import { flush, is, merge } from './helpers/utils'
-import { DefaultPlugin, Plugin } from './plugins/index'
+import { flush, merge } from './helpers/utils'
+import { DefaultPlugin, PluginItem } from './plugins/index'
 import { isU, Target } from './types'
 import './index.css'
 import LayersItem from './clients/LayersItem'
@@ -11,16 +11,13 @@ function ctrl<T extends Target>(current: T = {} as T, id = `c${store.size}`) {
         const listeners = new Set<Function>()
         const cleanups = new Set<Function>()
         const updates = new Set<Function>()
-        const mounts = new Set<Function>()
 
         let updated = 0
         let mounted = 0
 
         const mount = () => {
                 if (mounted++) return
-                mounts.add(() => ctrl.mount(c))
-                cleanups.add(() => ctrl.clean(c))
-                flush(mounts)
+                ctrl.mount(c)
         }
 
         const clean = () => {
@@ -66,7 +63,6 @@ function ctrl<T extends Target>(current: T = {} as T, id = `c${store.size}`) {
                 listeners,
                 cleanups,
                 updates,
-                mounts,
                 mount,
                 clean,
                 sync,
@@ -103,29 +99,16 @@ ctrl.append = append
 ctrl.remove = remove
 ctrl.plugin = [DefaultPlugin]
 ctrl.use = (...args: any[]) => ctrl.plugin.unshift(...args)
-
-/**
- * element ref to append plugins and layers
- */
 ctrl.pluginParent = null as null | Node
 ctrl.layersParent = null as null | Node
-
-/**
- * mount and clean plugins and layers element
- */
 ctrl.mount = <T extends Target>(c: Ctrl<T>) => {
-        const plugin = ctrl.create(Plugin, { c })
-        ctrl.append(plugin, ctrl.pluginParent ?? document.body)
+        const plugin = create(PluginItem, { c })
+        append(plugin, ctrl.pluginParent ?? document.body)
+        c.cleanups.add(() => remove(plugin, ctrl.pluginParent ?? document.body))
         if (!ctrl.layersParent) return
-        const layers = ctrl.create(LayersItem, { id: c.id })
-        ctrl.append(layers, ctrl.layersParent)
-}
-
-ctrl.clean = <T extends Target>(c: Ctrl<T>) => {
-        // if (!ctrl.parent) return
-        // if (!--count) ctrl.finish(ctrl.parent, document.body)
-        // if (!el || is.str(el)) return
-        // ctrl.remove(el, ctrl.parent)
+        const layers = create(LayersItem, { id: c.id })
+        append(layers, ctrl.layersParent)
+        c.cleanups.add(() => remove(layers, ctrl.pluginParent!))
 }
 
 export function register(override: any) {

@@ -6,7 +6,7 @@ import Color from './Color'
 import Float from './Float'
 import Null from './Null'
 import Vector from './Vector'
-import { Ctrl, ctrl, is } from '../index'
+import { Ctrl, ctrl, HTMLNode, is } from '../index'
 import { Attach, isColor, isHex, isU, isVector, Target } from '../types'
 import Container from '../clients/Container'
 
@@ -38,10 +38,10 @@ interface Props<T extends Target> {
         c: Ctrl<T>
 }
 
-export function Plugin<T extends Target>(props: Props<T>) {
+export function PluginItem<T extends Target>(props: Props<T>) {
         const { c } = props
         const { current, id } = c
-        const children = [] as any
+        const children = [] as HTMLNode[]
 
         const attach = <K extends keyof T>(k: K) => {
                 let a = current[k]
@@ -54,5 +54,5 @@ export function Plugin<T extends Target>(props: Props<T>) {
 
         for (const k in current) attach(k)
         const _ = ctrl.create
-        return _(Container, { key: id, title: id, id }, children)
+        return _(Container, { title: id, id }, children)
 }
