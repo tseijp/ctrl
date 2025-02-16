@@ -35,8 +35,8 @@ interface Props {
 
 let isInitialized = false
 
-const layersElements = new Set<React.ReactNode>()
-const pluginElements = new Set<React.ReactNode>()
+const _layers = new Set<React.ReactNode>()
+const _plugin = new Set<React.ReactNode>()
 const listeners = new Set<Function>()
 
 let updated = 0
@@ -51,14 +51,15 @@ const sub = (update = () => {}) => {
 }
 
 function mount(c: Ctrl) {
+        const { id } = c
         updated++
-        const plugin = _(PluginItem, { c, key: c.id })
-        pluginElements.add(plugin)
-        c.cleanups.add(() => pluginElements.delete(plugin))
+        const plugin = _(PluginItem, { c, key: id })
+        _plugin.add(plugin)
+        c.cleanups.add(() => _plugin.delete(plugin))
         if (ctrl.layersParent) {
-                const layers = _(LayersItem, { id: c.id, key: c.id })
-                layersElements.add(layers)
-                c.cleanups.add(() => pluginElements.delete(plugin))
+                const layers = _(LayersItem, { key: id, id })
+                _layers.add(layers)
+                c.cleanups.add(() => _layers.delete(layers))
         }
         flush(listeners)
         c.cleanups.add(() => {
@@ -70,17 +71,17 @@ function mount(c: Ctrl) {
 function initialize() {
         if (isInitialized) return
         isInitialized = true
-        register({ create: _, mount })
+        register({ mount, create: _ })
 }
 
 function Plugins() {
         useSyncExternalStore(sub, get, get)
-        return [...pluginElements]
+        return [..._plugin]
 }
 
 function Layers() {
         useSyncExternalStore(sub, get, get)
-        return [...layersElements]
+        return [..._layers]
 }
 
 export function Controller(props: Props) {
