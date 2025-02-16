@@ -91,7 +91,7 @@ export function Controller(props: Props) {
         useSyncExternalStore(sub, get, get)
         return useState(() =>
                 _(_Controller, {
-                        right: _(Plugins),
+                        plugin: _(Plugins),
                         layers: _(Layers),
                         ...props,
                 })

@@ -9,7 +9,7 @@ import Wheelable from './Wheelable'
 
 interface Props {
         left?: any
-        right?: any
+        plugin?: any
         layers?: any
         children?: any
 }
@@ -41,12 +41,12 @@ const ref = (el: HTMLElement) => {
 }
 
 export default function Controller(props: Props) {
-        const { children, left, right, layers, ...other } = props
+        const { children, left, plugin, layers, ...other } = props
         const _ = ctrl.create
         return _('div', other, [
                 _(ControlNav, { ref, key: 'nav' }),
                 _(ControlLeft, { ref, key: 'left', layers }, left),
                 _(Bounding, { key: 'main' }, _(Wheelable, { children })),
-                _(ControlRight, { ref, key: 'right' }, right),
+                _(ControlRight, { ref, key: 'right' }, plugin),
         ])
 }
