@@ -1,8 +1,6 @@
 'use client'
 
 // @ts-ignore
-import React from 'react'
-// @ts-ignore
 import { createElement as _, useState, useSyncExternalStore } from 'react'
 import _Controller from './clients/Controller'
 import LayersItem from './clients/LayersItem'
@@ -34,8 +32,6 @@ interface Props {
         right?: React.ReactNode
         children: React.ReactNode
 }
-
-let isInitialized = false
 
 const _layers = new Set<React.ReactNode>()
 const _plugin = new Set<React.ReactNode>()
@@ -69,6 +65,8 @@ function mount(c: Ctrl) {
                 flush(listeners)
         })
 }
+
+let isInitialized = false
 
 function initialize() {
         if (isInitialized) return
