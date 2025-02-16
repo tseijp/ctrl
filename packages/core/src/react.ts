@@ -80,7 +80,6 @@ function Plugins() {
 
 function Layers() {
         useSyncExternalStore(sub, get, get)
-        const _ = ctrl.create
         return [...layersElements]
 }
 
