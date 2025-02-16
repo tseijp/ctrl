@@ -44,7 +44,10 @@ export function InputValue(props: Props) {
 
         const change = (e: Event) => {
                 if (!_set) return
-                _set(getInputValue(e))
+                const next = getInputValue(e)
+                _set(next)
+                // @ts-ignore
+                drag.memo.init = next
         }
 
         let clean = () => {}
