@@ -19,7 +19,7 @@ export default function Cases() {
         return _(
                 'div',
                 {
-                        className: 'flex flex-col gap-4', //
+                        className: 'flex flex-col gap-4 max-w-[1024px]', //
                 },
                 [
                         _(Installation),

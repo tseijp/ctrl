@@ -27,33 +27,35 @@ interface Props {
 export function InputValue(props: Props) {
         const { icon = '', value, _ref, _set } = props
 
-        const drag = dragEvent(() => {
-                const { event, isDragStart, isDragging, isDragEnd, memo } = drag
-                const { input, span, init } = memo as any
-                event?.stopPropagation()
-                if (isDragStart) span.style.cursor = 'ew-resize'
-                if (isDragEnd) span.style.cursor = ''
-                if (isDragging) {
-                        const { offset } = drag
-                        let x = init + offset[0] / 100
-                        x = sig(x, -2)
-                        input.valueAsNumber = x
-                        if (_set) _set(x)
-                }
-        })
-
-        const change = (e: Event) => {
-                if (!_set) return
-                const next = getInputValue(e)
-                _set(next)
-                // @ts-ignore
-                drag.memo.init = next
-        }
-
         let clean = () => {}
 
         const ref = (el: HTMLLabelElement) => {
                 if (!el) return clean()
+
+                const drag = dragEvent(() => {
+                        // @ts-ignore
+                        const { input, span, init } = drag.memo
+                        drag.event?.stopPropagation()
+                        if (drag.isDragStart) span.style.cursor = 'ew-resize'
+                        if (drag.isDragEnd) span.style.cursor = ''
+                        if (drag.isDragging) {
+                                const { offset } = drag
+                                let x = init + offset[0] / 100
+                                x = sig(x, -2)
+                                input.valueAsNumber = x
+                                if (_set) _set(x)
+                        }
+                })
+
+                const change = (e: Event) => {
+                        if (!_set) return
+                        const next = getInputValue(e)
+                        _set(next)
+                        // @ts-ignore
+                        drag.memo.init = next
+                        drag.offset[0] = 0
+                }
+
                 const children = Array.from(el.childNodes)
                 const [span, input] = children
                 if (!(span instanceof HTMLSpanElement)) return
