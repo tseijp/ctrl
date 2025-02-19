@@ -35,7 +35,7 @@ const esmCode = () =>
         const c = ctrl({ a: ${c.current.a}, b: ${c.current.b}, c: ${c.current.c} })
         const _ = ctrl.create
 
-        ctrl.render(
+        ctrl.append(
                 _(
                         Controller,
                         {},

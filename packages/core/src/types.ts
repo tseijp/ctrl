@@ -1,8 +1,6 @@
 import { Ctrl } from './index'
 import { is } from './helpers/utils'
 
-export const PARENT_ID = '_ctrl-parent'
-
 /**
  * Vector
  */
@@ -62,9 +60,7 @@ export const isHex = (a: string) => {
 
 export const isColor = (a: object): a is RGBColor => {
         if (!a) return false
-        if ('r' in a) return true
-        if ('g' in a) return true
-        if ('b' in a) return true
+        if ('r' in a) if ('g' in a) if ('b' in a) return true
         return false
 }
 
@@ -113,7 +109,7 @@ export const isC = <T extends Target>(a: unknown): a is Ctrl<T> => {
 export interface Attach<
         Arg,
         T extends Target = Target,
-        K extends keyof T = keyof T
+        K extends keyof T & string = keyof T & string
 > {
         children?: string
         a: Arg & T[K]

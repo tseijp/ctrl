@@ -1,16 +1,21 @@
 'use client'
 
-import { ctrl, PARENT_ID, wheelEvent } from '../index'
+import { ctrl } from '../index'
+import { wheelEvent } from '../helpers/wheel'
+
+const ref = (el: Node | null) => {
+        ctrl.pluginParent = el
+}
+
+const wheel = wheelEvent((wheel) => {
+        const { event } = wheel
+        const isZoom = (event as any).ctrlKey
+        if (isZoom) return
+        event.stopPropagation()
+})
 
 export default function ControlRight(props: any) {
         const { children } = props
-
-        const wheel = wheelEvent((wheel) => {
-                const { event } = wheel
-                const isZoom = (event as any).ctrlKey
-                if (isZoom) return
-                event.stopPropagation()
-        })
 
         const _ = ctrl.create
         return _(
@@ -18,7 +23,7 @@ export default function ControlRight(props: any) {
                 {
                         key: 'right', //
                         ref: wheel.ref,
-                        className: '_ctrl-aside right-0',
+                        className: '_ctrl-aside _hidden-scrollbar right-0',
                 },
                 [
                         _(
@@ -40,7 +45,7 @@ export default function ControlRight(props: any) {
                                 'div',
                                 {
                                         key: 'container',
-                                        id: PARENT_ID,
+                                        ref,
                                 },
                                 children
                         ),

@@ -1,15 +1,25 @@
 'use client'
 
 import { ctrl } from '../index'
+import LeftLayers from './LeftLayers'
+import { wheelEvent } from '../helpers/wheel'
+
+const wheel = wheelEvent((wheel) => {
+        const { event } = wheel
+        const isZoom = (event as any).ctrlKey
+        if (isZoom) return
+        event.stopPropagation()
+})
 
 export default function ControlLeft(props: any) {
-        const { children } = props
+        const { children, layers } = props
         const _ = ctrl.create
         return _(
                 'aside',
                 {
                         key: 'left', //
-                        className: '_ctrl-aside left-0',
+                        ref: wheel.ref,
+                        className: '_ctrl-aside _hidden-scrollbar left-0 relative overflow-y-hidden',
                 },
                 [
                         _(
@@ -40,12 +50,19 @@ export default function ControlLeft(props: any) {
                                 ]
                         ),
                         _(
-                                'ul',
+                                'div',
                                 {
                                         key: 'list', // @TODO
                                         className: 'px-4 text-sm',
                                 },
                                 children
+                        ),
+                        _(
+                                LeftLayers,
+                                {
+                                        key: 'layers', //
+                                },
+                                layers
                         ),
                 ]
         )

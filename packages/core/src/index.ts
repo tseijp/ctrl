@@ -1,55 +1,28 @@
-import Container from './clients/Container'
 import Controller from './clients/Controller'
-import { append, create, HTMLNode, remove } from './helpers/node'
-import { flush, is, merge } from './helpers/utils'
-import { Plugin } from './plugins/index'
+import LayersItem from './clients/LayersItem'
+import { append, create, remove } from './helpers/node'
+import { flush, merge } from './helpers/utils'
+import { DefaultPlugin, PluginItem } from './plugins/index'
 import { isU, Target } from './types'
 import './index.css'
 
-let count = 0
+const store = new Set<any>()
 
-const _mount = (el: HTMLNode) => () => {
-        if (!count++ && is.str(ctrl.parent))
-                ctrl.parent = document.getElementById(ctrl.parent)
-        ctrl.append(el, ctrl.parent ?? document.body)
-}
+function ctrl<T extends Target>(current: T = {} as T, id = `c${store.size}`) {
+        // filter cached object
+        for (const c of store) if (c.id === id) return c
 
-const _clean = (el: HTMLNode) => () => {
-        if (!ctrl.parent) return
-        if (!--count) ctrl.finish(ctrl.parent, document.body)
-        if (!el || is.str(el)) return
-        ctrl.remove(el, ctrl.parent)
-}
-
-let index = 0
-
-function ctrl<T extends Target>(current: T = {} as T, id = 'c' + index++) {
-        const children = [] as HTMLNode[]
         const listeners = new Set<Function>()
         const cleanups = new Set<Function>()
         const updates = new Set<Function>()
-        const mounts = new Set<Function>()
 
         let updated = 0
         let mounted = 0
-
-        const attach = <K extends keyof T>(k: K) => {
-                let a = current[k]
-                if (isU(a)) a = a.value
-                for (const El of ctrl.plugin) {
-                        const el = ctrl.create(El, { key: k, a, c, k })
-                        if (el) return children.push(el)
-                }
-        }
+        let _parent = null as null | Ctrl
 
         const mount = () => {
                 if (mounted++) return
-                for (const k in current) attach(k)
-                const props = { key: id, title: id, id }
-                const el = ctrl.create(Container, props, children)
-                mounts.add(_mount(el))
-                cleanups.add(_clean(el))
-                flush(mounts)
+                ctrl.mount(c)
         }
 
         const clean = () => {
@@ -57,25 +30,31 @@ function ctrl<T extends Target>(current: T = {} as T, id = 'c' + index++) {
                 flush(cleanups)
         }
 
+        const update = <K extends keyof T & string>(k: K, a: T[K]) => {
+                updated++
+                flush(listeners, k, a)
+        }
+
         const sub = (update = () => {}) => {
                 listeners.add(update)
                 mount()
+                if (_parent) listeners.add(_parent.update)
                 return () => {
                         listeners.delete(update)
                         clean()
+                        if (_parent) listeners.delete(_parent.update)
                 }
         }
 
         const get = () => updated
 
-        const set = <K extends keyof T>(k: K, a: T[K]) => {
-                updated++
+        const set = <K extends keyof T & string>(k: K, a: T[K]) => {
                 try {
                         sync(k, a) // error if set to a read-only value
                 } catch (error) {
                         console.log(error)
                 }
-                flush(listeners, k, a)
+                update(k, a)
         }
 
         const sync = <K extends keyof T>(k: K, a = current[k]) => {
@@ -92,13 +71,12 @@ function ctrl<T extends Target>(current: T = {} as T, id = 'c' + index++) {
         }
 
         const c = {
-                children,
                 listeners,
                 cleanups,
                 updates,
-                mounts,
                 mount,
                 clean,
+                update,
                 sync,
                 sub,
                 get,
@@ -112,6 +90,12 @@ function ctrl<T extends Target>(current: T = {} as T, id = 'c' + index++) {
                 get mounted() {
                         return mounted
                 },
+                get parent() {
+                        return _parent
+                },
+                set parent(__parent) {
+                        _parent = __parent
+                },
                 get id() {
                         return id
                 },
@@ -123,25 +107,35 @@ function ctrl<T extends Target>(current: T = {} as T, id = 'c' + index++) {
                 },
         }
 
+        store.add(c)
+
         return c
 }
 
 ctrl.create = create
 ctrl.append = append
-ctrl.render = append
 ctrl.remove = remove
-ctrl.finish = remove
-ctrl.parent = null as null | Node
-ctrl.plugin = [Plugin]
+ctrl.plugin = [DefaultPlugin]
 ctrl.use = (...args: any[]) => ctrl.plugin.unshift(...args)
+ctrl.pluginParent = null as null | Node
+ctrl.layersParent = null as null | Node
+ctrl.mount = <T extends Target>(c: Ctrl<T>) => {
+        const plugin = create(PluginItem, { c })
+        append(plugin, ctrl.pluginParent ?? document.body)
+        c.cleanups.add(() => remove(plugin, ctrl.pluginParent ?? document.body))
+        if (!ctrl.layersParent) return
+        const layers = create(LayersItem, { id: c.id })
+        append(layers, ctrl.layersParent)
+        c.cleanups.add(() => remove(layers, ctrl.pluginParent!))
+}
 
 export function register(override: any) {
         merge(ctrl, override)
 }
 
-export type Ctrl<T extends Target> = ReturnType<typeof ctrl<T>>
+export type Ctrl<T extends Target = Target> = ReturnType<typeof ctrl<T>>
 
-export { ctrl, Controller }
+export { ctrl, Controller, store }
 
 export default ctrl
 
@@ -149,4 +143,5 @@ export * from './helpers/drag'
 export * from './helpers/node'
 export * from './helpers/utils'
 export * from './helpers/wheel'
+export * from './plugins/index'
 export * from './types'

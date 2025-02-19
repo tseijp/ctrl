@@ -39,14 +39,15 @@
         background: rgb(44, 44, 44);
         font-weight: 500;
         color: rgb(250, 247, 245);
-        overflow-y: scroll;
+        overflow-x: hidden;
 }
 
-._ctrl-aside::-webkit-scrollbar {
-        display: none;
+._hidden-scrollbar {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
 }
 
-._ctrl-input::-webkit-scrollbar {
+._hidden-scrollbar::-webkit-scrollbar {
         display: none;
 }
 

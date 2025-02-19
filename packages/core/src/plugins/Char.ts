@@ -15,7 +15,7 @@ function updateHeight(el: HTMLTextAreaElement) {
 }
 
 export default function Char<T extends Target>(props: Attach<Arg, T>) {
-        type K = keyof T
+        type K = keyof T & string
         const { a, c, k } = props
 
         const input = (e: Event) => {

@@ -122,9 +122,10 @@ export const dragEvent = (callback: Callback) => {
                 self.event = e
                 self.active = true
                 getClientVec2(e, self.device, self.value)
-                if (self.target?.setPointerCapture && 'pointerId' in e)
+                // @ts-ignore
+                if (e.target.setPointerCapture && 'pointerId' in e)
                         // @ts-ignore
-                        self.target.setPointerCapture(e.pointerId)
+                        e.target.setPointerCapture(e.pointerId)
                 onDrag()
         }
 
