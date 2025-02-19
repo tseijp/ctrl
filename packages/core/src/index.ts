@@ -1,13 +1,13 @@
 import Controller from './clients/Controller'
+import LayersItem from './clients/LayersItem'
 import { append, create, remove } from './helpers/node'
-import { flush, is, merge } from './helpers/utils'
+import { flush, merge } from './helpers/utils'
 import { DefaultPlugin, PluginItem } from './plugins/index'
 import { isU, Target } from './types'
 import './index.css'
-import LayersItem from './clients/LayersItem'
 
 const store = new Set<any>()
-window.store = store
+
 function ctrl<T extends Target>(current: T = {} as T, id = `c${store.size}`) {
         // filter cached object
         for (const c of store) if (c.id === id) return c
@@ -18,7 +18,7 @@ function ctrl<T extends Target>(current: T = {} as T, id = `c${store.size}`) {
 
         let updated = 0
         let mounted = 0
-        let parent = null as null | Ctrl
+        let _parent = null as null | Ctrl
 
         const mount = () => {
                 if (mounted++) return
@@ -31,23 +31,24 @@ function ctrl<T extends Target>(current: T = {} as T, id = `c${store.size}`) {
         }
 
         const update = <K extends keyof T & string>(k: K, a: T[K]) => {
+                updated++
                 flush(listeners, k, a)
         }
 
         const sub = (update = () => {}) => {
                 listeners.add(update)
                 mount()
-                if (parent) listeners.add(parent.update)
+                if (_parent) listeners.add(_parent.update)
                 return () => {
                         listeners.delete(update)
                         clean()
+                        if (_parent) listeners.delete(_parent.update)
                 }
         }
 
         const get = () => updated
 
         const set = <K extends keyof T & string>(k: K, a: T[K]) => {
-                updated++
                 try {
                         sync(k, a) // error if set to a read-only value
                 } catch (error) {
@@ -90,10 +91,10 @@ function ctrl<T extends Target>(current: T = {} as T, id = `c${store.size}`) {
                         return mounted
                 },
                 get parent() {
-                        return parent
+                        return _parent
                 },
-                set parent(_parent) {
-                        parent = _parent
+                set parent(__parent) {
+                        _parent = __parent
                 },
                 get id() {
                         return id

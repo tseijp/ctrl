@@ -43,7 +43,7 @@ export default function Container(props: Props) {
                                         {
                                                 className: 'font-[11px] leading-[16px] font-bold',
                                         },
-                                        title
+                                        title.split('.').pop()
                                 )
                         ),
                         _(

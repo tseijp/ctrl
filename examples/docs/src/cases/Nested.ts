@@ -3,7 +3,9 @@ import { codemirror, scrollTo } from '../utils'
 
 const c = ctrl({
         nested0: { a: { b: { c: 0 } } }, // or
-        nested1: { value: { a: { b: { c: 0 } } } },
+        nested1: { value: { a: { b: { c: 0 } } } }, // or
+        nested2: { arr: [0, 1, [2, 3]] }, // or
+        nested3: { value: { arr: [0, 1, [2, 3]] } },
 })
 
 c.id = 'Nested'
@@ -14,6 +16,8 @@ const code = () =>
 const c = ctrl({
         nested0: ${JSON.stringify(c.current.nested0)}, // or
         nested1: ${JSON.stringify(c.current.nested1)},
+        nested2: ${JSON.stringify(c.current.nested2)},
+        nested3: ${JSON.stringify(c.current.nested3)},
 })
 `.trim()
 

@@ -6,9 +6,9 @@ import Color from './Color'
 import Float from './Float'
 import Null from './Null'
 import Vector from './Vector'
+import Container from '../clients/Container'
 import { Ctrl, ctrl, HTMLNode, is } from '../index'
 import { Attach, isColor, isHex, isU, isVector, Target } from '../types'
-import Container from '../clients/Container'
 
 export * from './css/index'
 export * from './html/index'
@@ -23,16 +23,16 @@ export function DefaultPlugin<T extends Target>(props: Attach<unknown, T>) {
         }
 
         if (is.obj(a)) {
-                const next = ctrl(a, k)
+                const next = ctrl(a, `${c.id}.${k}`)
                 next.parent = c
                 return _(PluginItem, { c: next })
         }
 
         if (is.arr(a)) {
-                // @TODO NEST
-                // const next = ctrl(a, k)
-                // next.parent = c
-                return _(Vector<T>, props)
+                if (a.every(is.num)) return _(Vector<T>, props)
+                const next = ctrl(a, `${c.id}.${k}`)
+                next.parent = c
+                return _(PluginItem, { c: next })
         }
 
         if (is.str(a)) {
@@ -62,6 +62,7 @@ export function PluginItem<T extends Target>(props: Props<T>) {
                 let a = current[k]
                 if (isU(a)) a = a.value
                 for (const El of ctrl.plugin) {
+                        // throw if plugin not match
                         const el = ctrl.create(El, { key: k, a, c, k })
                         if (el) return children.push(el)
                 }
