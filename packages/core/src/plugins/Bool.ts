@@ -6,7 +6,7 @@ import { Attach, ctrl, Target } from '../index'
 type Arg = boolean
 
 export default function Bool<T extends Target>(props: Attach<Arg, T>) {
-        type K = keyof T
+        type K = keyof T & string
         const { a, c, k } = props
 
         const change = (e: Event) => {

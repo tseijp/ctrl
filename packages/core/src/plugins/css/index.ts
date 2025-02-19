@@ -16,7 +16,7 @@ const isCSS = (a: unknown): a is CSSStyle => {
         return false
 }
 
-export default function CSS(props: Attach<CSSStyle>) {
+export function cssPlugin(props: Attach<CSSStyle>) {
         const { a, c, k } = props
         if (!isCSS(a)) return null
         const style = is.str(a.style) ? css2js(a.style) : a.style
@@ -54,5 +54,3 @@ export default function CSS(props: Attach<CSSStyle>) {
 
         return _('fieldset', {}, children)
 }
-
-export { CSS }

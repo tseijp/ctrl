@@ -10,15 +10,15 @@ export default function LeftLayers(props: any) {
         const { children } = props
         const _ = ctrl.create
         const drag = dragEvent(() => {
-                const top = drag.target?.parentElement!
+                const next = drag.target?.nextSibling as HTMLDivElement
                 const [, my] = drag.offset
-                top.style.height = `${320 - my}px`
+                next.style.height = `${280 - my}px`
         })
 
         return _(
                 'div',
                 {
-                        className: 'absolute bottom-0 w-full min-h-[120px] max-h-[calc(100vh-168px)] h-[320px] bg-[rgb(44,44,44)]', //
+                        className: 'absolute bottom-0 w-full bg-[rgb(44,44,44)]', //
                 },
                 [
                         _(
@@ -41,7 +41,7 @@ export default function LeftLayers(props: any) {
                                 {
                                         key: 'bottom', //
                                         ref,
-                                        className: 'pl-4 text-[11px]',
+                                        className: 'pl-4 text-[11px] h-[280px] min-h-[80px] max-h-[calc(100vh-208px)] overflow-scroll _hidden-scrollbar',
                                 },
                                 children
                         ),

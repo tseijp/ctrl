@@ -12,6 +12,7 @@ import SelectCase from '../cases/Select'
 import ImageCase from '../cases/Image'
 import Noise from '../cases/Noise'
 import PluginCase from '../cases/Plugin'
+import NestedCase from './Nested'
 
 export default function Cases() {
         const _ = ctrl.create
@@ -34,6 +35,7 @@ export default function Cases() {
                         _(SelectCase),
                         _(ImageCase),
                         _(PluginCase),
+                        _(NestedCase),
                         _(Noise),
                 ]
         )

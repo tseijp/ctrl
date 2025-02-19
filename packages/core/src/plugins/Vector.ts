@@ -11,7 +11,7 @@ const ids = [0, 1, 2, 3] as const
 const keys: (keyof XYZVector)[] = ['x', 'y', 'z', 'w']
 
 export default function Vector<T extends Target>(props: Attach<Arg, T>) {
-        type K = keyof T
+        type K = keyof T & string
         const { a, c, k } = props
         const _ = ctrl.create
 

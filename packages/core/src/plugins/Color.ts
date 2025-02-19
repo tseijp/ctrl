@@ -28,7 +28,7 @@ function rgb2hex(color: RGBColor) {
 type Arg = string | RGBColor
 
 export default function Color<T extends Target>(props: Attach<Arg, T>) {
-        type K = keyof T
+        type K = keyof T & string
         const { a, c, k } = props
 
         const change = (e: Event) => {

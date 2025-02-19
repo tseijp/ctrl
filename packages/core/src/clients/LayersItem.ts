@@ -25,7 +25,7 @@ export default function LayersItem(props: Props) {
                 'div',
                 {
                         ref,
-                        className: 'flex items-center h-8', //
+                        className: 'flex items-center h-8 cursor-pointer', //
                 },
                 id
         )

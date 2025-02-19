@@ -1,20 +1,24 @@
 import Controller from './clients/Controller'
 import { append, create, remove } from './helpers/node'
-import { flush, merge } from './helpers/utils'
+import { flush, is, merge } from './helpers/utils'
 import { DefaultPlugin, PluginItem } from './plugins/index'
 import { isU, Target } from './types'
 import './index.css'
 import LayersItem from './clients/LayersItem'
 
-const store = new Set()
-
+const store = new Set<any>()
+window.store = store
 function ctrl<T extends Target>(current: T = {} as T, id = `c${store.size}`) {
+        // filter cached object
+        for (const c of store) if (c.id === id) return c
+
         const listeners = new Set<Function>()
         const cleanups = new Set<Function>()
         const updates = new Set<Function>()
 
         let updated = 0
         let mounted = 0
+        let parent = null as null | Ctrl
 
         const mount = () => {
                 if (mounted++) return
@@ -26,9 +30,14 @@ function ctrl<T extends Target>(current: T = {} as T, id = `c${store.size}`) {
                 flush(cleanups)
         }
 
+        const update = <K extends keyof T & string>(k: K, a: T[K]) => {
+                flush(listeners, k, a)
+        }
+
         const sub = (update = () => {}) => {
                 listeners.add(update)
                 mount()
+                if (parent) listeners.add(parent.update)
                 return () => {
                         listeners.delete(update)
                         clean()
@@ -37,14 +46,14 @@ function ctrl<T extends Target>(current: T = {} as T, id = `c${store.size}`) {
 
         const get = () => updated
 
-        const set = <K extends keyof T>(k: K, a: T[K]) => {
+        const set = <K extends keyof T & string>(k: K, a: T[K]) => {
                 updated++
                 try {
                         sync(k, a) // error if set to a read-only value
                 } catch (error) {
                         console.log(error)
                 }
-                flush(listeners, k, a)
+                update(k, a)
         }
 
         const sync = <K extends keyof T>(k: K, a = current[k]) => {
@@ -66,6 +75,7 @@ function ctrl<T extends Target>(current: T = {} as T, id = `c${store.size}`) {
                 updates,
                 mount,
                 clean,
+                update,
                 sync,
                 sub,
                 get,
@@ -78,6 +88,12 @@ function ctrl<T extends Target>(current: T = {} as T, id = `c${store.size}`) {
                 },
                 get mounted() {
                         return mounted
+                },
+                get parent() {
+                        return parent
+                },
+                set parent(_parent) {
+                        parent = _parent
                 },
                 get id() {
                         return id
@@ -126,4 +142,5 @@ export * from './helpers/drag'
 export * from './helpers/node'
 export * from './helpers/utils'
 export * from './helpers/wheel'
+export * from './plugins/index'
 export * from './types'

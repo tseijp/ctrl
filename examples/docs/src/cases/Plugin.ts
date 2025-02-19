@@ -1,8 +1,7 @@
-import { ctrl } from '@tsei/ctrl/src/index'
-import { CSS } from '@tsei/ctrl/src/plugins/css/index'
+import { ctrl, cssPlugin } from '@tsei/ctrl/src/index'
 import { codemirror, scrollTo } from '../utils'
 
-ctrl.use(CSS)
+ctrl.use(cssPlugin)
 
 const c = ctrl({
         cssPlugin0: { style: 'width:1280px; height:800px;' }, // or
@@ -11,14 +10,13 @@ const c = ctrl({
         cssPlugin3: { value: { style: { width: '1280px', height: '800px' } } },
 })
 
-c.id = 'css Plugin'
+c.id = 'Plugin'
 
 const code = () =>
         /* TS */ `
-import { ctrl } from '@tsei/ctrl/react'
-import { css } from '@tsei/ctrl/css'
+import { ctrl, cssPlugin, htmlPlugin } from '@tsei/ctrl'
 
-ctrl.use(css)
+ctrl.use(cssPlugin, htmlPlugin)
 
 const c = ctrl({
         cssPlugin0: ${JSON.stringify(c.current.cssPlugin0)}, // or
