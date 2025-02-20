@@ -1,5 +1,3 @@
-'use client'
-
 import { ctrl } from '../index'
 
 interface Props {

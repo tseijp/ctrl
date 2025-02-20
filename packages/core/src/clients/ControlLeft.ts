@@ -1,5 +1,3 @@
-'use client'
-
 import { ctrl } from '../index'
 import LeftLayers from './LeftLayers'
 import { wheelEvent } from '../helpers/wheel'

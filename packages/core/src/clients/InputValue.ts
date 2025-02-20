@@ -1,5 +1,3 @@
-'use client'
-
 import { ctrl } from '../index'
 import { dragEvent } from '../helpers/drag'
 

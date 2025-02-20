@@ -88,6 +88,7 @@ export function Controller(props: Props) {
         initialize()
         useSyncExternalStore(sub, get, get)
         return useState(() =>
+                // @ts-ignore
                 _(_Controller, {
                         plugin: _(Plugins),
                         layers: _(Layers),

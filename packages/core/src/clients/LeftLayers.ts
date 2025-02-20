@@ -1,5 +1,3 @@
-'use client'
-
 import { ctrl, dragEvent } from '../index'
 
 const ref = (el: Node | null) => {
