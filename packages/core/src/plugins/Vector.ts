@@ -1,5 +1,3 @@
-'use client'
-
 import { Attach, ctrl, Target, XYZVector } from '../index'
 import { InputValue } from '../clients/InputValue'
 import { is } from '../helpers/utils'

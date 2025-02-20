@@ -1,5 +1,3 @@
-'use client'
-
 import { ctrl, merge } from '../index'
 import Bounding from './Bounding'
 import ControlLeft from './ControlLeft'

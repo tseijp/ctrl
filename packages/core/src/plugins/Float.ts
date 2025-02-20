@@ -1,5 +1,3 @@
-'use client'
-
 import { Attach, ctrl, Target } from '../index'
 import { InputValue } from '../clients/InputValue'
 import InputLabel from '../clients/InputLabel'

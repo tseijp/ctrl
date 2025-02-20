@@ -1,5 +1,3 @@
-'use client'
-
 import Bool from './Bool'
 import Char from './Char'
 import Color from './Color'

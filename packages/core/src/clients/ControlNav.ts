@@ -1,5 +1,3 @@
-'use client'
-
 import { ctrl } from '../index'
 import ZoomStore from './ZoomStore'
 
