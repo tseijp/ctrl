@@ -1,49 +1,60 @@
 import { ctrl } from '../index'
-import { merge, subV } from '../helpers/utils'
+import { is, merge, subV } from '../helpers/utils'
 import { wheelEvent } from '../helpers/wheel'
 import { zoomStore } from './ZoomStore'
+import { Vec2 } from '../../dist/index'
 
 interface Props {
         children: any
 }
 
-const cache = { clientX: 0, clientY: 0 }
+// for ControlNav zoom button
+export const zoom = (coord?: (offset: Vec2) => void) => {
+        if (coord) coord(wheel.offset)
 
-const wheel = wheelEvent((wheel) => {
-        const { active, offset, delta, event, memo } = wheel
         // @ts-ignore
-        const el = memo.el
-        const isZoom = (event as any).ctrlKey
-        if (isZoom && active) subV(offset, delta, offset) // revert
-
-        let [x, y] = offset
-
+        const el = wheel.memo.el
+        let [x, y] = wheel.offset
         // reverse
         x *= -1
         y *= -1
+
+        // apply style
+        const transform = `translate(${x}px, ${y}px) scale(${zoomStore.zoom})`
+        merge(el.style, { transform })
+}
+
+const cache = { clientX: 0, clientY: 0 }
+
+const coord = (offset: Vec2) => {
+        let [x, y] = offset
+        const { clientX, clientY } = cache
+        const dz = (wheel.delta[1] * zoomStore.zoom) / 75
+        const dx = (dz * (clientX + x)) / zoomStore.zoom
+        const dy = (dz * (clientY + y)) / zoomStore.zoom
+
+        // coord
+        x -= dx
+        y -= dy
+
+        offset[0] = x
+        offset[1] = y
+
+        zoomStore.zoom = Math.max(0.01, zoomStore.zoom - dz)
+}
+
+const wheel = wheelEvent(() => {
+        const { active, offset, delta, event } = wheel
+        const isZoom = (event as any).ctrlKey
+        if (isZoom && active) subV(offset, delta, offset) // revert
+
         event.preventDefault()
 
         if (isZoom) {
-                const { clientX, clientY } = cache
-                const dz = (-delta[1] / 750) * (zoomStore.zoom * 10)
-                const dx = (-dz * (clientX - x)) / zoomStore.zoom
-                const dy = (-dz * (clientY - y)) / zoomStore.zoom
-
-                // coord
-                x += dx
-                y += dy
-
-                offset[0] = -x
-                offset[1] = -y
-
-                zoomStore.zoom = Math.max(0.02, zoomStore.zoom + dz)
-
-                const transform = `translate(${x}px, ${y}px) scale(${zoomStore.zoom})`
-                merge(el.style, { transform })
+                zoom(coord)
         } else {
                 zoomStore.zoom = zoomStore.zoom // flush update
-                const transform = `translate(${x}px, ${y}px) scale(${zoomStore.zoom})`
-                merge(el.style, { transform })
+                zoom()
         }
 })
 
