@@ -1,18 +1,23 @@
 import { wheelEvent } from './../helpers/wheel'
-import { ctrl, Props } from '../index'
-
-const dbclick = (e: Event) => {
-        const target = e.target as HTMLElement
-        if (document.fullscreenElement === target) {
-                document.exitFullscreen()
-        } else {
-                target.requestFullscreen()
-        }
-}
+import { ctrl, fullscreen, Props } from '../index'
 
 const wheel = wheelEvent(() => {
-        if (document.fullscreenElement) wheel.event?.stopPropagation()
+        if (
+                document.fullscreenElement &&
+                document.fullscreenElement !== document.body
+        )
+                wheel.event?.stopPropagation()
 })
+
+const dbclick = (e: Event) => {
+        const target = e.target as HTMLDivElement
+        // @TODO FIX gesture
+        if (
+                target.clientWidth >= 1024 ||
+                target.clientWidth >= window.innerWidth
+        )
+                fullscreen(target)
+}
 
 const ref = (el: HTMLDivElement | null) => {
         if (!el) return wheel.onClean()

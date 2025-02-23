@@ -1,4 +1,4 @@
-import { ctrl, Vec2 } from '../index'
+import { ctrl, fullscreen, Vec2 } from '../index'
 import Dropdown from './Dropdown'
 import HandButton from './HandButton'
 import { zoom } from './Wheelable'
@@ -88,11 +88,21 @@ const onClick = (item: string) => {
         if (item === items[5]) return zoomTo(2)
 }
 
+const dbclick = (e: Event) => {
+        fullscreen(document.body as HTMLDivElement)
+}
+
+const ref = (el: HTMLElement | null) => {
+        if (!el) return
+        el.addEventListener('dblclick', dbclick)
+}
+
 export default function ControlNav() {
         const _ = ctrl.create
         return _(
                 'nav',
                 {
+                        ref,
                         key: 'nav', //
                         className: '_ctrl-nav',
                 },

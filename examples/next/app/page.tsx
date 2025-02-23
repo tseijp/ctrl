@@ -32,6 +32,7 @@ const Box = () => {
 export default () => {
         return (
                 <Controller>
+                        HIHI
                         <Canvas style={{ width: 1280, height: 800 }}>
                                 <Box />
                                 <ambientLight />
