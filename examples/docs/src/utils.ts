@@ -42,7 +42,8 @@ export const scrollTo = (id = '') => {
                 if (!el) return
                 el.scrollIntoView({ behavior: 'smooth' })
         }
-        return (element: HTMLElement) => {
-                element.addEventListener('click', click)
+        return (el: HTMLElement | null) => {
+                if (!el) return
+                el.addEventListener('click', click)
         }
 }

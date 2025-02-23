@@ -1,7 +1,7 @@
 import { ctrl, fullscreen, Vec2 } from '../index'
 import Dropdown from './Dropdown'
 import HandButton from './HandButton'
-import { zoom } from './Wheelable'
+import { zoom } from './Wheeling'
 import ZoomStore, { zoomStore } from './ZoomStore'
 
 const items = [
@@ -88,7 +88,7 @@ const onClick = (item: string) => {
         if (item === items[5]) return zoomTo(2)
 }
 
-const dbclick = (e: Event) => {
+const dbclick = () => {
         fullscreen(document.body as HTMLDivElement)
 }
 

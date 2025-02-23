@@ -1,4 +1,4 @@
-import ctrl from '../index'
+import { ctrl } from '../index'
 
 let _isGrab = false
 

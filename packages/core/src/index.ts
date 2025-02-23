@@ -15,6 +15,7 @@ function ctrl<T extends Target>(current: T = {} as T, id = `c${store.size}`) {
         const listeners = new Set<Function>()
         const cleanups = new Set<Function>()
         const updates = new Set<Function>()
+        const mounts = new Set<Function>()
 
         let updated = 0
         let mounted = 0
@@ -22,11 +23,14 @@ function ctrl<T extends Target>(current: T = {} as T, id = `c${store.size}`) {
 
         const mount = () => {
                 if (mounted++) return
+                if (_parent) listeners.add(_parent.update)
                 ctrl.mount(c)
+                flush(mounts)
         }
 
         const clean = () => {
                 if (--mounted) return
+                if (_parent) listeners.delete(_parent.update)
                 flush(cleanups)
         }
 
@@ -38,11 +42,9 @@ function ctrl<T extends Target>(current: T = {} as T, id = `c${store.size}`) {
         const sub = (update = () => {}) => {
                 listeners.add(update)
                 mount()
-                if (_parent) listeners.add(_parent.update)
                 return () => {
                         listeners.delete(update)
                         clean()
-                        if (_parent) listeners.delete(_parent.update)
                 }
         }
 
@@ -74,6 +76,7 @@ function ctrl<T extends Target>(current: T = {} as T, id = `c${store.size}`) {
                 listeners,
                 cleanups,
                 updates,
+                mounts,
                 mount,
                 clean,
                 update,
@@ -124,7 +127,7 @@ ctrl.mount = <T extends Target>(c: Ctrl<T>) => {
         append(plugin, ctrl.pluginParent ?? document.body)
         c.cleanups.add(() => remove(plugin, ctrl.pluginParent ?? document.body))
         if (!ctrl.layersParent) return
-        const layers = create(LayersItem, { id: c.id })
+        const layers = create(LayersItem, { id: c.id, title: c.id })
         append(layers, ctrl.layersParent)
         c.cleanups.add(() => remove(layers, ctrl.pluginParent!))
 }

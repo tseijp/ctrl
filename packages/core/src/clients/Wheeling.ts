@@ -26,11 +26,9 @@ export const zoom = (coord?: (offset: Vec2) => void) => {
         merge(el.style, { transform })
 }
 
-const cache = { clientX: 0, clientY: 0 }
-
-const coord = (offset: Vec2) => {
+const zoomCoord = (offset: Vec2) => {
         let [x, y] = offset
-        const { clientX, clientY } = cache
+        const { clientX, clientY } = wheel.event as any
         const dz = (wheel.delta[1] * zoomStore.zoom) / 75
         const dx = (dz * (clientX + x)) / zoomStore.zoom
         const dy = (dz * (clientY + y)) / zoomStore.zoom
@@ -53,7 +51,7 @@ const wheel = wheelEvent(() => {
         event.preventDefault()
 
         if (isZoom) {
-                zoom(coord)
+                zoom(zoomCoord)
         } else {
                 zoomStore.zoom = zoomStore.zoom // flush update
                 zoom()
@@ -93,14 +91,8 @@ const drag = dragEvent(() => {
         }
 })
 
-const move = (e: { clientX: number; clientY: number }) => {
-        const { clientX, clientY } = e
-        merge(cache, { clientX, clientY })
-}
-
 const ref = (el: HTMLDivElement) => {
         if (!el) {
-                window.removeEventListener('mousemove', move)
                 wheel.onClean()
                 drag.onClean()
                 return
@@ -110,12 +102,11 @@ const ref = (el: HTMLDivElement) => {
         wheel.memo.el = el
         wheel.offset[0] = -240 // var(--sidebar-width) in index.css
         wheel.offset[1] = -48 // var(--header-height) in index.css
-        window.addEventListener('mousemove', move)
         drag.onMount(document.body as any)
         wheel.onMount(window as any)
 }
 
-export default function Wheelable(props: Props) {
+export default function Wheeling(props: Props) {
         const { children } = props
         const _ = ctrl.create
         return _(

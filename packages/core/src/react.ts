@@ -57,7 +57,7 @@ function mount(c: Ctrl) {
         c.cleanups.add(() => _plugin.delete(plugin))
         if (ctrl.layersParent) {
                 // @ts-ignore
-                const layers = _(LayersItem, { key: id, id })
+                const layers = _(LayersItem, { key: id, id, title: id })
                 _layers.add(layers)
                 c.cleanups.add(() => _layers.delete(layers))
         }

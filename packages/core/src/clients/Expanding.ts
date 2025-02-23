@@ -6,7 +6,7 @@ const wheel = wheelEvent(() => {
                 document.fullscreenElement &&
                 document.fullscreenElement !== document.body
         )
-                wheel.event?.stopPropagation()
+                wheel.event?.stopImmediatePropagation()
 })
 
 const dbclick = (e: Event) => {

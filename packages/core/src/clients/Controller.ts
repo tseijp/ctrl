@@ -4,7 +4,7 @@ import ControlLeft from './ControlLeft'
 import ControlNav from './ControlNav'
 import ControlRight from './ControlRight'
 import Expanding from './Expanding'
-import Wheelable from './Wheelable'
+import Wheeling from './Wheeling'
 
 interface Props {
         left?: any
@@ -54,7 +54,7 @@ export default function Controller(props: Props) {
                         _(
                                 Bounding,
                                 { key: 'main' },
-                                _(Wheelable, {}, _(Expanding, { children }))
+                                _(Expanding, {}, _(Wheeling, { children }))
                         ),
                         _(ControlRight, { ref, key: 'right' }, plugin),
                 ]
