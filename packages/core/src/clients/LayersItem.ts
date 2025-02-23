@@ -2,10 +2,11 @@ import { ctrl } from '../index'
 
 interface Props {
         id: string
+        title: string
 }
 
 export default function LayersItem(props: Props) {
-        const { id } = props
+        const { id, title } = props
 
         const click = () => {
                 const el = document.getElementById(id)
@@ -19,12 +20,15 @@ export default function LayersItem(props: Props) {
         }
 
         const _ = ctrl.create
+        const paths = title.split('.')
+        const child = Array(paths.length).join('    ') + paths.pop()!
+
         return _(
                 'div',
                 {
                         ref,
-                        className: 'flex items-center h-8 cursor-pointer', //
+                        className: 'flex items-center h-8 cursor-pointer whitespace-pre', //
                 },
-                id
+                child
         )
 }

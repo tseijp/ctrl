@@ -74,3 +74,12 @@ export const cpV = (a: Vec2, out = vec2()): Vec2 => {
         out[1] = a[1]
         return out
 }
+
+/**
+ * fullscreen
+ */
+export const fullscreen = (target: HTMLElement) => {
+        if (document.fullscreenElement === target) {
+                document.exitFullscreen()
+        } else target.requestFullscreen()
+}

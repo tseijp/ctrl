@@ -51,11 +51,13 @@ const sub = (update = () => {}) => {
 function mount(c: Ctrl) {
         const { id } = c
         updated++
+        // @ts-ignore
         const plugin = _(PluginItem, { c, key: id })
         _plugin.add(plugin)
         c.cleanups.add(() => _plugin.delete(plugin))
         if (ctrl.layersParent) {
-                const layers = _(LayersItem, { key: id, id })
+                // @ts-ignore
+                const layers = _(LayersItem, { key: id, id, title: id })
                 _layers.add(layers)
                 c.cleanups.add(() => _layers.delete(layers))
         }

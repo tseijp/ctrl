@@ -1,4 +1,4 @@
-import ctrl from '../../index'
+import { ctrl } from '../../index'
 import { Attach } from '../../types'
 import { PluginItem } from '../index'
 

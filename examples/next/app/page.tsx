@@ -2,8 +2,8 @@
 
 import { Canvas } from '@react-three/fiber'
 import { Controller, ctrl, useCtrl } from '@tsei/ctrl/src/react'
-import '@tsei/ctrl/src/style'
 import { IgnoreScale } from './utils'
+import '@tsei/ctrl/src/style'
 
 const c = ctrl({
         position: [0, 0, 0] as const,

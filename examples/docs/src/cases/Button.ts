@@ -24,7 +24,8 @@ const c = ctrl({
 export default function ButtonCase() {
         const _ = ctrl.create
 
-        const ref = (el: HTMLElement) => {
+        const ref = (el: HTMLElement | null) => {
+                if (!el) return
                 const update = codemirror(el, code)
                 setTimeout(() => c.sub(update))
         }

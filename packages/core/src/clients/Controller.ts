@@ -3,7 +3,8 @@ import Bounding from './Bounding'
 import ControlLeft from './ControlLeft'
 import ControlNav from './ControlNav'
 import ControlRight from './ControlRight'
-import Wheelable from './Wheelable'
+import Expanding from './Expanding'
+import Wheeling from './Wheeling'
 
 interface Props {
         left?: any
@@ -41,10 +42,21 @@ const ref = (el: HTMLElement) => {
 export default function Controller(props: Props) {
         const { children, left, plugin, layers, ...other } = props
         const _ = ctrl.create
-        return _('div', other, [
-                _(ControlNav, { ref, key: 'nav' }),
-                _(ControlLeft, { ref, key: 'left', layers }, left),
-                _(Bounding, { key: 'main' }, _(Wheelable, { children })),
-                _(ControlRight, { ref, key: 'right' }, plugin),
-        ])
+        return _(
+                'div',
+                {
+                        className: '_ctrl-wrap w-full h-screen',
+                        ...other, //
+                },
+                [
+                        _(ControlNav, { ref, key: 'nav' }),
+                        _(ControlLeft, { ref, key: 'left', layers }, left),
+                        _(
+                                Bounding,
+                                { key: 'main' },
+                                _(Expanding, {}, _(Wheeling, { children }))
+                        ),
+                        _(ControlRight, { ref, key: 'right' }, plugin),
+                ]
+        )
 }

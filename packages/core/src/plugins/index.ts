@@ -21,16 +21,20 @@ export function DefaultPlugin<T extends Target>(props: Attach<unknown, T>) {
         }
 
         if (is.obj(a)) {
-                const next = ctrl(a, `${c.id}.${k}`)
-                next.parent = c
-                return _(PluginItem, { c: next })
+                const child = ctrl(a, `${c.id}.${k}`)
+                child.parent = c
+                c.mounts.add(child.mount)
+                c.cleanups.add(child.clean)
+                return _(PluginItem, { c: child })
         }
 
         if (is.arr(a)) {
                 if (a.every(is.num)) return _(Vector<T>, props)
-                const next = ctrl(a, `${c.id}.${k}`)
-                next.parent = c
-                return _(PluginItem, { c: next })
+                const child = ctrl(a, `${c.id}.${k}`)
+                child.parent = c
+                c.mounts.add(child.mount)
+                c.cleanups.add(child.clean)
+                return _(PluginItem, { c: child })
         }
 
         if (is.str(a)) {

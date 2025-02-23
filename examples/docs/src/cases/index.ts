@@ -1,4 +1,4 @@
-import ctrl from '@tsei/ctrl/src/index'
+import { ctrl } from '@tsei/ctrl/src/index'
 import Installation from '../cases/Install'
 import QuickStart from '../cases/QuickStart'
 import RenderUI from '../cases/RenderUI'
@@ -35,8 +35,8 @@ export default function Cases() {
                         _(SelectCase),
                         _(ImageCase),
                         _(PluginCase),
-                        _(NestedCase),
                         _(Noise),
+                        _(NestedCase),
                 ]
         )
 }
