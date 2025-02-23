@@ -193,6 +193,7 @@ export default function Bounding<T>(props: T) {
         const _ = ctrl.create
         return _('div', {
                 ref, //
+                className: '_ctrl-bounding',
                 ...props,
         })
 }
