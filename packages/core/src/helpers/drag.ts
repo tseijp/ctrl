@@ -187,7 +187,7 @@ export const dragEvent = (callback: Callback) => {
                 movement: vec2(0, 0),
                 target: null as Element | null,
                 event: null as Event | null,
-                memo: {},
+                memo: {} as any,
                 isDragStart: false,
                 isDragging: false,
                 isDragEnd: false,

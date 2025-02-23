@@ -1,5 +1,6 @@
 import { ctrl, Vec2 } from '../index'
 import Dropdown from './Dropdown'
+import HandButton from './HandButton'
 import { zoom } from './Wheelable'
 import ZoomStore, { zoomStore } from './ZoomStore'
 
@@ -35,7 +36,10 @@ const yx = (y = 1) => Math.log2(y)
 
 const reset = (offset: Vec2) => {
         offset[0] = -240
-        offset[1] = -40
+        offset[1] = -48
+        // padding
+        offset[0] -= 16
+        offset[1] -= 16
 }
 
 const zoomIn = () => {
@@ -65,9 +69,10 @@ const getMainRect = () => {
 const zoomTo = (to: 'fit' | number) => {
         const fit = to === 'fit'
         if (fit) {
+                const padding = 32
                 const rect = getMainRect()
                 const width = window.innerWidth - 240 * 2
-                const scale = (width * zoomStore.zoom) / rect.width
+                const scale = (width * zoomStore.zoom - padding) / rect.width
                 zoomStore.zoom = scale
                 zoom(reset)
         } else zoomStore.zoom = to
@@ -137,18 +142,10 @@ export default function ControlNav() {
                                                 })
                                         ),
                                         _(
-                                                'button',
+                                                HandButton, //
                                                 {
-                                                        key: 'hand',
-                                                        className: '_ctrl-button w-10',
-                                                },
-                                                _('img', {
-                                                        src: 'https://r.tsei.jp/ctrl/hand.svg',
-                                                        alt: '🖐️',
-                                                        key: 'hand',
-                                                        width: 20,
-                                                        height: 20,
-                                                })
+                                                        key: 'hand', //
+                                                }
                                         ),
                                         _(
                                                 'button',

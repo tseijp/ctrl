@@ -1,8 +1,10 @@
 import { ctrl } from '../index'
-import { is, merge, subV } from '../helpers/utils'
+import { dragEvent } from '../helpers/drag'
+import { merge, subV } from '../helpers/utils'
 import { wheelEvent } from '../helpers/wheel'
 import { zoomStore } from './ZoomStore'
 import { Vec2 } from '../../dist/index'
+import { isGrab } from './HandButton'
 
 interface Props {
         children: any
@@ -58,6 +60,39 @@ const wheel = wheelEvent(() => {
         }
 })
 
+const drag = dragEvent(() => {
+        const { event, delta, memo } = drag
+        if (!memo.wrap) memo.wrap = document.querySelector('._ctrl-wrap')
+        const isWrap = event?.target === memo.wrap
+        if (!isGrab()) {
+                if (!isWrap) {
+                        document.body.style.cursor = ''
+                        return
+                }
+        }
+
+        if (event) event.preventDefault()
+
+        document.body.style.cursor = 'grab'
+
+        if (drag.isDragging) document.body.style.cursor = 'grabbing'
+
+        // reset cursor if not grab mode
+        if (drag.isDragEnd) {
+                if (!isGrab())
+                        setTimeout(() => {
+                                document.body.style.cursor = ''
+                        }, 200)
+        }
+
+        if (drag.isDragging) {
+                zoom((offset) => {
+                        offset[0] -= delta[0]
+                        offset[1] -= delta[1]
+                })
+        }
+})
+
 const move = (e: { clientX: number; clientY: number }) => {
         const { clientX, clientY } = e
         merge(cache, { clientX, clientY })
@@ -67,6 +102,7 @@ const ref = (el: HTMLDivElement) => {
         if (!el) {
                 window.removeEventListener('mousemove', move)
                 wheel.onClean()
+                drag.onClean()
                 return
         }
 
@@ -75,6 +111,7 @@ const ref = (el: HTMLDivElement) => {
         wheel.offset[0] = -240 // var(--sidebar-width) in index.css
         wheel.offset[1] = -48 // var(--header-height) in index.css
         window.addEventListener('mousemove', move)
+        drag.onMount(document.body as any)
         wheel.onMount(window as any)
 }
 

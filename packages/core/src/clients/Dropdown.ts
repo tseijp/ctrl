@@ -55,7 +55,7 @@ const handleClick = (props: DropdownProps) => (e: Event) => {
                 'div',
                 {
                         ref: overlayRef, //
-                        className: 'fixed w-screen h-screen z-[9999]',
+                        className: 'fixed top-0 left-0 w-screen h-screen z-[9999]',
                 },
                 _(
                         'div',
