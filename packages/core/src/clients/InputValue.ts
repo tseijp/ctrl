@@ -63,7 +63,7 @@ export function InputValue(props: Props) {
                 drag.offset[0] = init
                 drag.onMount(span)
                 if (_ref) clean = _ref(input)
-                input.addEventListener('change', change)
+                input.addEventListener('input', change)
         }
 
         const _ = ctrl.create
