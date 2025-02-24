@@ -35,8 +35,8 @@ export default function Cases() {
                         _(SelectCase),
                         _(ImageCase),
                         _(PluginCase),
-                        _(Noise),
                         _(NestedCase),
+                        _(Noise),
                 ]
         )
 }

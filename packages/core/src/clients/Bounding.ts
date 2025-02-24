@@ -166,7 +166,6 @@ export const createBounding = <El extends HTMLElement>(selectors?: string) => {
                 hoverEl = document.createElement('div')
                 clickEl = document.createElement('div')
                 lineEl = document.createElement('div')
-                el.addEventListener('mousemove', hover)
                 el.addEventListener('mousedown', click)
                 window.addEventListener('scroll', reset)
                 window.addEventListener('wheel', reset)
