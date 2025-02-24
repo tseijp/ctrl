@@ -11,6 +11,11 @@ const ref = (el: HTMLButtonElement | null) => {
                 el.style.backgroundColor = _isGrab ? '#0B8CE9' : 'transparent'
                 document.body.style.cursor = _isGrab ? 'grab' : ''
         }
+
+        // set grap true if sp device
+        const isSP = window.innerWidth <= 1024
+        if (isSP) click()
+
         el.addEventListener('click', click)
 }
 

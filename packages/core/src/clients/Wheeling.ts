@@ -60,9 +60,12 @@ const wheel = wheelEvent(() => {
 
 const drag = dragEvent(() => {
         const { event, delta, memo } = drag
-        if (!memo.wrap) memo.wrap = document.querySelector('._ctrl-wrap')
-        const isWrap = event?.target === memo.wrap
+        event?.preventDefault()
+
         if (!isGrab()) {
+                if (!memo.wrap)
+                        memo.wrap = document.querySelector('._ctrl-wrap')
+                const isWrap = event?.target === memo.wrap
                 if (!isWrap) {
                         document.body.style.cursor = ''
                         return
