@@ -1,4 +1,4 @@
-import { ctrl } from '@tsei/ctrl/src/index'
+import { ctrl } from '@tsei/ctrl/src/react'
 import Installation from '../cases/Install'
 import QuickStart from '../cases/QuickStart'
 import RenderUI from '../cases/RenderUI'
@@ -10,9 +10,24 @@ import ColorCase from '../cases/Color'
 import ButtonCase from '../cases/Button'
 import SelectCase from '../cases/Select'
 import ImageCase from '../cases/Image'
-import Noise from '../cases/Noise'
 import PluginCase from '../cases/Plugin'
 import NestedCase from './Nested'
+
+export const CASES = [
+        Installation,
+        QuickStart,
+        RenderUI,
+        NumberCase,
+        VectorCase,
+        StringCase,
+        BooleanCase,
+        ColorCase,
+        ButtonCase,
+        SelectCase,
+        ImageCase,
+        PluginCase,
+        NestedCase,
+]
 
 export default function Cases() {
         const _ = ctrl.create
@@ -22,21 +37,6 @@ export default function Cases() {
                 {
                         className: 'flex flex-col gap-4 max-w-[1024px]', //
                 },
-                [
-                        _(Installation),
-                        _(QuickStart),
-                        _(RenderUI),
-                        _(NumberCase),
-                        _(VectorCase),
-                        _(StringCase),
-                        _(BooleanCase),
-                        _(ColorCase),
-                        _(ButtonCase),
-                        _(SelectCase),
-                        _(ImageCase),
-                        _(PluginCase),
-                        _(NestedCase),
-                        _(Noise),
-                ]
+                CASES.map((Case, key) => _(Case, { key }))
         )
 }

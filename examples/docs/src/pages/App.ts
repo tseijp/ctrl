@@ -1,11 +1,9 @@
 import { ctrl, Controller } from '@tsei/ctrl/src/index'
 import Cases from '../cases'
 
-export default function App() {
-        const root = document.getElementById('root')!
-
+function Navigation() {
         const _ = ctrl.create
-        const left = _('ul', { className: 'flex flex-col gap-4 py-4' }, [
+        return _('ul', { className: 'flex flex-col gap-4 py-4' }, [
                 _(
                         'li',
                         {},
@@ -57,6 +55,13 @@ export default function App() {
                         )
                 ),
         ])
+}
+
+export default function App() {
+        const root = document.getElementById('root')!
+
+        const _ = ctrl.create
+        const left = _(Navigation)
 
         ctrl.append(_<'div'>(Controller, { left }, _(Cases)), root)
 }

@@ -59,18 +59,17 @@ export function PluginItem<T extends Target>(props: Props<T>) {
         const { c } = props
         const { current, id } = c
         const children = [] as HTMLNode[]
+        const _ = ctrl.create
 
         const attach = <K extends keyof T & string>(k: K) => {
                 let a = current[k]
                 if (isU(a)) a = a.value
                 for (const El of ctrl.plugin) {
-                        // throw if plugin not match
-                        const el = ctrl.create(El, { key: k, a, c, k })
+                        const el = _(El, { key: k, a, c, k })
                         if (el) return children.push(el)
                 }
         }
 
         for (const k in current) attach(k)
-        const _ = ctrl.create
         return _(Container, { title: id, id }, children)
 }

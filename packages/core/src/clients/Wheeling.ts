@@ -60,7 +60,6 @@ const wheel = wheelEvent(() => {
 
 const drag = dragEvent(() => {
         const { event, delta, memo } = drag
-        event?.preventDefault()
 
         if (!isGrab()) {
                 if (!memo.wrap)

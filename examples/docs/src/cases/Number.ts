@@ -1,4 +1,4 @@
-import { ctrl } from '@tsei/ctrl/src/index'
+import { ctrl } from '@tsei/ctrl/src/react'
 import { codemirror, scrollTo } from '../utils'
 
 const c = ctrl({
@@ -34,10 +34,16 @@ export default function NumberCase() {
                 [
                         _(
                                 'h3',
-                                { className: 'font-bold mb-4' },
+                                {
+                                        key: '0', //
+                                        className: 'font-bold mb-4',
+                                },
                                 '### Number Cases'
                         ),
-                        _('div', { ref }),
+                        _('div', {
+                                key: '1', //
+                                ref,
+                        }),
                 ]
         )
 }

@@ -1,4 +1,4 @@
-import { ctrl, type Props } from '@tsei/ctrl/src/index'
+import { ctrl, type Props } from '@tsei/ctrl/src/react'
 import glre from 'glre'
 
 const fragment = /* CPP */ `

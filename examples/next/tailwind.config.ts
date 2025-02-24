@@ -7,6 +7,7 @@ export default {
                 './app/**/*.{js,ts,jsx,tsx,mdx}',
                 // my created
                 '../../node_modules/@tsei/ctrl/**/*.{ts,tsx}',
+                '../docs/src/**/*.{ts,tsx}',
         ],
         theme: {
                 extend: {},

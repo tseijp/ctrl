@@ -17,7 +17,10 @@ const Box = () => {
                 position: [...position],
                 scale,
                 hidden,
+                text,
         } = useCtrl(c)
+
+        console.log(text)
 
         if (hidden) return null
 

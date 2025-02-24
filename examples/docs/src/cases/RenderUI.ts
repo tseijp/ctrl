@@ -1,4 +1,4 @@
-import { ctrl } from '@tsei/ctrl/src/index'
+import { ctrl } from '@tsei/ctrl/src/react'
 import { codemirror, scrollTo } from '../utils'
 
 const c = ctrl({ a: 0, b: 0, c: 0 })
@@ -74,19 +74,44 @@ export default function RenderUI() {
                         className: 'p-4 bg-white rounded',
                 },
                 [
-                        _('h3', { className: 'font-bold' }, '### Render UI'),
+                        _(
+                                'h3',
+                                {
+                                        key: '0', //
+                                        className: 'font-bold',
+                                },
+                                '### Render UI'
+                        ),
                         _(
                                 'h6',
-                                { className: 'font-bold my-4' },
+                                {
+                                        key: '1', //
+                                        className: 'font-bold my-4',
+                                },
                                 '###### Basics'
                         ),
-                        _('div', { ref: basicsRef }),
+                        _(
+                                'div', //
+                                {
+                                        key: '2', //
+                                        ref: basicsRef,
+                                }
+                        ),
                         _(
                                 'h6',
-                                { className: 'font-bold my-4' },
+                                {
+                                        key: '3', //
+                                        className: 'font-bold my-4',
+                                },
                                 '###### ESM SUPPORT'
                         ),
-                        _('div', { ref: esmRef }),
+                        _(
+                                'div', //
+                                {
+                                        key: '4', //
+                                        ref: esmRef,
+                                }
+                        ),
                 ]
         )
 }
