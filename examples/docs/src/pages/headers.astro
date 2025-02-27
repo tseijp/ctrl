@@ -1,0 +1,10 @@
+<script>
+import { append, create, ctrl, Controller } from '@tsei/ctrl/src/index'
+
+function App() {
+        append(create(Controller), document.body)
+        ctrl(document.head, 'head').sub()
+}
+
+window.addEventListener("DOMContentLoaded", App)
+</script>

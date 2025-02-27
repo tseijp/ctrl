@@ -42,12 +42,12 @@ export default function NestedCase() {
                                         key: '0', //
                                         className: 'font-bold mb-4',
                                 },
-                                '### Nested Cases'
+                                '### Nested Cases',
                         ),
                         _('div', {
                                 key: '1', //
                                 ref,
                         }),
-                ]
+                ],
         )
 }

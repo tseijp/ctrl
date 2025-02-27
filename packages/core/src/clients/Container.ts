@@ -8,8 +8,7 @@ interface Props {
 
 export default function Container(props: Props) {
         const { children, title = 'default', ...other } = props
-        const _ = ctrl.create
-        const sizeClasses = 'max-w-[240px] pl-4 pr-2 pb-3 text-[12px] z-100'
+        const sizeClasses = 'max-w-[240px] pl-4 pb-3 text-[12px] z-100'
         const baseClasses = '_ctrl-container text-white bg-[#2c2c2c] rounded'
         const borderClasses = 'border-1 border-t border-[rgb(68,68,68)]'
 
@@ -37,6 +36,7 @@ export default function Container(props: Props) {
                 }
         })
 
+        const _ = ctrl.create
         return _(
                 'div',
                 {

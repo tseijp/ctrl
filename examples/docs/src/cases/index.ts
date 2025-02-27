@@ -25,7 +25,7 @@ export const CASES = [
         ButtonCase,
         SelectCase,
         ImageCase,
-        PluginCase,
+        // PluginCase,
         NestedCase,
 ]
 

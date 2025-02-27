@@ -39,11 +39,11 @@ function ctrl<T extends Target>(current: T = {} as T, id = `c${store.size}`) {
                 flush(listeners, k, a)
         }
 
-        const sub = (update = () => {}) => {
-                listeners.add(update)
+        const sub = (_update = () => {}) => {
+                listeners.add(_update)
                 mount()
                 return () => {
-                        listeners.delete(update)
+                        listeners.delete(_update)
                         clean()
                 }
         }
@@ -127,7 +127,7 @@ ctrl.mount = <T extends Target>(c: Ctrl<T>) => {
         append(plugin, ctrl.pluginParent ?? document.body)
         c.cleanups.add(() => remove(plugin, ctrl.pluginParent ?? document.body))
         if (!ctrl.layersParent) return
-        const layers = create(LayersItem, { id: c.id, title: c.id })
+        const layers = create(LayersItem, { c })
         append(layers, ctrl.layersParent)
         c.cleanups.add(() => remove(layers, ctrl.pluginParent!))
 }

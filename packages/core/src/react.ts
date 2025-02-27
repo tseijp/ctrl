@@ -5,16 +5,18 @@ import { createElement as _, useState, useSyncExternalStore } from 'react'
 import _Controller from './clients/Controller'
 import LayersItem from './clients/LayersItem'
 import { PluginItem } from './plugins/index'
-import { Ctrl, ctrl, flush, isC, register } from './index'
+import { Ctrl, ctrl, flush, isC, register, store } from './index'
 import { Target } from './types'
 
 export * from './index'
+export default useCtrl
+export { useCtrl }
 
 function useCtrl<T extends Target>(c: Ctrl<T>, id?: string): T
 
 function useCtrl<T extends Target>(config: T, id?: string): T
 
-function useCtrl<T extends Target>(config: T, id?: string) {
+function useCtrl<T extends Target>(config: T | Ctrl<T>, id?: string) {
         const [c] = useState(() => {
                 if (isC(config)) return config
                 return ctrl<T>(config, id)
@@ -23,21 +25,8 @@ function useCtrl<T extends Target>(config: T, id?: string) {
         return c.current
 }
 
-export { useCtrl }
-
-export default useCtrl
-
-interface Props {
-        left?: React.ReactNode
-        right?: React.ReactNode
-        children: React.ReactNode
-}
-
-const _layers = new Set<React.ReactNode>()
-const _plugin = new Set<React.ReactNode>()
-const listeners = new Set<Function>()
-
 let updated = 0
+const listeners = new Set<Function>()
 
 const get = () => updated
 
@@ -48,24 +37,20 @@ const sub = (update = () => {}) => {
         }
 }
 
-function mount(c: Ctrl) {
-        const { id } = c
+function Plugins() {
+        useSyncExternalStore(sub, get, get)
+        return [...store].map((c: Ctrl) => _(PluginItem, { c, key: c.id }))
+}
+
+function Layers() {
+        useSyncExternalStore(sub, get, get)
+        if (!ctrl.layersParent) return null
+        return [...store].map((c: Ctrl) => _(LayersItem, { c, key: c.id }))
+}
+
+function mount() {
         updated++
-        // @ts-ignore
-        const plugin = _(PluginItem, { c, key: id })
-        _plugin.add(plugin)
-        c.cleanups.add(() => _plugin.delete(plugin))
-        if (ctrl.layersParent) {
-                // @ts-ignore
-                const layers = _(LayersItem, { key: id, id, title: id })
-                _layers.add(layers)
-                c.cleanups.add(() => _layers.delete(layers))
-        }
         flush(listeners)
-        c.cleanups.add(() => {
-                updated++
-                flush(listeners)
-        })
 }
 
 let isInitialized = false
@@ -76,14 +61,9 @@ function initialize() {
         register({ mount, create: _ })
 }
 
-function Plugins() {
-        useSyncExternalStore(sub, get, get)
-        return [..._plugin]
-}
-
-function Layers() {
-        useSyncExternalStore(sub, get, get)
-        return [..._layers]
+interface Props extends React.HTMLProps<HTMLDivElement> {
+        left?: React.ReactNode
+        right?: React.ReactNode
 }
 
 export function Controller(props: Props) {

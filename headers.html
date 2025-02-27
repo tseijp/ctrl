@@ -1,0 +1,23 @@
+<head>
+        <link
+                rel="stylesheet"
+                href="https://esm.sh/@tsei/ctrl@latest/dist/index.css"
+        />
+</head>
+<body>
+        <script type="module">
+                import {
+                        append,
+                        ctrl,
+                        Controller,
+                } from 'https://esm.sh/@tsei/ctrl@latest/es2022/index.mjs'
+
+                function Document() {
+                        const _ = ctrl.create
+                        append(_(Controller), document.body)
+                        ctrl(document.head, 'head').sub()
+                }
+
+                window.addEventListener('DOMContentLoaded', Document)
+        </script>
+</body>

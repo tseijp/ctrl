@@ -51,7 +51,7 @@ export default function PluginCase() {
                         ),
                         _('div', {
                                 key: '1', //
-                                // ref,
+                                ref,
                         }),
                 ]
         )

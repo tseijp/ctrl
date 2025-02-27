@@ -56,14 +56,20 @@ export default function Char<T extends Target>(props: Attach<Arg, T>) {
         }
 
         const _ = ctrl.create
-        return _('fieldset', {}, [
-                _(InputLabel, { key: 'key', k }),
-                _('textarea', {
-                        ref,
-                        key: 'textarea',
-                        rows: 1,
-                        className: '_ctrl-input bg-[#383838] rounded-sm px-2 py-1 leading-[20px] w-full block text-12px',
-                        defaultValue: a,
-                }),
-        ])
+        return _(
+                'fieldset',
+                {
+                        className: 'mr-2',
+                },
+                [
+                        _(InputLabel, { key: 'key', k }),
+                        _('textarea', {
+                                ref,
+                                key: 'textarea',
+                                rows: 1,
+                                className: '_ctrl-input bg-[#383838] rounded-sm px-2 py-1 leading-[20px] w-full block text-12px',
+                                defaultValue: a,
+                        }),
+                ]
+        )
 }

@@ -1,46 +1,19 @@
 'use client'
 
-import { Canvas } from '@react-three/fiber'
-import { Controller, ctrl, useCtrl } from '@tsei/ctrl/src/react'
-import { IgnoreScale } from './utils'
-import '@tsei/ctrl/src/style'
+import { Controller } from '@tsei/ctrl/src/react'
+import { Navigation } from '../../docs/src/pages/App'
+import { CASES } from '../../docs/src/cases'
 
-const c = ctrl({
-        position: [0, 0, 0] as const,
-        scale: 1,
-        hidden: false,
-        text: 'string',
-})
-
-const Box = () => {
-        const {
-                position: [...position],
-                scale,
-                hidden,
-                text,
-        } = useCtrl(c)
-
-        console.log(text)
-
-        if (hidden) return null
-
+export default function CasesPage() {
+        // @ts-ignore
+        const left = <Navigation />
         return (
-                <mesh position={position} scale={scale}>
-                        <boxGeometry />
-                        <meshPhysicalMaterial />
-                </mesh>
-        )
-}
-
-export default () => {
-        return (
-                <Controller>
-                        <Canvas style={{ width: 1280, height: 800 }}>
-                                <Box />
-                                <ambientLight />
-                                <pointLight />
-                                <IgnoreScale />
-                        </Canvas>
+                <Controller left={left}>
+                        <div className="flex flex-col gap-4 max-w-[1024px]">
+                                {CASES.map((Case: any, index) => (
+                                        <Case key={index} />
+                                ))}
+                        </div>
                 </Controller>
         )
 }
