@@ -38,12 +38,12 @@ export default function BooleanCase() {
                                         key: '0', //
                                         className: 'font-bold mb-4',
                                 },
-                                '### Boolean Cases',
+                                '### Boolean Cases'
                         ),
                         _('div', {
                                 key: '1', //
                                 ref,
                         }),
-                ],
+                ]
         )
 }

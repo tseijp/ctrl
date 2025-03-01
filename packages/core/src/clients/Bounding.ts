@@ -75,20 +75,19 @@ const line = (el: HTMLDivElement | null, rect: Rect) => {
 
 const clear = (el: HTMLElement | null) => {
         if (!el) return
+
         merge(el.style, { opacity: '0' })
 }
 
 export const createBounding = <El extends HTMLElement>(selectors?: string) => {
         let isActive = false
-        let target: El
         let hoverEl: HTMLDivElement | null = null
         let clickEl: HTMLDivElement | null = null
         let lineEl: HTMLDivElement | null = null
         let hoverTarget: HTMLElement | null = null
         let clickTarget: HTMLElement | null = null
         let initClicked: HTMLElement | null = null
-
-        const isTarget = (a: unknown): a is El => a === target
+        let isParent = (_: Rect) => false
 
         const hover = (e: Event) => {
                 if (!isActive) return // ignore
@@ -100,8 +99,8 @@ export const createBounding = <El extends HTMLElement>(selectors?: string) => {
                 if (hoverTarget === initClicked) clear(hoverEl)
 
                 // draw
-                if (isTarget(hoverTarget)) return clear(hoverEl)
                 const rect = hoverTarget.getBoundingClientRect()
+                if (isParent(rect)) return clear(hoverEl)
                 draw(hoverEl, rect)
 
                 if (!clickTarget) return
@@ -122,22 +121,22 @@ export const createBounding = <El extends HTMLElement>(selectors?: string) => {
                 if (!clickTarget) return
 
                 // draw
-                if (isTarget(clickTarget)) return clear(clickEl)
                 const rect = clickTarget.getBoundingClientRect()
+                if (isParent(rect)) return clear(clickEl)
                 draw(clickEl, rect)
         }
 
         const reset = () => {
                 const rect = hoverTarget?.getBoundingClientRect()
                 if (rect) {
-                        if (isTarget(hoverTarget)) clear(hoverEl)
+                        if (isParent(rect)) clear(hoverEl)
                         else draw(hoverEl, rect)
                 }
 
                 const rect2 = clickTarget?.getBoundingClientRect()
 
                 if (rect2) {
-                        if (!isTarget(clickTarget)) draw(clickEl, rect2)
+                        if (!isParent(rect2)) draw(clickEl, rect2)
                 }
 
                 if (rect && rect2) line(lineEl, len(rect, rect2))
@@ -162,15 +161,13 @@ export const createBounding = <El extends HTMLElement>(selectors?: string) => {
                 }
 
                 // setup bounding div element
-                target = el
                 hoverEl = document.createElement('div')
                 clickEl = document.createElement('div')
                 lineEl = document.createElement('div')
+                el.addEventListener('mousemove', hover)
                 el.addEventListener('mousedown', click)
                 window.addEventListener('scroll', reset)
                 window.addEventListener('wheel', reset)
-                window.addEventListener('mousedown', reset)
-                window.addEventListener('mousemove', reset)
                 window.addEventListener('keydown', keydown)
                 window.addEventListener('keyup', keyup)
                 merge(hoverEl.style, boundingStyle)
@@ -179,6 +176,10 @@ export const createBounding = <El extends HTMLElement>(selectors?: string) => {
                 el.appendChild(hoverEl)
                 el.appendChild(clickEl)
                 el.appendChild(lineEl)
+                const pr = el.parentElement?.getBoundingClientRect()!
+
+                isParent = (rect) =>
+                        pr?.width <= rect.width && pr.height <= rect.height
         }
 
         if (selectors && typeof window !== 'undefined')
@@ -192,7 +193,6 @@ export default function Bounding<T>(props: T) {
         const _ = ctrl.create
         return _('div', {
                 ref, //
-                className: '_ctrl-bounding',
                 ...props,
         })
 }

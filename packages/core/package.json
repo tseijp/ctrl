@@ -1,6 +1,6 @@
 {
         "name": "@tsei/ctrl",
-        "version": "0.16.0",
+        "version": "0.19.0",
         "author": "tseijp",
         "license": "MIT",
         "sideEffect": false,
@@ -22,7 +22,9 @@
                 "solid",
                 "solidjs",
                 "tiny",
-                "typescript"
+                "typescript",
+                "vue",
+                "vue3"
         ],
         "files": [
                 "dist/**/*.{js,ts,mjs,mts,map,css}",

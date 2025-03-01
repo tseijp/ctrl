@@ -1,5 +1,4 @@
-import { Ctrl } from '../../dist/index'
-import { ctrl } from '../index'
+import { Ctrl, ctrl } from '../index'
 
 interface Props {
         c: Ctrl

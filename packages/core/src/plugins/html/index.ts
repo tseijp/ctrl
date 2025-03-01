@@ -14,11 +14,21 @@ const isNumeric = (a: unknown) => {
 }
 
 export const isHTMLCollection = (a: unknown): a is HTMLCollection => {
+        if (!a) return false
+        if (typeof a !== 'object') return false
+        if (a.constructor.name === 'HTMLCollection') return true
+        if (typeof window === 'undefined') return false
         if (a instanceof HTMLCollection) return true
         return false
 }
 
 export const isHTML = (a: unknown): a is HTMLElement => {
+        if (!a) return false
+        if (typeof a !== 'object') return false
+        if (a.constructor.name === 'HTMLElement') return true
+        if (a.constructor.name === 'HTMLDocument') return true
+        if (a.constructor.name === 'HTMLBodyElement') return true
+        if (typeof window === 'undefined') return false
         if (a instanceof HTMLElement) return true
         if (a instanceof HTMLDocument) return true
         if (a instanceof HTMLBodyElement) return true

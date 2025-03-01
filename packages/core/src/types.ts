@@ -1,4 +1,4 @@
-import { Ctrl } from './index'
+import { ctrl } from './index'
 import { is } from './helpers/utils'
 
 /**
@@ -93,11 +93,39 @@ export type Input =
         | Value<[x: number]>
         | Value<[x: number, y: number]>
         | Value<[x: number, y: number, z: number]>
+        | Value<[x: number, y: number, z: number, w: number]>
         | Value<XYZVector>
         | Value<RGBColor>
 
 export interface Target {
-        [key: string]: Input | any
+        [key: string]: Input | Target | any
+}
+
+export interface Ctrl<
+        T extends Target = Target,
+        K extends keyof Target & string = keyof Target & string
+> {
+        get updated(): number
+        get mounted(): number
+        get parent(): null | Ctrl
+        set parent(parent: Ctrl)
+        get id(): string
+        set id(id: string)
+        get current(): T
+        listeners: Set<Function>
+        cleanups: Set<Function>
+        updates: Set<Function>
+        mounts: Set<Function>
+        mount(): void
+        clean(): void
+        update(k: K, a: T[K]): void
+        sub(fn?: () => void): () => void
+        get(): number
+        set(k: K, a: T[K]): void
+        sync(k: K, a: T[K]): void
+        ref(target: T | null): void
+        isC: true
+        cache: any
 }
 
 export const isC = <T extends Target>(a: unknown): a is Ctrl<T> => {

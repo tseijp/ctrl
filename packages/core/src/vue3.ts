@@ -1,18 +1,19 @@
 // @ts-ignore
-import { h, customRef, onMounted, onUnmounted } from 'vue'
-import { append, create, Ctrl, ctrl, isC, register, Target } from './index'
+import { h, customRef, onMounted, onUnmounted, Ref } from 'vue'
+import { create, Ctrl, ctrl, isC, Target } from './index'
 import _Controller from './clients/Controller'
 
 export * from './index'
 export default useCtrl
 export { useCtrl }
 
-function useCtrl<T extends Target>(c: Ctrl<T>, id?: string): T
+function useCtrl<T extends Target>(c: Ctrl<T>, id?: string): Ref
 
-function useCtrl<T extends Target>(config: T, id?: string): T
+function useCtrl<T extends Target>(config: T, id?: string): Ref
 
 function useCtrl<T extends Target>(config: T | Ctrl<T>, id?: string): T {
-        return customRef((track = () => {}, trigger = () => {}) => {
+        // @ts-ignore
+        return customRef((track, trigger) => {
                 const c = isC(config) ? config : ctrl(config, id)
                 onMounted(() => onUnmounted(c.sub(trigger)))
                 return {
@@ -20,6 +21,7 @@ function useCtrl<T extends Target>(config: T | Ctrl<T>, id?: string): T {
                                 track()
                                 return c.current
                         },
+                        set() {},
                 }
         })
 }

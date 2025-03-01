@@ -1,19 +1,9 @@
-<html>
-        <head>
-                <link
-                        rel="stylesheet"
-                        href="https://esm.sh/@tsei/ctrl@latest/dist/index.css"
-                />
-        </head>
-        <body>
-                <div id="root">world</div>
-                <script type="module">
-                        import { ctrl } from 'https://esm.sh/@tsei/ctrl@latest/es2022/index.mjs'
-                        const c = ctrl({ hello: `world` })
-                        const root = document.getElementById('root')
-                        c.sub(() => {
-                                root.innerText = c.current.hello
-                        })
-                </script>
-        </body>
-</html>
+<link rel="stylesheet" href="https://esm.sh/@tsei/ctrl@latest/dist/index.css" />
+<div id="root">world</div>
+<script type="module">
+        import { ctrl } from 'https://esm.sh/@tsei/ctrl@latest/es2022/index.mjs'
+        const c = ctrl({ hello: 'world' })
+        c.sub(() => {
+                document.getElementById('root').innerText = c.current.hello
+        })
+</script>

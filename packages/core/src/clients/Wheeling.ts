@@ -1,9 +1,8 @@
 import { ctrl } from '../index'
 import { dragEvent } from '../helpers/drag'
-import { merge, subV } from '../helpers/utils'
+import { merge, subV, Vec2 } from '../helpers/utils'
 import { wheelEvent } from '../helpers/wheel'
 import { zoomStore } from './ZoomStore'
-import { Vec2 } from '../../dist/index'
 import { isGrab } from './HandButton'
 
 interface Props {

@@ -1,10 +1,8 @@
 <div id="root">world</div>
 <script>
         import { ctrl } from '@tsei/ctrl/src/index'
-        const c = ctrl({ hello: `world` })
-        const root = document.getElementById('root')!
-
+        const c = ctrl({ hello: 'world' })
         c.sub(() => {
-                root.innerText = c.current.hello
+                document.getElementById('root')!.innerText = c.current.hello
         })
 </script>

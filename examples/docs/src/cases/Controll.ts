@@ -1,16 +1,16 @@
 import { ctrl } from '@tsei/ctrl/src/react'
 import { codemirror, scrollTo } from '../utils'
 
-const c = ctrl({ a: 0, b: 0, c: 0 })
+const c = ctrl({ a: 0, b: 1, c: 2 })
 
-c.id = 'Render UI'
+c.id = 'Render Controller'
 
 const basicsCode = () =>
         /* TS */ `
-import { Controller, useCtrl } from '@tsei/ctrl/react'
 import '@tsei/ctrl/style'
+import { Controller, useCtrl } from '@tsei/ctrl/react'
 
-function MyComponent() {
+function App() {
         const { a, b, c } = useCtrl({ a: ${c.current.a}, b: ${c.current.b}, c: ${c.current.c} })
         return (
                 <Controller>
@@ -24,14 +24,52 @@ function MyComponent() {
 }
 `.trim()
 
+const solidCode = () =>
+        /* TSX */ `
+import '@tsei/ctrl/style'
+import { Controller, useCtrl } from '@tsei/ctrl/react'
+
+function App() {
+        const c = useCtrl({ a: ${c.current.a}, b: ${c.current.b}, c: ${c.current.c} })
+        return (
+                <>
+                        <Controller />
+                        <ul>
+                                <li>{c.a}</li>
+                                <li>{c.b}</li>
+                                <li>{c.c}</li>
+                        </ul>
+                </>
+        )
+}
+`.trim()
+
+const vueCode = () =>
+        /* html */ `
+<script setup>
+import '@tsei/ctrl/style'
+import { Controller, useCtrl } from '@tsei/ctrl/src/vue3'
+const c = ctrl({ a: ${c.current.a}, b: ${c.current.b}, c: ${c.current.c} })
+</script>
+
+<template>
+        <Controller />
+        <ul>
+                <li>{c.a}</li>
+                <li>{c.b}</li>
+                <li>{c.c}</li>
+        </ul>
+</template>
+`.trim()
+
 const esmCode = () =>
         /* html */ `
-<link rel="stylesheet" href="https://esm.sh/@tsei/ctrl@0.11.0/dist/index.css" />
+<link rel="stylesheet" href="https://esm.sh/@tsei/ctrl@latest/dist/index.css" />
 <script type="module">
         import {
                 Controller,
                 ctrl,
-        } from 'https://esm.sh/@tsei/ctrl@0.11.0/es2022'
+        } from 'https://esm.sh/@tsei/ctrl@latest/es2022/index.mjs'
         const c = ctrl({ a: ${c.current.a}, b: ${c.current.b}, c: ${c.current.c} })
         const _ = ctrl.create
 
@@ -41,8 +79,8 @@ const esmCode = () =>
                         {},
                         _('ul', {}, [
                                 _('li', { id: 'a' }, '0'),
-                                _('li', { id: 'b' }, '0'),
-                                _('li', { id: 'c' }, '0'),
+                                _('li', { id: 'b' }, '1'),
+                                _('li', { id: 'c' }, '2'),
                         ])
                 ),
                 document.body
@@ -54,11 +92,21 @@ const esmCode = () =>
 </script>
 `.trim()
 
-export default function RenderUI() {
+export default function Controll() {
         const _ = ctrl.create
 
         const basicsRef = (el: HTMLElement) => {
                 const update = codemirror(el, basicsCode)
+                setTimeout(() => c.sub(update))
+        }
+
+        const solidRef = (el: HTMLElement) => {
+                const update = codemirror(el, solidCode)
+                setTimeout(() => c.sub(update))
+        }
+
+        const vueRef = (el: HTMLElement) => {
+                const update = codemirror(el, vueCode)
                 setTimeout(() => c.sub(update))
         }
 
@@ -80,7 +128,7 @@ export default function RenderUI() {
                                         key: '0', //
                                         className: 'font-bold',
                                 },
-                                '### Render UI'
+                                '### Render Controller'
                         ),
                         _(
                                 'h6',
@@ -88,7 +136,7 @@ export default function RenderUI() {
                                         key: '1', //
                                         className: 'font-bold my-4',
                                 },
-                                '###### Basics'
+                                '###### React Support'
                         ),
                         _(
                                 'div', //
@@ -103,12 +151,42 @@ export default function RenderUI() {
                                         key: '3', //
                                         className: 'font-bold my-4',
                                 },
-                                '###### ESM SUPPORT'
+                                '###### Solid Support'
                         ),
                         _(
                                 'div', //
                                 {
                                         key: '4', //
+                                        ref: solidRef,
+                                }
+                        ),
+                        _(
+                                'h6',
+                                {
+                                        key: '5', //
+                                        className: 'font-bold my-4',
+                                },
+                                '###### Vue Support'
+                        ),
+                        _(
+                                'div', //
+                                {
+                                        key: '6', //
+                                        ref: vueRef,
+                                }
+                        ),
+                        _(
+                                'h6',
+                                {
+                                        key: '7', //
+                                        className: 'font-bold my-4',
+                                },
+                                '###### ESM Support'
+                        ),
+                        _(
+                                'div', //
+                                {
+                                        key: '8', //
                                         ref: esmRef,
                                 }
                         ),

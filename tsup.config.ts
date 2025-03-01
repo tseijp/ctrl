@@ -45,6 +45,7 @@ export const defaultConfig = (override: Options, options: Options) => {
                                 'react-dom',
                                 'react-native',
                                 'solid-js',
+                                'vue',
                                 '@tsei/ctrl',
                                 '@tsei/r3f-ctrl',
                         ],

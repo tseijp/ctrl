@@ -16,6 +16,13 @@ interface Props<T extends Target> {
         c: Ctrl<T>
 }
 
+function isIgnore(key: string) {
+        if (key.startsWith('_')) return true
+        if (key.startsWith('on')) return true
+        if (key.startsWith('parent')) return true
+        return false
+}
+
 export function PluginItem<T extends Target>(props: Props<T>) {
         const { c } = props
         const { current, id } = c
@@ -25,6 +32,7 @@ export function PluginItem<T extends Target>(props: Props<T>) {
         const attach = <K extends keyof T & string>(k: K) => {
                 let a = current[k]
                 if (isU(a)) a = a.value
+                if (isIgnore(k)) return
                 for (const El of ctrl.plugin) {
                         const el = _(El, { key: k, a, c, k })
                         if (el) return children.push(el)

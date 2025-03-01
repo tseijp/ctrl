@@ -37,18 +37,24 @@ export function cssPlugin(props: Attach<CSSStyle>) {
                 }
 
                 children.push(
-                        _('div', {}, [
-                                _(InputLabel, { key: 'key', k: key }),
-                                _(
-                                        InputValue,
-                                        {
-                                                icon: key[0].toUpperCase(),
-                                                value: px[0],
-                                                _set,
-                                        },
-                                        key
-                                ),
-                        ])
+                        _(
+                                'div',
+                                {
+                                        key, //
+                                },
+                                [
+                                        _(InputLabel, { key: 'key', k: key }),
+                                        _(
+                                                InputValue,
+                                                {
+                                                        icon: key[0].toUpperCase(),
+                                                        value: px[0],
+                                                        _set,
+                                                },
+                                                key
+                                        ),
+                                ]
+                        )
                 )
         }
 

@@ -5,30 +5,26 @@ import { createElement as _, useState, useSyncExternalStore } from 'react'
 import _Controller from './clients/Controller'
 import LayersItem from './clients/LayersItem'
 import { PluginItem } from './plugins/index'
-import { Ctrl, ctrl, flush, isC, register, store } from './index'
+import { Ctrl, ctrl, flush, isC, register } from './index'
 import { Target } from './types'
 
 export * from './index'
 export default useCtrl
 export { useCtrl }
 
-function useCtrl<T extends Target>(c: Ctrl<T>, id?: string): T
-
-function useCtrl<T extends Target>(config: T, id?: string): T
-
 function useCtrl<T extends Target>(config: T | Ctrl<T>, id?: string) {
-        const [c] = useState(() => {
+        const [c] = useState<Ctrl<T>>(() => {
                 if (isC(config)) return config
                 return ctrl<T>(config, id)
         })
         useSyncExternalStore(c.sub, c.get, c.get)
-        return c.current
+        return c.current as T
 }
 
-let updated = 0
+const controlls = new Set<Ctrl>()
 const listeners = new Set<Function>()
 
-const get = () => updated
+const get = () => controlls.size
 
 const sub = (update = () => {}) => {
         listeners.add(update)
@@ -38,18 +34,18 @@ const sub = (update = () => {}) => {
 }
 
 function Plugins() {
-        useSyncExternalStore(sub, get, get)
-        return [...store].map((c: Ctrl) => _(PluginItem, { c, key: c.id }))
+        useSyncExternalStore(sub, get, get) // @ts-ignore
+        return [...controlls].map((c: Ctrl) => _(PluginItem, { c, key: c.id }))
 }
 
 function Layers() {
         useSyncExternalStore(sub, get, get)
-        if (!ctrl.layersParent) return null
-        return [...store].map((c: Ctrl) => _(LayersItem, { c, key: c.id }))
+        if (!ctrl.layersParent) return null // @ts-ignore
+        return [...controlls].map((c: Ctrl) => _(LayersItem, { c, key: c.id }))
 }
 
-function mount() {
-        updated++
+function mount(c: Ctrl) {
+        controlls.add(c)
         flush(listeners)
 }
 

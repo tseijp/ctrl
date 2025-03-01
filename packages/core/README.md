@@ -24,17 +24,42 @@
 npm i @tsei/ctrl
 ```
 
-### Quick Start
+### Basic Example
 
-###### Basics
+###### React Support
 
 ```tsx
 import { useCtrl } from '@tsei/ctrl/react'
 
-function MyComponent() {
+function App() {
         const { hello } = useCtrl({ hello: 'world' })
         return <div>{hello}</div>
 }
+```
+
+###### Solid Support
+
+```ts
+import { useCtrl } from '@tsei/ctrl/solid'
+
+export default function App() {
+        const c = useCtrl({ hello: 'world' })
+        return <div>{c.hello}</div>
+}
+```
+
+###### Vue Support
+
+```vue
+<script setup>
+import '@tsei/ctrl/style'
+import { useCtrl } from '@tsei/ctrl/vue3'
+const c = useCtrl({ hello: 'world' })
+</script>
+
+<template>
+        {{ c.hello }}
+</template>
 ```
 
 ###### ESM Support
@@ -44,24 +69,22 @@ function MyComponent() {
 <script type="module">
         import { ctrl } from 'https://esm.sh/@tsei/ctrl@0.11.0/es2022'
         const c = ctrl({ hello: 'world' })
-        const root = document.getElementById('root')
-
         c.sub(() => {
-                root.innerText = c.current.hello
+                document.getElementById('root').innerText = c.current.hello
         })
 </script>
 ```
 
-### Render UI
+### Render Controller
 
-###### Basics
+###### React Support
 
 ```tsx
-import { Controller, useCtrl } from '@tsei/ctrl/react'
 import '@tsei/ctrl/style'
+import { Controller, useCtrl } from '@tsei/ctrl/react'
 
-function MyComponent() {
-        const { a, b, c } = useCtrl({ a: 0, b: 0, c: 0 })
+function App() {
+        const { a, b, c } = useCtrl({ a: 0, b: 1, c: 2 })
         return (
                 <Controller>
                         <ul>
@@ -74,16 +97,56 @@ function MyComponent() {
 }
 ```
 
+###### Solid Support
+
+```ts
+import '@tsei/ctrl/style'
+import { Controller, useCtrl } from '@tsei/ctrl/react'
+
+function App() {
+        const c = useCtrl({ a: 0, b: 1, c: 2 })
+        return (
+                <>
+                        <Controller />
+                        <ul>
+                                <li>{c.a}</li>
+                                <li>{c.b}</li>
+                                <li>{c.c}</li>
+                        </ul>
+                </>
+        )
+}
+```
+
+###### Vue Support
+
+```vue
+<script setup>
+import '@tsei/ctrl/style'
+import { Controller, useCtrl } from '@tsei/ctrl/src/vue3'
+const c = ctrl({ a: 0, b: 1, c: 2 })
+</script>
+
+<template>
+        <Controller />
+        <ul>
+                <li>{c.a}</li>
+                <li>{c.b}</li>
+                <li>{c.c}</li>
+        </ul>
+</template>
+```
+
 ###### ESM Support
 
 ```html
-<link rel="stylesheet" href="https://esm.sh/@tsei/ctrl@0.11.0/dist/index.css" />
+<link rel="stylesheet" href="https://esm.sh/@tsei/ctrl@latest/dist/index.css" />
 <script type="module">
         import {
                 Controller,
                 ctrl,
-        } from 'https://esm.sh/@tsei/ctrl@0.11.0/es2022'
-        const c = ctrl({ a: 0, b: 0, c: 0 })
+        } from 'https://esm.sh/@tsei/ctrl@latest/es2022/index.mjs'
+        const c = ctrl({ a: 0, b: 1, c: 2 })
         const _ = ctrl.create
 
         ctrl.append(
@@ -92,8 +155,8 @@ function MyComponent() {
                         {},
                         _('ul', {}, [
                                 _('li', { id: 'a' }, '0'),
-                                _('li', { id: 'b' }, '0'),
-                                _('li', { id: 'c' }, '0'),
+                                _('li', { id: 'b' }, '1'),
+                                _('li', { id: 'c' }, '2'),
                         ])
                 ),
                 document.body

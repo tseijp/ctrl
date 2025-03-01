@@ -16,7 +16,7 @@
                         function Document() {
                                 const _ = ctrl.create
                                 append(_(Controller), document.body)
-                                ctrl(document.head, 'head').sub()
+                                ctrl(document.body, 'body').sub()
                         }
 
                         window.addEventListener('DOMContentLoaded', Document)
