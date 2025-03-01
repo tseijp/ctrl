@@ -1,7 +1,5 @@
-import { ctrl, cssPlugin } from '@tsei/ctrl/src/react'
+import { ctrl } from '@tsei/ctrl/src/react'
 import { codemirror, scrollTo } from '../utils'
-
-ctrl.use(cssPlugin)
 
 const c = ctrl({
         cssPlugin0: { style: 'width:1280px; height:800px;' }, // or
@@ -14,9 +12,7 @@ c.id = 'Plugin'
 
 const code = () =>
         /* TS */ `
-import { ctrl, cssPlugin, htmlPlugin } from '@tsei/ctrl'
-
-ctrl.use(cssPlugin, htmlPlugin)
+import { ctrl } from '@tsei/ctrl'
 
 const c = ctrl({
         cssPlugin0: ${JSON.stringify(c.current.cssPlugin0)}, // or
@@ -51,7 +47,7 @@ export default function PluginCase() {
                         ),
                         _('div', {
                                 key: '1', //
-                                // ref,
+                                ref,
                         }),
                 ]
         )

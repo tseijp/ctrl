@@ -1,0 +1,26 @@
+<link rel="stylesheet" href="https://esm.sh/@tsei/ctrl@0.11.0/dist/index.css" />
+<script>
+        import {
+                Controller,
+                ctrl,
+        } from '@tsei/ctrl/src/index'
+        const c = ctrl({ a: 0, b: 1, c: 2 })
+        const _ = ctrl.create
+
+        ctrl.append(
+                _(
+                        Controller,
+                        {},
+                        _('ul', {}, [
+                                _('li', { id: 'a' }, '0'),
+                                _('li', { id: 'b' }, '1'),
+                                _('li', { id: 'c' }, '2'),
+                        ])
+                ),
+                document.body
+        )
+
+        c.sub((key: string) => {
+                document.getElementById(key)!.innerText = c.current[key]
+        })
+</script>

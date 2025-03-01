@@ -51,15 +51,21 @@ export default function Vector<T extends Target>(props: Attach<Arg, T>) {
                 })
         })
 
-        return _('fieldset', {}, [
-                _(InputLabel, { key: 'key', k }),
-                _(
-                        'div',
-                        {
-                                key: 'values',
-                                className: 'grid gap-x-2 grid-cols-[1fr_1fr_1fr]',
-                        },
-                        children
-                ),
-        ])
+        return _(
+                'fieldset',
+                {
+                        className: 'mr-2',
+                },
+                [
+                        _(InputLabel, { key: 'key', k }),
+                        _(
+                                'div',
+                                {
+                                        key: 'values',
+                                        className: 'grid gap-x-2 grid-cols-[1fr_1fr_1fr]',
+                                },
+                                children
+                        ),
+                ]
+        )
 }

@@ -9,37 +9,22 @@ import { Ctrl, ctrl, flush, isC, register } from './index'
 import { Target } from './types'
 
 export * from './index'
+export default useCtrl
+export { useCtrl }
 
-function useCtrl<T extends Target>(c: Ctrl<T>, id?: string): T
-
-function useCtrl<T extends Target>(config: T, id?: string): T
-
-function useCtrl<T extends Target>(config: T, id?: string) {
-        const [c] = useState(() => {
+function useCtrl<T extends Target>(config: T | Ctrl<T>, id?: string) {
+        const [c] = useState<Ctrl<T>>(() => {
                 if (isC(config)) return config
                 return ctrl<T>(config, id)
         })
         useSyncExternalStore(c.sub, c.get, c.get)
-        return c.current
+        return c.current as T
 }
 
-export { useCtrl }
-
-export default useCtrl
-
-interface Props {
-        left?: React.ReactNode
-        right?: React.ReactNode
-        children: React.ReactNode
-}
-
-const _layers = new Set<React.ReactNode>()
-const _plugin = new Set<React.ReactNode>()
+const controlls = new Set<Ctrl>()
 const listeners = new Set<Function>()
 
-let updated = 0
-
-const get = () => updated
+const get = () => controlls.size
 
 const sub = (update = () => {}) => {
         listeners.add(update)
@@ -48,24 +33,20 @@ const sub = (update = () => {}) => {
         }
 }
 
+function Plugins() {
+        useSyncExternalStore(sub, get, get) // @ts-ignore
+        return [...controlls].map((c: Ctrl) => _(PluginItem, { c, key: c.id }))
+}
+
+function Layers() {
+        useSyncExternalStore(sub, get, get)
+        if (!ctrl.layersParent) return null // @ts-ignore
+        return [...controlls].map((c: Ctrl) => _(LayersItem, { c, key: c.id }))
+}
+
 function mount(c: Ctrl) {
-        const { id } = c
-        updated++
-        // @ts-ignore
-        const plugin = _(PluginItem, { c, key: id })
-        _plugin.add(plugin)
-        c.cleanups.add(() => _plugin.delete(plugin))
-        if (ctrl.layersParent) {
-                // @ts-ignore
-                const layers = _(LayersItem, { key: id, id, title: id })
-                _layers.add(layers)
-                c.cleanups.add(() => _layers.delete(layers))
-        }
+        controlls.add(c)
         flush(listeners)
-        c.cleanups.add(() => {
-                updated++
-                flush(listeners)
-        })
 }
 
 let isInitialized = false
@@ -76,14 +57,9 @@ function initialize() {
         register({ mount, create: _ })
 }
 
-function Plugins() {
-        useSyncExternalStore(sub, get, get)
-        return [..._plugin]
-}
-
-function Layers() {
-        useSyncExternalStore(sub, get, get)
-        return [..._layers]
+interface Props extends React.HTMLProps<HTMLDivElement> {
+        left?: React.ReactNode
+        right?: React.ReactNode
 }
 
 export function Controller(props: Props) {

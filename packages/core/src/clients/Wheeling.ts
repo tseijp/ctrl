@@ -1,9 +1,8 @@
 import { ctrl } from '../index'
 import { dragEvent } from '../helpers/drag'
-import { merge, subV } from '../helpers/utils'
+import { merge, subV, Vec2 } from '../helpers/utils'
 import { wheelEvent } from '../helpers/wheel'
 import { zoomStore } from './ZoomStore'
-import { Vec2 } from '../../dist/index'
 import { isGrab } from './HandButton'
 
 interface Props {
@@ -104,7 +103,7 @@ const ref = (el: HTMLDivElement) => {
         wheel.memo.el = el
         wheel.offset[0] = -240 // var(--sidebar-width) in index.css
         wheel.offset[1] = -48 // var(--header-height) in index.css
-        drag.onMount(document.body as any)
+        drag.onMount(el)
         wheel.onMount(window as any)
 }
 

@@ -1,6 +1,6 @@
 {
         "name": "@tsei/ctrl",
-        "version": "0.14.0",
+        "version": "0.19.0",
         "author": "tseijp",
         "license": "MIT",
         "sideEffect": false,
@@ -22,7 +22,9 @@
                 "solid",
                 "solidjs",
                 "tiny",
-                "typescript"
+                "typescript",
+                "vue",
+                "vue3"
         ],
         "files": [
                 "dist/**/*.{js,ts,mjs,mts,map,css}",
@@ -34,6 +36,15 @@
         "module": "./dist/index.mjs",
         "exports": {
                 "./packages.json": "./packages.json",
+                "./style": {
+                        "default": "./dist/index.css"
+                },
+                "./src/style": {
+                        "default": "./src/index.css"
+                },
+                "./src/*": {
+                        "default": "./src/*.ts"
+                },
                 "./react": {
                         "types": "./dist/react.d.ts",
                         "import": {
@@ -47,14 +58,18 @@
                         "require": "./dist/react.js",
                         "default": "./dist/react.js"
                 },
-                "./style": {
-                        "default": "./dist/index.css"
-                },
-                "./src/style": {
-                        "default": "./src/index.css"
-                },
-                "./src/*": {
-                        "default": "./src/*.ts"
+                "./vue3": {
+                        "types": "./dist/vue3.d.ts",
+                        "import": {
+                                "types": "./dist/vue3.d.ts",
+                                "default": "./dist/vue3.mjs"
+                        },
+                        "module": {
+                                "types": "./dist/vue3.d.ts",
+                                "default": "./dist/vue3.mjs"
+                        },
+                        "require": "./dist/vue3.js",
+                        "default": "./dist/vue3.js"
                 },
                 ".": {
                         "types": "./dist/index.d.ts",

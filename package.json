@@ -12,6 +12,7 @@
                 "build": "cd examples/docs && npm run build",
                 "start": "cd examples/docs && npm run preview",
                 "next": "cd examples/next && npm run dev",
+                "nuxt": "cd examples/nuxt && npm run dev",
                 "test": "jest --watch",
                 "tsup": "cd packages/core && tsup",
                 "pub": "cd packages/core && npm publish"
