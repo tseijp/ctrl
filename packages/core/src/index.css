@@ -27,6 +27,7 @@
         bottom: 0px;
         width: 100vw;
         height: 100vh;
+        transform-origin: top left;
         transform: translate(var(--sidebar-width), var(--header-height));
 }
 

@@ -114,7 +114,7 @@ export default function Wheeling(props: Props) {
                 'div',
                 {
                         ref,
-                        className: 'relative origin-top-left _ctrl-main',
+                        className: 'relative _ctrl-main',
                 },
                 children
         )

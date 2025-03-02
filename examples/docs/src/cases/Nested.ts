@@ -15,8 +15,8 @@ const code = () =>
 // Nested
 const c = ctrl({
         nested0: ${JSON.stringify(c.current.nested0)}, // or
-        nested1: ${JSON.stringify(c.current.nested1)},
-        nested2: ${JSON.stringify(c.current.nested2)},
+        nested1: ${JSON.stringify(c.current.nested1)}, // or
+        nested2: ${JSON.stringify(c.current.nested2)}, // or
         nested3: ${JSON.stringify(c.current.nested3)},
 })
 `.trim()

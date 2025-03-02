@@ -36,7 +36,7 @@ export default function Char<T extends Target>(props: Attach<Arg, T>) {
         let clean = () => {}
 
         const ref = (el: HTMLTextAreaElement) => {
-                if (!el) return clean()
+                if (!el) return
                 el.addEventListener('input', input)
                 el.addEventListener('dblclick', dblclick)
                 el.defaultValue = a
@@ -48,11 +48,12 @@ export default function Char<T extends Target>(props: Attach<Arg, T>) {
                         el.value = arg
                 }
 
-                c.updates.add(update)
-
-                clean = () => {
+                const clean = () => {
                         c.updates.delete(update)
                 }
+
+                c.updates.add(update)
+                c.cleanups.add(clean)
         }
 
         const _ = ctrl.create
@@ -67,7 +68,7 @@ export default function Char<T extends Target>(props: Attach<Arg, T>) {
                                 ref,
                                 key: 'textarea',
                                 rows: 1,
-                                className: '_ctrl-input bg-[#383838] rounded-sm px-2 py-1 leading-[20px] w-full block text-12px',
+                                className: '_ctrl-input _hidden-scrollbar bg-[#383838] rounded-sm px-2 py-1 leading-[20px] w-full block max-h-[50vh]',
                                 defaultValue: a,
                         }),
                 ]
