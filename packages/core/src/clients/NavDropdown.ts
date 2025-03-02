@@ -1,6 +1,6 @@
 import { ctrl, Vec2 } from '../index'
 import Dropdown from './Dropdown'
-import { zoom } from './Wheeling'
+import { transform } from './Wheeling'
 import ZoomStore, { zoomStore } from './ZoomStore'
 
 const items = [
@@ -47,7 +47,7 @@ const zoomIn = () => {
         const b = Math.ceil(a)
         const next = xy(b > a ? b : b + 1)
         zoomStore.zoom = next
-        zoom()
+        transform()
 }
 
 const zoomOut = () => {
@@ -56,7 +56,7 @@ const zoomOut = () => {
         const b = Math.floor(a)
         const next = xy(b < a ? b : b - 1)
         zoomStore.zoom = next
-        zoom()
+        transform()
 }
 
 const getMainRect = () => {
@@ -65,23 +65,23 @@ const getMainRect = () => {
         return child.getBoundingClientRect()
 }
 
-const zoomTo = (to: 'fit' | number) => {
-        const fit = to === 'fit'
+const zoomTo = (to: number) => {
+        const fit = to === -1
         if (fit) {
                 const padding = 32
                 const rect = getMainRect()
                 const width = window.innerWidth - 240 * 2
                 const scale = (width * zoomStore.zoom - padding) / rect.width
                 zoomStore.zoom = scale
-                zoom(reset)
+                transform(reset)
         } else zoomStore.zoom = to
-        zoom()
+        transform()
 }
 
 const onClick = (item: string) => {
         if (item === items[0]) return zoomIn()
         if (item === items[1]) return zoomOut()
-        if (item === items[2]) return zoomTo('fit')
+        if (item === items[2]) return zoomTo(-1)
         if (item === items[3]) return zoomTo(0.5)
         if (item === items[4]) return zoomTo(1)
         if (item === items[5]) return zoomTo(2)
