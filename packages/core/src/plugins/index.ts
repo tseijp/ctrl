@@ -3,14 +3,22 @@ import Bool from './Bool'
 import Char from './Char'
 import Color from './Color'
 import Float from './Float'
+import Image from './Image'
 import Null from './Null'
+import Select from './Select'
 import Vector from './Vector'
 import Container from '../clients/Container'
 import { Ctrl, ctrl, HTMLNode, is } from '../index'
-import { Attach, isColor, isHex, isU, isVector, Target } from '../types'
-
-export * from './css/index'
-export * from './html/index'
+import {
+        Attach,
+        isColor,
+        isHex,
+        isImage,
+        isSelect,
+        isU,
+        isVector,
+        Target,
+} from '../types'
 
 interface Props<T extends Target> {
         c: Ctrl<T>
@@ -63,15 +71,17 @@ export function DefaultPlugin<T extends Target>(props: Attach<unknown, T>) {
         if (isHTMLCollection(a)) return _(NestedItem, props)
 
         if (typeof a === 'object') {
-                if (isHTML(a)) return _(HTML<T>, props)
-                if (isColor(a)) return _(Color<T>, props)
-                if (isVector(a)) return _(Vector<T>, props)
+                if (isHTML(a)) return _(HTML, props)
+                if (isColor(a)) return _(Color, props)
+                if (isImage(a)) return _(Image, props)
+                if (isSelect(a)) return _(Select, props)
+                if (isVector(a)) return _(Vector, props)
         }
 
         if (is.obj(a)) return _(NestedItem, props)
 
         if (is.arr(a)) {
-                if (a.every(is.num)) return _(Vector<T>, props)
+                if (a.every(is.num)) return _(Vector, props)
                 return _(NestedItem, props)
         }
 
@@ -80,9 +90,9 @@ export function DefaultPlugin<T extends Target>(props: Attach<unknown, T>) {
                 return _(Char<T>, props)
         }
 
-        if (is.nul(a)) return _(Null<T>, props)
-        if (is.bol(a)) return _(Bool<T>, props)
-        if (is.num(a)) return _(Float<T>, props)
+        if (is.nul(a)) return _(Null, props)
+        if (is.bol(a)) return _(Bool, props)
+        if (is.num(a)) return _(Float, props)
 
         console.log(`ctrl Warn: not support`, k, a)
 

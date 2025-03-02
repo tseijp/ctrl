@@ -35,13 +35,13 @@ const sub = (update = () => {}) => {
 
 function Plugins() {
         useSyncExternalStore(sub, get, get) // @ts-ignore
-        return [...controlls].map((c: Ctrl) => _(PluginItem, { c, key: c.id }))
+        return [...controlls].map((c) => _(PluginItem, { c, key: c.id }))
 }
 
 function Layers() {
         useSyncExternalStore(sub, get, get)
         if (!ctrl.layersParent) return null // @ts-ignore
-        return [...controlls].map((c: Ctrl) => _(LayersItem, { c, key: c.id }))
+        return [...controlls].map((c) => _(LayersItem, { c, key: c.id }))
 }
 
 function mount(c: Ctrl) {

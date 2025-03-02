@@ -1,12 +1,12 @@
 import { append, create, ctrl, Props, remove } from '../index'
 
-const selectRef = (button: HTMLButtonElement) => {
+const selectRef = (button: HTMLButtonElement, left = 0) => {
         return (select: HTMLDivElement | null) => {
                 if (!select) return
                 const rect = button.getBoundingClientRect()
                 let x = rect.left
                 let y = rect.top
-                x -= 216
+                x += left
                 x += rect.width
                 y += rect.height
                 select.style.top = `${y}px`
@@ -15,19 +15,20 @@ const selectRef = (button: HTMLButtonElement) => {
 }
 
 interface DropdownProps extends Props<'button'> {
+        left?: number
         items?: string[]
-        onClick?: (item: string) => void
+        onClick?: (item: string, button: HTMLButtonElement) => void
 }
 
 const handleClick = (props: DropdownProps) => (e: Event) => {
         const button = e.currentTarget as HTMLButtonElement
 
-        const { items = [], onClick } = props
+        const { left, items = [], onClick } = props
 
         const _ = create
 
         const children = items.map((item, index) => {
-                const click = () => onClick?.(item)
+                const click = () => onClick?.(item, button)
                 return _(
                         'div',
                         {
@@ -60,7 +61,7 @@ const handleClick = (props: DropdownProps) => (e: Event) => {
                 _(
                         'div',
                         {
-                                ref: selectRef(button),
+                                ref: selectRef(button, left),
                                 className: `absolute w-[216px] p-2 flex flex-col border border-[#292929] rounded-xl bg-[#1e1e1e]`,
                         },
                         children

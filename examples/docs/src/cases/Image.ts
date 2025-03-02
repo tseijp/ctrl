@@ -2,10 +2,10 @@ import { ctrl } from '@tsei/ctrl/src/react'
 import { codemirror, scrollTo } from '../utils'
 
 const c = ctrl({
-        image0: { src: 'https://r.tsei.jp/block.png' }, // or
-        image1: { src: 'https://r.tsei.jp/block.png' }, // or
-        image2: { value: { src: 'https://r.tsei.jp/block.png' } }, // or
-        image3: { value: { src: 'https://r.tsei.jp/block.png' } }, // or
+        image0: { src: 'https://r.tsei.jp/texture/Brick.jpg' }, // or
+        image1: { src: 'https://r.tsei.jp/texture/Brick.jpg' }, // or
+        image2: { value: { src: 'https://r.tsei.jp/texture/Rust.jpg' } }, // or
+        image3: { value: { src: 'https://r.tsei.jp/texture/Rust.jpg' } }, // or
 })
 
 c.id = 'Image'

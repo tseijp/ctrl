@@ -10,7 +10,7 @@ interface Props {
 }
 
 // for ControlNav zoom button
-export const zoom = (coord?: (offset: Vec2) => void) => {
+export const transform = (coord?: (offset: Vec2) => void) => {
         if (coord) coord(wheel.offset)
 
         // @ts-ignore
@@ -50,10 +50,10 @@ const wheel = wheelEvent(() => {
         event.preventDefault()
 
         if (isZoom) {
-                zoom(zoomCoord)
+                transform(zoomCoord)
         } else {
                 zoomStore.zoom = zoomStore.zoom // flush update
-                zoom()
+                transform()
         }
 })
 
@@ -85,7 +85,7 @@ const drag = dragEvent(() => {
         }
 
         if (drag.isDragging) {
-                zoom((offset) => {
+                transform((offset) => {
                         offset[0] -= delta[0]
                         offset[1] -= delta[1]
                 })
@@ -114,7 +114,7 @@ export default function Wheeling(props: Props) {
                 'div',
                 {
                         ref,
-                        className: 'relative origin-top-left _ctrl-main',
+                        className: 'relative _ctrl-main',
                 },
                 children
         )

@@ -1,4 +1,3 @@
-import { ctrl } from './index'
 import { is } from './helpers/utils'
 
 /**
@@ -64,9 +63,25 @@ export const isColor = (a: object): a is RGBColor => {
         return false
 }
 
-export const isSelect = (a: unknown): a is 1 => {
+export interface SelectOptions {
+        options: string[]
+}
+
+export const isSelect = (a: unknown): a is SelectOptions => {
         if (!is.obj(a)) return false
-        return true
+        if ('options' in a) if (is.arr(a.options)) return true
+        return false
+}
+
+export interface ImageSource {
+        src: string
+        alt?: string
+}
+
+export const isImage = (a: unknown): a is ImageSource => {
+        if (!is.obj(a)) return false
+        if ('src' in a) if (is.str(a.src)) return true
+        return false
 }
 
 /**
@@ -105,6 +120,7 @@ export interface Ctrl<
         T extends Target = Target,
         K extends keyof Target & string = keyof Target & string
 > {
+        isC: true
         get updated(): number
         get mounted(): number
         get parent(): null | Ctrl
@@ -122,9 +138,8 @@ export interface Ctrl<
         sub(fn?: () => void): () => void
         get(): number
         set(k: K, a: T[K]): void
-        sync(k: K, a: T[K]): void
+        sync(k: K, a?: T[K]): void
         ref(target: T | null): void
-        isC: true
         cache: any
 }
 

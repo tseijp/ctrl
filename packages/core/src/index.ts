@@ -24,6 +24,7 @@ function ctrl<T extends Target>(current: T = {} as T, id = `c${store.size}`) {
         let _parent = null as null | Ctrl<T>
 
         const c = {
+                isC: true,
                 get updated() {
                         return updated
                 },
