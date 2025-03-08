@@ -1,4 +1,4 @@
-import { is } from './helpers/utils'
+import { ext, is } from './helpers/utils'
 
 /**
  * Vector
@@ -73,14 +73,65 @@ export const isSelect = (a: unknown): a is SelectOptions => {
         return false
 }
 
-export interface ImageSource {
+/**
+ * Button
+ */
+export interface ButtonOnClick {
+        onclick: () => void
+}
+
+export const isButton = (a: unknown): a is ButtonOnClick => {
+        if (!is.obj(a)) return false
+        if ('onclick' in a) if (is.fun(a.onclick)) return true
+        return false
+}
+
+/**
+ * Audio, Image, Video
+ */
+
+// prettier-ignore
+const AUDIO_EXT = new Set(['mp3', 'wav', 'ogg', 'flac', 'aac', 'm4a', 'wma', 'aiff', 'ape', 'midi', 'mid'])
+// prettier-ignore
+const IMAGE_EXT = new Set(['jpg', 'jpeg', 'png', 'gif', 'webp', 'svg', 'bmp', 'ico', 'tiff', 'tif', 'avif', 'apng', 'heic', 'heif'])
+// prettier-ignore
+const VIDEO_EXT = new Set(['mp4', 'webm', 'ogv', 'mov', 'avi', 'wmv', 'flv', 'mkv', 'm4v', '3gp', '3g2'])
+
+export interface FilesSource {
         src: string
+        name?: string
+        size?: number
+        type?: string
+}
+
+export const isFiles = (a: unknown): a is FilesSource => {
+        if (!is.obj(a)) return false
+        if ('src' in a) return is.str(a.src)
+        return false
+}
+
+export interface AudioSource extends FilesSource {}
+
+export const isAudio = (a: unknown): a is AudioSource => {
+        if (isFiles(a)) return AUDIO_EXT.has(ext(a.src))
+        return false
+}
+
+export interface ImageSource extends FilesSource {
         alt?: string
 }
 
 export const isImage = (a: unknown): a is ImageSource => {
-        if (!is.obj(a)) return false
-        if ('src' in a) if (is.str(a.src)) return true
+        if (isFiles(a)) return IMAGE_EXT.has(ext(a.src))
+        return false
+}
+
+export interface VideoSource extends FilesSource {
+        alt?: string
+}
+
+export const isVideo = (a: unknown): a is AudioSource => {
+        if (isFiles(a)) return VIDEO_EXT.has(ext(a.src))
         return false
 }
 
@@ -158,4 +209,9 @@ export interface Attach<
         a: Arg & T[K]
         c: Ctrl<T>
         k: K
+}
+
+export interface CustomPlugin<Arg = unknown> {
+        is(a: unknown): a is Arg
+        el(props: Attach<Arg>): any
 }

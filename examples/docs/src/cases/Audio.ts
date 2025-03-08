@@ -2,22 +2,22 @@ import { ctrl } from '@tsei/ctrl/src/react'
 import { codemirror, scrollTo } from '../utils'
 
 const c = ctrl({
-        image0: { src: 'https://r.tsei.jp/texture/Brick.jpg' }, // or
-        image1: { value: { src: 'https://r.tsei.jp/texture/Rust.jpg' } }, // or
+        audio0: { src: '.wav' }, // or
+        audio1: { value: { src: '.wav' } },
 })
 
-c.id = 'Image'
+c.id = 'Audio'
 
 const code = () =>
         /* TS */ `
-// Image
+// Audio
 const c = ctrl({
-        image0: ${JSON.stringify(c.current.image0)}, // or
-        image1: ${JSON.stringify(c.current.image1)},
+        audio0: ${JSON.stringify(c.current.audio0)}, // or
+        audio1: ${JSON.stringify(c.current.audio1)},
 })
 `.trim()
 
-export default function ImageCase() {
+export default function AudioCase() {
         const _ = ctrl.create
 
         const ref = (el: HTMLElement) => {
@@ -38,7 +38,7 @@ export default function ImageCase() {
                                         key: '0', //
                                         className: 'font-bold mb-4',
                                 },
-                                '### Image Cases'
+                                '### Audio Cases'
                         ),
                         _('div', {
                                 key: '1', //

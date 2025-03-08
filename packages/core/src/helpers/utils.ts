@@ -21,6 +21,8 @@ export const is = {
         map: (a: unknown): a is Map<unknown, unknown> => a instanceof Map,
         obj: (a: unknown): a is object =>
                 !!a && a.constructor.name === 'Object',
+        nan: (a: unknown): a is number =>
+                typeof a === 'number' && Number.isNaN(a),
 }
 
 /**
@@ -42,6 +44,25 @@ export const flush = <Value extends Function, Key, This>(
 ) => {
         each(obj, (f) => f(...args))
 }
+
+/**
+ * math
+ */
+export const sig = (value = 0, digit = -2) => {
+        digit *= -1
+        digit = Math.pow(10, digit)
+        value *= digit
+        value = Math.round(value)
+        value /= digit
+        return value
+}
+
+export const dig = (x = 0) =>
+        (x.toString().split('.')[0]?.length ?? 0) - (x < 0 ? 1 : 0)
+
+export const fig = (x = 0) => x.toString().split('.')[1]?.length ?? 0
+
+export const ext = (src = '.pdf') => src.split('.').pop()?.toLowerCase() ?? ''
 
 /**
  * CALCULATE VECTOR
@@ -82,4 +103,8 @@ export const fullscreen = (target: HTMLElement) => {
         if (document.fullscreenElement === target) {
                 document.exitFullscreen()
         } else target.requestFullscreen()
+}
+
+export const replace = (char = '', from = '_', to = '/') => {
+        return char.split(from).join(to)
 }

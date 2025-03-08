@@ -1,22 +1,22 @@
 import InputLabel from '../clients/InputLabel'
-import { Attach, ctrl, ImageSource, Target } from '../index'
+import { Attach, AudioSource, ctrl, Target } from '../index'
 
-type Arg = ImageSource
+type Arg = AudioSource
 
-export default function Image<T extends Target>(props: Attach<Arg, T>) {
+export default function Audio<T extends Target>(props: Attach<Arg, T>) {
         type K = keyof T & string
         const { a, c, k } = props
-        const { src, alt } = a as Arg
+        const { src } = a as Arg
 
         const change = (e: Event) => {
                 const el = e.target
                 if (!(el instanceof HTMLInputElement)) return
                 if (!el.files || el.files.length === 0) return
-                const img = el.nextElementSibling!
-                if (!(img instanceof HTMLImageElement)) return
+                const audio = el.nextElementSibling!
+                if (!(audio instanceof HTMLAudioElement)) return
                 const file = el.files[0]
                 const url = URL.createObjectURL(file)
-                a.src = img.src = url
+                a.src = audio.src = url
                 c.set(k, a)
         }
 
@@ -26,11 +26,13 @@ export default function Image<T extends Target>(props: Attach<Arg, T>) {
 
                 const update = (key: K, arg: Arg) => {
                         if (key !== k) return
-                        el.value = arg.src
+                        const audio = el.nextElementSibling as HTMLAudioElement
+                        if (audio) audio.src = arg.src
                 }
 
                 const clean = () => {
                         c.updates.delete(update)
+                        if (el) el.removeEventListener('change', change)
                 }
 
                 c.updates.add(update)
@@ -38,7 +40,6 @@ export default function Image<T extends Target>(props: Attach<Arg, T>) {
         }
 
         const _ = ctrl.create
-
         return _(
                 'fieldset',
                 {
@@ -46,28 +47,37 @@ export default function Image<T extends Target>(props: Attach<Arg, T>) {
                 },
                 [
                         _(InputLabel, {
-                                key: 'key', //
+                                key: 'key',
                                 k,
                         }),
                         _(
                                 'label',
                                 {
-                                        key: 'container', //
-                                        className: '_ctrl-input flex rounded-sm px-2 py-2 bg-[#383838] cursor-pointer',
+                                        key: 'container',
+                                        className: '_ctrl-input flex flex-col items-end rounded-sm px-2 py-2 bg-[#383838] cursor-pointer',
                                 },
                                 [
                                         _('input', {
                                                 ref,
                                                 type: 'file',
-                                                accept: 'image/*',
+                                                accept: 'audio/*',
                                                 key: 'input',
                                                 className: 'hidden',
                                         }),
-                                        _('img', {
+                                        _('audio', {
                                                 src,
-                                                alt,
-                                                key: 'img',
+                                                controls: true,
+                                                key: 'audio',
+                                                className: 'w-full max-w-full',
                                         }),
+                                        _(
+                                                'span',
+                                                {
+                                                        key: 'label',
+                                                        className: 'mt-2 underline float-right opacity-70 text-[10px]',
+                                                },
+                                                'upload'
+                                        ),
                                 ]
                         ),
                 ]

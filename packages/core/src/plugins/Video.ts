@@ -1,22 +1,21 @@
 import InputLabel from '../clients/InputLabel'
-import { Attach, ctrl, ImageSource, Target } from '../index'
+import { Attach, ctrl, Target, VideoSource } from '../index'
 
-type Arg = ImageSource
+type Arg = VideoSource
 
-export default function Image<T extends Target>(props: Attach<Arg, T>) {
+export default function Video<T extends Target>(props: Attach<Arg, T>) {
         type K = keyof T & string
         const { a, c, k } = props
-        const { src, alt } = a as Arg
+        const { src } = a as Arg
 
         const change = (e: Event) => {
                 const el = e.target
                 if (!(el instanceof HTMLInputElement)) return
                 if (!el.files || el.files.length === 0) return
-                const img = el.nextElementSibling!
-                if (!(img instanceof HTMLImageElement)) return
+                const video = el.nextElementSibling!
+                if (!(video instanceof HTMLVideoElement)) return
                 const file = el.files[0]
-                const url = URL.createObjectURL(file)
-                a.src = img.src = url
+                a.src = video.src = URL.createObjectURL(file)
                 c.set(k, a)
         }
 
@@ -26,11 +25,14 @@ export default function Image<T extends Target>(props: Attach<Arg, T>) {
 
                 const update = (key: K, arg: Arg) => {
                         if (key !== k) return
-                        el.value = arg.src
+                        const video =
+                                el.nextElementSibling as HTMLVideoElement | null
+                        if (video) video.src = arg.src
                 }
 
                 const clean = () => {
                         c.updates.delete(update)
+                        if (el) el.removeEventListener('change', change)
                 }
 
                 c.updates.add(update)
@@ -46,28 +48,37 @@ export default function Image<T extends Target>(props: Attach<Arg, T>) {
                 },
                 [
                         _(InputLabel, {
-                                key: 'key', //
+                                key: 'key',
                                 k,
                         }),
                         _(
                                 'label',
                                 {
-                                        key: 'container', //
-                                        className: '_ctrl-input flex rounded-sm px-2 py-2 bg-[#383838] cursor-pointer',
+                                        key: 'container',
+                                        className: '_ctrl-input flex flex-col items-end rounded-sm px-2 py-2 bg-[#383838] cursor-pointer',
                                 },
                                 [
                                         _('input', {
                                                 ref,
                                                 type: 'file',
-                                                accept: 'image/*',
+                                                accept: 'video/*',
                                                 key: 'input',
                                                 className: 'hidden',
                                         }),
-                                        _('img', {
+                                        _('video', {
                                                 src,
-                                                alt,
-                                                key: 'img',
+                                                controls: true,
+                                                key: 'video',
+                                                className: 'w-full max-w-full',
                                         }),
+                                        _(
+                                                'span',
+                                                {
+                                                        key: 'label',
+                                                        className: 'mt-2 underline opacity-70 text-[10px]',
+                                                },
+                                                'upload'
+                                        ),
                                 ]
                         ),
                 ]

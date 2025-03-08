@@ -2,8 +2,8 @@ import Controller from './clients/Controller'
 import LayersItem from './clients/LayersItem'
 import { append, create, remove } from './helpers/node'
 import { flush, merge } from './helpers/utils'
-import { DefaultPlugin, PluginItem } from './plugins/index'
-import { Ctrl, isU, Target } from './types'
+import { PluginItem } from './plugins/index'
+import { Ctrl, CustomPlugin, isU, Target } from './types'
 import './index.css'
 
 const store = new Set<Ctrl>()
@@ -13,7 +13,6 @@ function ctrl<T extends Target>(current: T, id?: string): Ctrl<T>
 function ctrl<T extends Target>(current: T = {} as T, id = `c${store.size}`) {
         for (const c of store) {
                 if (c.id === id) return c as Ctrl<T>
-                if (c.current === current) console.log(current)
                 if (c.current === current) return c as Ctrl<T>
         }
 
@@ -24,7 +23,6 @@ function ctrl<T extends Target>(current: T = {} as T, id = `c${store.size}`) {
         let _parent = null as null | Ctrl<T>
 
         const c = {
-                isC: true,
                 get updated() {
                         return updated
                 },
@@ -46,6 +44,8 @@ function ctrl<T extends Target>(current: T = {} as T, id = `c${store.size}`) {
                 get current() {
                         return current
                 },
+                isC: true,
+                cache: {},
         } as unknown as Ctrl<T>
 
         c.listeners = new Set()
@@ -111,8 +111,8 @@ function ctrl<T extends Target>(current: T = {} as T, id = `c${store.size}`) {
 ctrl.create = create
 ctrl.append = append
 ctrl.remove = remove
-ctrl.plugin = [DefaultPlugin]
-ctrl.use = (...args: any[]) => ctrl.plugin.unshift(...args)
+ctrl.plugin = [] as CustomPlugin[]
+ctrl.use = (...args: CustomPlugin[]) => ctrl.plugin.unshift(...args)
 ctrl.pluginParent = null as null | Node
 ctrl.layersParent = null as null | Node
 ctrl.mount = (c: Ctrl) => {

@@ -1,24 +1,34 @@
 import HTML, { isHTML, isHTMLCollection } from './html/index'
+import { CSS, isCSS } from './css/index'
+import Audio from './Audio'
 import Bool from './Bool'
 import Char from './Char'
 import Color from './Color'
 import Float from './Float'
 import Image from './Image'
+import Nested from './Nested'
 import Null from './Null'
 import Select from './Select'
 import Vector from './Vector'
+import Video from './Video'
 import Container from '../clients/Container'
 import { Ctrl, ctrl, HTMLNode, is } from '../index'
 import {
         Attach,
+        isAudio,
+        isButton,
         isColor,
+        isFiles,
         isHex,
         isImage,
         isSelect,
         isU,
         isVector,
+        isVideo,
         Target,
 } from '../types'
+import Button from './Button'
+import Files from './Files'
 
 interface Props<T extends Target> {
         c: Ctrl<T>
@@ -41,48 +51,43 @@ export function PluginItem<T extends Target>(props: Props<T>) {
                 let a = current[k]
                 if (isU(a)) a = a.value
                 if (isIgnore(k)) return
-                for (const El of ctrl.plugin) {
-                        const el = _(El, { key: k, a, c, k })
-                        if (el) return children.push(el)
-                }
+                const el = _(DefaultPlugin, { key: k, a, c, k })
+                if (el) return children.push(el)
         }
 
         for (const k in current) attach(k)
         return _(Container, { title: id, id }, children)
 }
 
-export function NestedItem<T extends Target>(props: Attach<unknown, T>) {
-        const { a, c, k } = props
-        const child = ctrl(a, `${c.id}.${k}`)
-        const _ = ctrl.create
-
-        // register
-        child.parent = c
-        c.mounts.add(child.mount)
-        c.cleanups.add(child.clean)
-
-        return _(PluginItem, { c: child })
-}
-
 export function DefaultPlugin<T extends Target>(props: Attach<unknown, T>) {
         const { a, k } = props
         const _ = ctrl.create
 
-        if (isHTMLCollection(a)) return _(NestedItem, props)
+        for (const plugin of ctrl.plugin)
+                if (plugin.is(a)) return _(plugin.el, props)
+
+        if (isHTMLCollection(a)) return _(Nested, props)
 
         if (typeof a === 'object') {
-                if (isHTML(a)) return _(HTML, props)
                 if (isColor(a)) return _(Color, props)
-                if (isImage(a)) return _(Image, props)
                 if (isSelect(a)) return _(Select, props)
                 if (isVector(a)) return _(Vector, props)
+                // Audio, Image, Video, ... or etc
+                if (isImage(a)) return _(Image, props)
+                if (isAudio(a)) return _(Audio, props)
+                if (isVideo(a)) return _(Video, props)
+                if (isFiles(a)) return _(Files, props)
+                // html, css
+                if (isButton(a)) return _(Button, props)
+                if (isCSS(a)) return _(CSS, props)
+                if (isHTML(a)) return _(HTML, props)
         }
 
-        if (is.obj(a)) return _(NestedItem, props)
+        if (is.obj(a)) return _(Nested, props)
 
         if (is.arr(a)) {
                 if (a.every(is.num)) return _(Vector, props)
-                return _(NestedItem, props)
+                return _(Nested, props)
         }
 
         if (is.str(a)) {

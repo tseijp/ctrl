@@ -60,6 +60,7 @@ function initialize() {
 interface Props extends React.HTMLProps<HTMLDivElement> {
         left?: React.ReactNode
         right?: React.ReactNode
+        disabled?: boolean
 }
 
 export function Controller(props: Props) {

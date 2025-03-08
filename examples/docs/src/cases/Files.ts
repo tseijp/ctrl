@@ -2,22 +2,22 @@ import { ctrl } from '@tsei/ctrl/src/react'
 import { codemirror, scrollTo } from '../utils'
 
 const c = ctrl({
-        image0: { src: 'https://r.tsei.jp/texture/Brick.jpg' }, // or
-        image1: { value: { src: 'https://r.tsei.jp/texture/Rust.jpg' } }, // or
+        files0: { src: '.pdf' }, // or
+        files1: { value: { src: '.pdf' } },
 })
 
-c.id = 'Image'
+c.id = 'Files'
 
 const code = () =>
         /* TS */ `
-// Image
+// Files
 const c = ctrl({
-        image0: ${JSON.stringify(c.current.image0)}, // or
-        image1: ${JSON.stringify(c.current.image1)},
+        file0: ${JSON.stringify(c.current.files0)}, // or
+        file1: ${JSON.stringify(c.current.files1)},
 })
 `.trim()
 
-export default function ImageCase() {
+export default function FilesCase() {
         const _ = ctrl.create
 
         const ref = (el: HTMLElement) => {
@@ -38,7 +38,7 @@ export default function ImageCase() {
                                         key: '0', //
                                         className: 'font-bold mb-4',
                                 },
-                                '### Image Cases'
+                                '### Files Cases'
                         ),
                         _('div', {
                                 key: '1', //

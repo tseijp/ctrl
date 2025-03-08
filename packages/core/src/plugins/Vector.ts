@@ -1,4 +1,4 @@
-import { Attach, ctrl, Target, XYZVector } from '../index'
+import { Attach, ctrl, isU, Target, XYZVector } from '../index'
 import { InputValue } from '../clients/InputValue'
 import { is } from '../helpers/utils'
 import InputLabel from '../clients/InputLabel'
@@ -24,11 +24,17 @@ export default function Vector<T extends Target>(props: Attach<Arg, T>) {
                 const value = get(a)
                 if (!is.num(value)) return null
 
-                const _set = (next: number) => {
-                        const isXYZ = !is.arr(a)
-                        if (isXYZ) a[_x] = next
-                        else a[_0] = next
-                        c.set(k, a)
+                const _set = (next: number | ((p: number) => number)) => {
+                        let _a = c.current[k]
+                        if (isU(_a)) _a = _a.value
+                        const isXYZ = !is.arr(_a)
+                        if (is.fun(next)) {
+                                if (isXYZ) next = next(_a[_x])
+                                else next = next(_a[_0])
+                        }
+                        if (isXYZ) _a[_x] = next
+                        else _a[_0] = next
+                        c.set(k, _a)
                 }
 
                 const _ref = (el: HTMLInputElement) => {

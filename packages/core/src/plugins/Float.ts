@@ -1,14 +1,22 @@
-import { Attach, ctrl, Target } from '../index'
+import { Attach, ctrl, isU, Target } from '../index'
 import { InputValue } from '../clients/InputValue'
 import InputLabel from '../clients/InputLabel'
+import { fig, is } from '../helpers/utils'
 
 type Arg = number
 
 export default function Float<T extends Target>(props: Attach<Arg, T>) {
-        type K = keyof T
+        type K = keyof T & string
         const { a, c, k } = props
 
-        const _set = (value: number) => c.set(k, value as T[K])
+        const _set = (next: number | ((p: number) => number)) => {
+                if (is.fun(next)) {
+                        let a = c.current[k]
+                        if (isU(a)) a = a.value
+                        next = next(a)
+                }
+                c.set(k, next as T[K])
+        }
 
         const _ref = (el: HTMLInputElement) => {
                 const update = (key: K, arg: Arg) => {
