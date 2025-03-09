@@ -3,15 +3,6 @@ import Dropdown from './Dropdown'
 import { transform } from './Wheeling'
 import ZoomStore, { zoomStore } from './ZoomStore'
 
-const items = [
-        'Zoom in',
-        'Zoom out',
-        'Zoom to fit',
-        'Zoom to 50%',
-        'Zoom to 100%',
-        'Zoom to 200%',
-]
-
 const xy = (x = 0) => Math.pow(2, x)
 const yx = (y = 1) => Math.log2(y)
 
@@ -77,6 +68,15 @@ const zoomTo = (to: number) => {
         } else zoomStore.zoom = to
         transform()
 }
+
+const items = [
+        'Zoom in',
+        'Zoom out',
+        'Zoom to fit',
+        'Zoom to 50%',
+        'Zoom to 100%',
+        'Zoom to 200%',
+]
 
 const onClick = (item: string) => {
         if (item === items[0]) return zoomIn()

@@ -2,10 +2,8 @@ import { ctrl } from '@tsei/ctrl/src/react'
 import { codemirror, scrollTo } from '../utils'
 
 const c = ctrl({
-        button0: { onclick: () => console.log('CLICKED') }, // or
-        button1: { onclick: () => console.log('CLICKED') }, // or
-        button2: { value: { onclick: () => console.log('CLICKED') } }, // or
-        button3: { value: { onclick: () => console.log('CLICKED') } }, // or
+        button0: { onclick: () => alert('CLICKED') }, // or
+        button1: { value: { onclick: () => alert('CLICKED') } },
 })
 
 c.id = 'Button'
@@ -15,9 +13,7 @@ const code = () =>
 // Button
 const c = ctrl({
         button0: { onclick: () => console.log('CLICKED') }, // or
-        button1: document.querySelector('button'), // or
-        button2: { value: { onclick: () => console.log('CLICKED') } }, // or
-        button3: { value: document.querySelector('button') },
+        button1: { value: { onclick: () => console.log('CLICKED') } },
 })
 `.trim()
 

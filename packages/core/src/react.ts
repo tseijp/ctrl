@@ -6,16 +6,15 @@ import _Controller from './clients/Controller'
 import LayersItem from './clients/LayersItem'
 import { PluginItem } from './plugins/index'
 import { Ctrl, ctrl, flush, isC, register } from './index'
-import { Target } from './types'
 
 export * from './index'
 export default useCtrl
 export { useCtrl }
 
-function useCtrl<T extends Target>(config: T | Ctrl<T>, id?: string) {
-        const [c] = useState<Ctrl<T>>(() => {
+function useCtrl<T extends object>(config: T | Ctrl<T>, id?: string) {
+        const [c] = useState(() => {
                 if (isC(config)) return config
-                return ctrl<T>(config, id)
+                return ctrl<T>(config as T, id)
         })
         useSyncExternalStore(c.sub, c.get, c.get)
         return c.current as T
@@ -60,6 +59,7 @@ function initialize() {
 interface Props extends React.HTMLProps<HTMLDivElement> {
         left?: React.ReactNode
         right?: React.ReactNode
+        disabled?: boolean
 }
 
 export function Controller(props: Props) {

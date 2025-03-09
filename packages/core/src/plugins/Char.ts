@@ -33,27 +33,26 @@ export default function Char<T extends Target>(props: Attach<Arg, T>) {
                         alert('Failed to copy text')
                 }
         }
-        let clean = () => {}
 
-        const ref = (el: HTMLTextAreaElement) => {
-                if (!el) return
+        const ref = (el: HTMLTextAreaElement | null) => {
+                if (!el) return c.cache[k]?.()
                 el.addEventListener('input', input)
                 el.addEventListener('dblclick', dblclick)
                 el.defaultValue = a
 
                 setTimeout(() => updateHeight(el))
 
-                const update = (key: K, arg: Arg) => {
+                const run = (key: K, arg: Arg) => {
                         if (key !== k) return
                         el.value = arg
                 }
 
-                const clean = () => {
-                        c.updates.delete(update)
+                c.events.add(run)
+                c.cache[k] = () => {
+                        c.events.delete(run)
+                        el.removeEventListener('input', input)
+                        el.removeEventListener('dblclick', dblclick)
                 }
-
-                c.updates.add(update)
-                c.cleanups.add(clean)
         }
 
         const _ = ctrl.create

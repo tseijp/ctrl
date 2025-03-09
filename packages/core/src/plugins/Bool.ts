@@ -14,22 +14,20 @@ export default function Bool<T extends Target>(props: Attach<Arg, T>) {
                 c.set(k, checked as T[K])
         }
 
-        let clean = () => {}
-
-        const ref = (el: HTMLInputElement) => {
-                if (!el) return clean()
+        const ref = (el: HTMLInputElement | null) => {
+                if (!el) return c.cache[k]?.()
                 el.addEventListener('change', change)
                 el.defaultChecked = a
 
-                const update = (key: K, arg: Arg) => {
+                const run = (key: K, arg: Arg) => {
                         if (key !== k) return
                         el.checked = arg
                 }
 
-                c.updates.add(update)
-
-                clean = () => {
-                        c.updates.delete(update)
+                c.events.add(run)
+                c.cache[k] = () => {
+                        c.events.delete(run)
+                        el.removeEventListener('change', change)
                 }
         }
 

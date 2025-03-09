@@ -1,4 +1,4 @@
-import { ctrl } from '../index'
+import { ctrl, replace } from '../index'
 
 interface Props {
         k: any
@@ -17,7 +17,7 @@ export default function InputLabel(props: Props) {
                         {
                                 className: 'text-[9px] leading-[11px] font-medium',
                         },
-                        k
+                        replace(k, '_', ' ')
                 )
         )
 }

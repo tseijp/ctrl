@@ -168,6 +168,37 @@ const c = ctrl({ a: 0, b: 1, c: 2 })
 </script>
 ```
 
+### Interface of ctrl
+
+```ts
+export interface Ctrl<
+        T extends Target = Target,
+        K extends keyof T & string = keyof T & string
+> {
+        get updated(): number
+        get mounted(): number
+        get parent(): null | Ctrl
+        set parent(parent: Ctrl)
+        get id(): string
+        set id(id: string)
+        get current(): T
+        listeners: Set<Function>
+        cleanups: Set<Function>
+        updates: Set<Function>
+        mounts: Set<Function>
+        mount(): void
+        clean(): void
+        update(k: K, a: T[K]): void
+        sub(fn?: Function): Function
+        get(): number
+        set(k: K, a: T[K]): void
+        sync(k: K, a?: T[K]): void
+        ref(target: T | null): void
+        isC: true
+        cache: any
+}
+```
+
 ### Input Types
 
 ###### Number
@@ -227,10 +258,8 @@ const c = ctrl({
 
 ```ts
 const c = ctrl({
-        button0: { onclick: () => console.log('CLICKED') }, // or
-        button1: document.querySelector('button'), // or
-        button2: { value: { onclick: () => console.log('CLICKED') } }, // or
-        button3: { value: document.querySelector('button') },
+        button0: { onclick: () => alert('CLICKED') }, // or
+        button1: { value: { onclick: () => alert('CLICKED') },
 })
 ```
 
@@ -247,15 +276,53 @@ const c = ctrl({
 })
 ```
 
+###### Audio
+
+```ts
+const c = ctrl({
+        audio0: { src: '.wav' }, // or
+        audio1: { value: { src: '.wav' } },
+})
+```
+
 ###### Image
 
 ```ts
 const c = ctrl({
-        image0: { src: 'https://r.tsei.jp/block.png' }, // or
-        image1: document.querySelector('img'), // or
-        image2: { value: { src: 'https://r.tsei.jp/block.png' } }, // or
-        image3: { value: document.querySelector('img') },
+        image0: { src: '.png' }, // or
+        image1: { value: { src: '.png' } },
 })
+```
+
+###### Video
+
+```ts
+const c = ctrl({
+        video0: { src: '.webm' }, // or
+        video1: { value: { src: '.webm' } },
+})
+```
+
+###### Nested
+
+```ts
+const c = ctrl({
+        nested0: { a: { b: { c: 0 } } }, // or
+        nested1: { value: { a: { b: { c: 0 } } } }, // or
+        nested2: { array: [0, 1, [2, 3]] }, // or
+        nested3: { value: { array: [0, 1, [2, 3]] } },
+})
+```
+
+###### CSS Plugin
+
+```ts
+const c = ctrl({
+        css0: {"style":"width:1280px; height:800px;"}, // or
+        css1: {"style":{"width":"1280px","height":"800px"}}, // or
+        css2: {"value":{"style":"width:1280px; height:800px;"}}, // or
+        css3: {"value":{"style":{"width":"1280px","height":"800px"}}},
+}
 ```
 
 ### Update value

@@ -1,12 +1,12 @@
 import InputLabel from '../clients/InputLabel'
-import { Attach, ctrl, ImageSource, Target } from '../index'
+import { Attach, AudioSource, ctrl, Target } from '../index'
 
-type Arg = ImageSource
+type Arg = AudioSource
 
-export default function Image<T extends Target>(props: Attach<Arg, T>) {
+export default function Audio<T extends Target>(props: Attach<Arg, T>) {
         type K = keyof T & string
         const { a, c, k } = props
-        const { src, alt } = a as Arg
+        const { src } = a as Arg
 
         const change = (e: Event) => {
                 const el = e.target
@@ -24,9 +24,9 @@ export default function Image<T extends Target>(props: Attach<Arg, T>) {
 
                 const run = (key: K, arg: Arg) => {
                         if (key !== k) return
-                        const img = el.nextElementSibling!
-                        if (!(img instanceof HTMLImageElement)) return
-                        img.src = arg.src
+                        const audio = el.nextElementSibling
+                        if (!(audio instanceof HTMLAudioElement)) return
+                        audio.src = arg.src
                 }
 
                 c.events.add(run)
@@ -37,7 +37,6 @@ export default function Image<T extends Target>(props: Attach<Arg, T>) {
         }
 
         const _ = ctrl.create
-
         return _(
                 'fieldset',
                 {
@@ -45,28 +44,37 @@ export default function Image<T extends Target>(props: Attach<Arg, T>) {
                 },
                 [
                         _(InputLabel, {
-                                key: 'key', //
+                                key: 'key',
                                 k,
                         }),
                         _(
                                 'label',
                                 {
-                                        key: 'container', //
-                                        className: '_ctrl-input flex rounded-sm px-2 py-2 bg-[#383838] cursor-pointer',
+                                        key: 'container',
+                                        className: '_ctrl-input flex flex-col items-end rounded-sm px-2 py-2 bg-[#383838] cursor-pointer',
                                 },
                                 [
                                         _('input', {
                                                 ref,
                                                 type: 'file',
-                                                accept: 'image/*',
+                                                accept: 'audio/*',
                                                 key: 'input',
                                                 className: 'hidden',
                                         }),
-                                        _('img', {
+                                        _('audio', {
                                                 src,
-                                                alt,
-                                                key: 'img',
+                                                controls: true,
+                                                key: 'audio',
+                                                className: 'w-full max-w-full',
                                         }),
+                                        _(
+                                                'span',
+                                                {
+                                                        key: 'label',
+                                                        className: 'mt-2 underline float-right opacity-70 text-[10px]',
+                                                },
+                                                'upload'
+                                        ),
                                 ]
                         ),
                 ]
