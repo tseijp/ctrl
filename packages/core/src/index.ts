@@ -12,8 +12,8 @@ function ctrl<T extends Target>(current: T, id?: string): Ctrl<T>
 
 function ctrl<T extends Target>(current: T = {} as T, id = `c${store.size}`) {
         for (const c of store) {
-                if (c.id === id) return c as Ctrl<T>
-                if (c.current === current) return c as Ctrl<T>
+                if (c.id === id) return c
+                if (c.current === current) return c
         }
 
         if (store.size >= 999) throw new Error(`@tsei/ctrl Error: Maximum call`)
@@ -23,6 +23,9 @@ function ctrl<T extends Target>(current: T = {} as T, id = `c${store.size}`) {
         let _parent = null as null | Ctrl<T>
 
         const c = {
+                get() {
+                        return updated
+                },
                 get updated() {
                         return updated
                 },
@@ -48,53 +51,52 @@ function ctrl<T extends Target>(current: T = {} as T, id = `c${store.size}`) {
                 cache: {},
         } as unknown as Ctrl<T>
 
-        c.listeners = new Set()
-        c.cleanups = new Set()
-        c.updates = new Set()
+        c.actors = new Set()
+        c.events = new Set()
         c.mounts = new Set()
+        c.cleans = new Set()
+
         c.mount = () => {
                 if (mounted++) return
-                if (_parent) c.listeners.add(_parent.update)
+                if (_parent) c.actors.add(_parent.act)
                 ctrl.mount(c)
                 flush(c.mounts)
         }
 
         c.clean = () => {
                 if (--mounted) return
-                if (_parent) c.listeners.delete(_parent.update)
-                flush(c.cleanups)
-        }
-
-        c.update = (k, a) => {
-                updated++
-                flush(c.listeners, k, a)
+                if (_parent) c.actors.delete(_parent.act)
+                flush(c.cleans)
         }
 
         c.sub = (fn = () => {}) => {
-                c.listeners.add(fn)
+                c.actors.add(fn)
                 c.mount()
                 return () => {
-                        c.listeners.delete(fn)
+                        c.actors.delete(fn)
                         c.clean()
                 }
         }
 
-        c.get = () => updated
-
-        c.set = (k, a) => {
-                try {
-                        c.sync(k, a) // error if set to a read-only value
-                } catch (error) {
-                        console.log(error)
-                }
-                c.update(k, a)
+        c.act = () => {
+                updated++
+                flush(c.actors)
         }
 
-        c.sync = (k, a = current[k]) => {
+        c.run = (k, a = current[k]) => {
                 if (isU(a)) a = a.value
                 if (isU(current[k])) current[k].value = a
                 else (current as any)[k] = a
-                flush(c.updates, k, a)
+                flush(c.events)
+        }
+
+        c.set = (k, a) => {
+                try {
+                        c.run(k, a) // error if set to a read-only value
+                } catch (error) {
+                        console.log(error)
+                }
+                c.act()
         }
 
         c.ref = (target: T) => {
@@ -115,14 +117,14 @@ ctrl.plugin = [] as CustomPlugin[]
 ctrl.use = (...args: CustomPlugin[]) => ctrl.plugin.unshift(...args)
 ctrl.pluginParent = null as null | Node
 ctrl.layersParent = null as null | Node
-ctrl.mount = (c: Ctrl) => {
+ctrl.mount = <T extends Target>(c: Ctrl<T>) => {
         const plugin = create(PluginItem, { c })
         append(plugin, ctrl.pluginParent ?? document.body)
-        c.cleanups.add(() => remove(plugin, ctrl.pluginParent ?? document.body))
+        c.cleans.add(() => remove(plugin, ctrl.pluginParent ?? document.body))
         if (!ctrl.layersParent) return
         const layers = create(LayersItem, { c })
         append(layers, ctrl.layersParent)
-        c.cleanups.add(() => remove(layers, ctrl.pluginParent!))
+        c.cleans.add(() => remove(layers, ctrl.pluginParent!))
 }
 
 export function register(override: any) {

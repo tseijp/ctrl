@@ -173,7 +173,7 @@ const c = ctrl({ a: 0, b: 1, c: 2 })
 ```ts
 export interface Ctrl<
         T extends Target = Target,
-        K extends keyof Target & string = keyof Target & string
+        K extends keyof T & string = keyof T & string
 > {
         get updated(): number
         get mounted(): number

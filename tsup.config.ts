@@ -41,6 +41,7 @@ export const defaultConfig = (override: Options, options: Options) => {
                         minify: !options.watch,
                         target: 'es2020',
                         external: [
+                                '@skyway-sdk/room',
                                 'react',
                                 'react-dom',
                                 'react-native',

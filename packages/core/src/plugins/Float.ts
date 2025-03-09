@@ -19,14 +19,15 @@ export default function Float<T extends Target>(props: Attach<Arg, T>) {
         }
 
         const _ref = (el: HTMLInputElement) => {
-                const update = (key: K, arg: Arg) => {
+                const run = (key: K, arg: Arg) => {
                         if (k !== key) return
                         el.value = `${arg}`
                 }
-                c.updates.add(update)
-                return () => {
-                        c.updates.delete(update)
-                }
+
+                c.events.add(run)
+                c.cleans.add(() => {
+                        c.events.delete(run)
+                })
         }
 
         const _ = ctrl.create

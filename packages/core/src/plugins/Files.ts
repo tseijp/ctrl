@@ -68,18 +68,15 @@ export default function Files<T extends Target>(props: Attach<Arg, T>) {
                 setTimeout(() => render(el, src)) // children is not rendered yet
                 el.addEventListener('change', change)
 
-                const update = (key: K, arg: Arg) => {
+                const run = (key: K, arg: Arg) => {
                         if (key !== k) return
                         render(el, arg.src)
                 }
 
-                const clean = () => {
-                        c.updates.delete(update)
-                        if (el) el.removeEventListener('change', change)
-                }
-
-                c.updates.add(update)
-                c.cleanups.add(clean)
+                c.events.add(run)
+                c.cleans.add(() => {
+                        c.events.delete(run)
+                })
         }
 
         const _ = ctrl.create

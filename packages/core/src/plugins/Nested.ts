@@ -9,7 +9,7 @@ export default function Nested<T extends Target>(props: Attach<unknown, T>) {
         // register
         child.parent = c
         c.mounts.add(child.mount)
-        c.cleanups.add(child.clean)
+        c.cleans.add(child.clean)
 
         return _(PluginItem, { c: child })
 }

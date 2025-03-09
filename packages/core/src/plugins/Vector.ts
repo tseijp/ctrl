@@ -38,14 +38,15 @@ export default function Vector<T extends Target>(props: Attach<Arg, T>) {
                 }
 
                 const _ref = (el: HTMLInputElement) => {
-                        const update = (key: K, arg: Arg) => {
+                        const run = (key: K, arg: Arg) => {
                                 if (k !== key) return
                                 el.value = `${get(arg)}`
                         }
-                        c.updates.add(update)
-                        return () => {
-                                c.updates.delete(update)
-                        }
+
+                        c.events.add(run)
+                        c.cleans.add(() => {
+                                c.events.delete(run)
+                        })
                 }
 
                 return _(InputValue, {

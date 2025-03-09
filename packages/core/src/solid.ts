@@ -7,7 +7,7 @@ export default useCtrl
 export { useCtrl }
 
 function useCtrl<T extends Target>(config: T | Ctrl<T>, id?: string) {
-        const c = isC(config) ? config : ctrl<T>(config, id)
+        const c = isC(config) ? config : ctrl<T>(config as T, id)
         const [state, set] = createSignal(c.current)
 
         onMount(() => {

@@ -20,17 +20,15 @@ export default function Select<T extends Target>(props: Attach<Arg, T>) {
                 if (!el) return
                 el.addEventListener('change', change)
 
-                const update = (key: K, arg: Arg) => {
+                const run = (key: K, arg: Arg) => {
                         if (key !== k) return
                         el.value = arg.options[0]
                 }
 
-                const clean = () => {
-                        c.updates.delete(update)
-                }
-
-                c.updates.add(update)
-                c.cleanups.add(clean)
+                c.events.add(run)
+                c.cleans.add(() => {
+                        c.events.delete(run)
+                })
         }
 
         const _ = ctrl.create

@@ -98,7 +98,15 @@
                         "default": "./dist/index.js"
                 }
         },
+        "devDependencies": {
+                "@skyway-sdk/room": "^1",
+                "react": "^19.0.0",
+                "react-dom": "^19.0.0",
+                "solid-js": "^1",
+                "vue": "^3"
+        },
         "peerDependencies": {
+                "@skyway-sdk/room": "*",
                 "expo": "*",
                 "expo-gl": "*",
                 "react": ">=16.8",
@@ -107,6 +115,9 @@
                 "vue": "*"
         },
         "peerDependenciesMeta": {
+                "@skyway-sdk/room": {
+                        "optional": true
+                },
                 "expo": {
                         "optional": true
                 },

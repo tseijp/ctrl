@@ -167,10 +167,12 @@ export interface Target {
         [key: string]: Input | Target | any
 }
 
-export interface Ctrl<
+export type Callback<
         T extends Target = Target,
-        K extends keyof Target & string = keyof Target & string
-> {
+        K extends keyof T & string = keyof T & string
+> = (key: K, arg: T[K]) => void
+
+export interface Ctrl<T extends Target = Target> {
         isC: true
         get updated(): number
         get mounted(): number
@@ -179,17 +181,17 @@ export interface Ctrl<
         get id(): string
         set id(id: string)
         get current(): T
-        listeners: Set<Function>
-        cleanups: Set<Function>
-        updates: Set<Function>
+        events: Set<Callback<T>>
+        actors: Set<Function>
         mounts: Set<Function>
+        cleans: Set<Function>
         mount(): void
         clean(): void
-        update(k: K, a: T[K]): void
         sub(fn?: () => void): () => void
+        act(): void
         get(): number
-        set(k: K, a: T[K]): void
-        sync(k: K, a?: T[K]): void
+        set: Callback<T>
+        run: Callback<T>
         ref(target: T | null): void
         cache: any
 }

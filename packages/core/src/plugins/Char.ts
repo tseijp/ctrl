@@ -33,7 +33,6 @@ export default function Char<T extends Target>(props: Attach<Arg, T>) {
                         alert('Failed to copy text')
                 }
         }
-        let clean = () => {}
 
         const ref = (el: HTMLTextAreaElement) => {
                 if (!el) return
@@ -43,17 +42,15 @@ export default function Char<T extends Target>(props: Attach<Arg, T>) {
 
                 setTimeout(() => updateHeight(el))
 
-                const update = (key: K, arg: Arg) => {
+                const run = (key: K, arg: Arg) => {
                         if (key !== k) return
                         el.value = arg
                 }
 
-                const clean = () => {
-                        c.updates.delete(update)
-                }
-
-                c.updates.add(update)
-                c.cleanups.add(clean)
+                c.events.add(run)
+                c.cleans.add(() => {
+                        c.events.delete(run)
+                })
         }
 
         const _ = ctrl.create
