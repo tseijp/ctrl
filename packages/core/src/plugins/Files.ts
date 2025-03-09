@@ -50,7 +50,7 @@ export default function Files<T extends Target>(props: Attach<Arg, T>) {
         const { src } = a as Arg
 
         const ref = (el: HTMLInputElement | null) => {
-                if (!el) return
+                if (!el) return c.cache[k]?.()
 
                 const change = (e: Event) => {
                         const el = e.target
@@ -74,9 +74,10 @@ export default function Files<T extends Target>(props: Attach<Arg, T>) {
                 }
 
                 c.events.add(run)
-                c.cleans.add(() => {
+                c.cache[k] = () => {
                         c.events.delete(run)
-                })
+                        el.removeEventListener('change', change)
+                }
         }
 
         const _ = ctrl.create

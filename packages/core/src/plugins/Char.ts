@@ -34,8 +34,8 @@ export default function Char<T extends Target>(props: Attach<Arg, T>) {
                 }
         }
 
-        const ref = (el: HTMLTextAreaElement) => {
-                if (!el) return
+        const ref = (el: HTMLTextAreaElement | null) => {
+                if (!el) return c.cache[k]?.()
                 el.addEventListener('input', input)
                 el.addEventListener('dblclick', dblclick)
                 el.defaultValue = a
@@ -48,9 +48,11 @@ export default function Char<T extends Target>(props: Attach<Arg, T>) {
                 }
 
                 c.events.add(run)
-                c.cleans.add(() => {
+                c.cache[k] = () => {
                         c.events.delete(run)
-                })
+                        el.removeEventListener('input', input)
+                        el.removeEventListener('dblclick', dblclick)
+                }
         }
 
         const _ = ctrl.create

@@ -14,7 +14,8 @@ export default function Bool<T extends Target>(props: Attach<Arg, T>) {
                 c.set(k, checked as T[K])
         }
 
-        const ref = (el: HTMLInputElement) => {
+        const ref = (el: HTMLInputElement | null) => {
+                if (!el) return c.cache[k]?.()
                 el.addEventListener('change', change)
                 el.defaultChecked = a
 
@@ -24,9 +25,10 @@ export default function Bool<T extends Target>(props: Attach<Arg, T>) {
                 }
 
                 c.events.add(run)
-                c.cleans.add(() => {
+                c.cache[k] = () => {
                         c.events.delete(run)
-                })
+                        el.removeEventListener('change', change)
+                }
         }
 
         const _ = ctrl.create

@@ -12,27 +12,28 @@ export default function Image<T extends Target>(props: Attach<Arg, T>) {
                 const el = e.target
                 if (!(el instanceof HTMLInputElement)) return
                 if (!el.files || el.files.length === 0) return
-                const img = el.nextElementSibling!
-                if (!(img instanceof HTMLImageElement)) return
                 const file = el.files[0]
                 const url = URL.createObjectURL(file)
-                a.src = img.src = url
+                a.src = url
                 c.set(k, a)
         }
 
         const ref = (el: HTMLInputElement | null) => {
-                if (!el) return
+                if (!el) return c.cache[k]?.()
                 el.addEventListener('change', change)
 
                 const run = (key: K, arg: Arg) => {
                         if (key !== k) return
-                        el.value = arg.src
+                        const img = el.nextElementSibling!
+                        if (!(img instanceof HTMLImageElement)) return
+                        img.src = arg.src
                 }
 
                 c.events.add(run)
-                c.cleans.add(() => {
+                c.cache[k] = () => {
                         c.events.delete(run)
-                })
+                        el.removeEventListener('change', change)
+                }
         }
 
         const _ = ctrl.create

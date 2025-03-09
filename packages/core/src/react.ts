@@ -12,7 +12,7 @@ export default useCtrl
 export { useCtrl }
 
 function useCtrl<T extends object>(config: T | Ctrl<T>, id?: string) {
-        const [c] = useState<Ctrl<T>>(() => {
+        const [c] = useState(() => {
                 if (isC(config)) return config
                 return ctrl<T>(config as T, id)
         })

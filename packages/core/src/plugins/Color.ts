@@ -41,15 +41,13 @@ export default function Color<T extends Target>(props: Attach<Arg, T>) {
                 } else c.set(k, hex as T[K])
         }
 
-        let clean = () => {}
-
         const get = (arg: Arg) => {
                 const isRGB = !is.str(arg)
                 return isRGB ? rgb2hex(arg) : arg
         }
 
-        const ref = (el: HTMLInputElement) => {
-                if (!el) return clean()
+        const ref = (el: HTMLInputElement | null) => {
+                if (!el) return c.cache[k]?.()
                 el.addEventListener('input', change)
                 el.value = get(a)
 
@@ -59,9 +57,10 @@ export default function Color<T extends Target>(props: Attach<Arg, T>) {
                 }
 
                 c.events.add(run)
-                c.cleans.add(() => {
+                c.cache[k] = () => {
                         c.events.delete(run)
-                })
+                        el.removeEventListener('input', change)
+                }
         }
 
         const _ = ctrl.create

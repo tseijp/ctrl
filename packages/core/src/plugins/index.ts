@@ -1,15 +1,15 @@
 import HTML, { isHTML, isHTMLCollection } from './html/index'
 import { CSS, isCSS } from './css/index'
+import Float from './num/Float'
+import Vector from './num/Vector'
 import Audio from './Audio'
 import Bool from './Bool'
 import Char from './Char'
 import Color from './Color'
-import Float from './Float'
 import Image from './Image'
 import Nested from './Nested'
 import Null from './Null'
 import Select from './Select'
-import Vector from './Vector'
 import Video from './Video'
 import Container from '../clients/Container'
 import { Ctrl, ctrl, HTMLNode, is } from '../index'
@@ -64,7 +64,7 @@ export function DefaultPlugin<T extends Target>(props: Attach<unknown, T>) {
         const _ = ctrl.create
 
         for (const plugin of ctrl.plugin)
-                if (plugin.is(a)) return _(plugin.el, props)
+                if (plugin.is(a)) return _(plugin.el as any, props) // @TODO FIX
 
         if (isHTMLCollection(a)) return _(Nested, props)
 
@@ -79,7 +79,7 @@ export function DefaultPlugin<T extends Target>(props: Attach<unknown, T>) {
                 if (isFiles(a)) return _(Files, props)
                 // html, css
                 if (isButton(a)) return _(Button, props)
-                if (isCSS(a)) return _(CSS, props)
+                if (isCSS(a)) return _(CSS as any, props) // @TODO FIX
                 if (isHTML(a)) return _(HTML, props)
         }
 

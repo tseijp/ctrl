@@ -12,28 +12,28 @@ export default function Video<T extends Target>(props: Attach<Arg, T>) {
                 const el = e.target
                 if (!(el instanceof HTMLInputElement)) return
                 if (!el.files || el.files.length === 0) return
-                const video = el.nextElementSibling!
-                if (!(video instanceof HTMLVideoElement)) return
                 const file = el.files[0]
-                a.src = video.src = URL.createObjectURL(file)
+                a.src = URL.createObjectURL(file)
                 c.set(k, a)
         }
 
         const ref = (el: HTMLInputElement | null) => {
-                if (!el) return
+                if (!el) return c.cache[k]?.()
+
                 el.addEventListener('change', change)
 
                 const run = (key: K, arg: Arg) => {
                         if (key !== k) return
-                        const video =
-                                el.nextElementSibling as HTMLVideoElement | null
-                        if (video) video.src = arg.src
+                        const video = el.nextElementSibling
+                        if (!(video instanceof HTMLVideoElement)) return
+                        video.src = arg.src
                 }
 
                 c.events.add(run)
-                c.cleans.add(() => {
+                c.cache[k] = () => {
                         c.events.delete(run)
-                })
+                        el.removeEventListener('change', change)
+                }
         }
 
         const _ = ctrl.create

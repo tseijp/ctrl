@@ -7,7 +7,7 @@ export default function Nested<T extends Target>(props: Attach<unknown, T>) {
         const _ = ctrl.create
 
         // register
-        child.parent = c
+        child.parent = c as any // @TODO FIX
         c.mounts.add(child.mount)
         c.cleans.add(child.clean)
 

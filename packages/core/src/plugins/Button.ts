@@ -4,12 +4,15 @@ import { Attach, ButtonOnClick, ctrl, Target } from '../index'
 type Arg = ButtonOnClick
 
 export default function Button<T extends Target>(props: Attach<Arg, T>) {
-        const { a, k } = props
+        const { a, c, k } = props
         const { onclick } = a
 
         const ref = (el: HTMLButtonElement | null) => {
-                if (!el) return
+                if (!el) return c.cache[k]?.()
                 el.addEventListener('click', onclick)
+                c.cache[k] = () => {
+                        el.removeEventListener('click', onclick)
+                }
         }
 
         const _ = ctrl.create

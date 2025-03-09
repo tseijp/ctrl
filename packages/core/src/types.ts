@@ -167,20 +167,19 @@ export interface Target {
         [key: string]: Input | Target | any
 }
 
-export type Callback<
-        T extends Target = Target,
-        K extends keyof T & string = keyof T & string
-> = (key: K, arg: T[K]) => void
+export type Callback<T extends Target = Target> = (
+        key: keyof T & string,
+        arg: T[keyof T & string]
+) => void
 
 export interface Ctrl<T extends Target = Target> {
         isC: true
-        get updated(): number
-        get mounted(): number
         get parent(): null | Ctrl
         set parent(parent: Ctrl)
         get id(): string
         set id(id: string)
         get current(): T
+        writes: Set<Callback<T>>
         events: Set<Callback<T>>
         actors: Set<Function>
         mounts: Set<Function>
