@@ -47,9 +47,9 @@ export default function Char<T extends Target>(props: Attach<Arg, T>) {
                         el.value = arg
                 }
 
-                c.events.add(run)
+                c.writes.add(run)
                 c.cache[k] = () => {
-                        c.events.delete(run)
+                        c.writes.delete(run)
                         el.removeEventListener('input', input)
                         el.removeEventListener('dblclick', dblclick)
                 }

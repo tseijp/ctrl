@@ -35,6 +35,7 @@ export default function Float<T extends Target>(props: Attach<Arg, T>) {
                         a = sig(a, b)
                         let x = p + a
                         x = sig(x, -2) // 0.01
+                        input.value = `${x}`
                         return x
                 }
 
@@ -60,12 +61,12 @@ export default function Float<T extends Target>(props: Attach<Arg, T>) {
                         input.value = `${arg}`
                 }
 
-                c.events.add(run)
+                c.writes.add(run)
                 drag.onMount(span)
                 input.addEventListener('input', change)
 
                 c.cache[k] = () => {
-                        c.events.delete(run)
+                        c.writes.delete(run)
                         drag.onClean()
                         input.removeEventListener('input', change)
                 }

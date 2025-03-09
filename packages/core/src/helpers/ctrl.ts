@@ -78,21 +78,22 @@ function ctrl<T extends Target>(current: T = {} as T, id = `c${store.size}`) {
 
         c.run = (k, a = current[k]) => {
                 if (isU(a)) a = a.value
-                if (isU(current[k])) current[k].value = a
-                else current[k] = a
+                flush(c.writes, k, a)
         }
 
         c.set = (k, a) => {
                 try {
-                        c.run(k, a) // error if set to a read-only value
+                        if (isU(a)) a = a.value
+                        if (isU(current[k])) current[k].value = a
+                        else current[k] = a
                 } catch (error) {
                         console.log(error)
                 }
                 flush(c.events, k, a)
-                c.act()
+                c.act(k, a)
         }
 
-        c.ref = (target: T) => {
+        c.ref = (target) => {
                 if (!target) return c.clean()
                 current = target
                 c.mount()

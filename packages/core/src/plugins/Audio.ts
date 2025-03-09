@@ -29,9 +29,9 @@ export default function Audio<T extends Target>(props: Attach<Arg, T>) {
                         audio.src = arg.src
                 }
 
-                c.events.add(run)
+                c.writes.add(run)
                 c.cache[k] = () => {
-                        c.events.delete(run)
+                        c.writes.delete(run)
                         el.removeEventListener('change', change)
                 }
         }
