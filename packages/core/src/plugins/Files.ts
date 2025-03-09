@@ -73,9 +73,9 @@ export default function Files<T extends Target>(props: Attach<Arg, T>) {
                         render(el, arg.src)
                 }
 
-                c.events.add(run)
+                c.writes.add(run)
                 c.cache[k] = () => {
-                        c.events.delete(run)
+                        c.writes.delete(run)
                         el.removeEventListener('change', change)
                 }
         }

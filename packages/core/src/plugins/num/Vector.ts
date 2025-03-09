@@ -81,12 +81,12 @@ export default function Vector<T extends Target>(props: Attach<Arg, T>) {
                                 input.value = `${get(arg)}`
                         }
 
-                        c.events.add(run)
+                        c.writes.add(run)
                         drag.onMount(span)
                         input.addEventListener('input', change)
 
                         c.cache[k][_0] = () => {
-                                c.events.delete(run)
+                                c.writes.delete(run)
                                 drag.onClean()
                                 input.removeEventListener('input', change)
                         }
@@ -127,7 +127,6 @@ export default function Vector<T extends Target>(props: Attach<Arg, T>) {
                         _(
                                 'div',
                                 {
-                                        ref: (e) => (window.e = e),
                                         key: 'values',
                                         className: 'grid gap-x-2 grid-cols-[1fr_1fr_1fr]',
                                 },

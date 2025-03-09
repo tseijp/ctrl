@@ -56,9 +56,9 @@ export default function Color<T extends Target>(props: Attach<Arg, T>) {
                         el.value = get(arg)
                 }
 
-                c.events.add(run)
+                c.writes.add(run)
                 c.cache[k] = () => {
-                        c.events.delete(run)
+                        c.writes.delete(run)
                         el.removeEventListener('input', change)
                 }
         }

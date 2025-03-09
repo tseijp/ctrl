@@ -80,6 +80,7 @@ function ctrl<T extends Target>(current: T = {} as T, id = `c${store.size}`) {
                 if (isU(a)) a = a.value
                 if (isU(current[k])) current[k].value = a
                 else current[k] = a
+                flush(c.writes, k, a)
         }
 
         c.set = (k, a) => {
@@ -89,7 +90,7 @@ function ctrl<T extends Target>(current: T = {} as T, id = `c${store.size}`) {
                         console.log(error)
                 }
                 flush(c.events, k, a)
-                c.act()
+                c.act(k, a)
         }
 
         c.ref = (target: T) => {

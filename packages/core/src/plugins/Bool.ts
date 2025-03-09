@@ -24,9 +24,9 @@ export default function Bool<T extends Target>(props: Attach<Arg, T>) {
                         el.checked = arg
                 }
 
-                c.events.add(run)
+                c.writes.add(run)
                 c.cache[k] = () => {
-                        c.events.delete(run)
+                        c.writes.delete(run)
                         el.removeEventListener('change', change)
                 }
         }
