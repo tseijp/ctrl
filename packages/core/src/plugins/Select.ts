@@ -17,20 +17,20 @@ export default function Select<T extends Target>(props: Attach<Arg, T>) {
         }
 
         const ref = (el: HTMLSelectElement | null) => {
-                if (!el) return c.cache[k]?.()
-
+                if (!el) return
                 el.addEventListener('change', change)
 
-                const run = (key: K, arg: Arg) => {
+                const update = (key: K, arg: Arg) => {
                         if (key !== k) return
                         el.value = arg.options[0]
                 }
 
-                c.events.add(run)
-                c.cache[k] = () => {
-                        c.events.delete(run)
-                        el.removeEventListener('change', change)
+                const clean = () => {
+                        c.updates.delete(update)
                 }
+
+                c.updates.add(update)
+                c.cleanups.add(clean)
         }
 
         const _ = ctrl.create

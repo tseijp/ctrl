@@ -3,7 +3,9 @@ import { codemirror, scrollTo } from '../utils'
 
 const c = ctrl({
         image0: { src: 'https://r.tsei.jp/texture/Brick.jpg' }, // or
-        image1: { value: { src: 'https://r.tsei.jp/texture/Rust.jpg' } }, // or
+        image1: { src: 'https://r.tsei.jp/texture/Brick.jpg' }, // or
+        image2: { value: { src: 'https://r.tsei.jp/texture/Rust.jpg' } }, // or
+        image3: { value: { src: 'https://r.tsei.jp/texture/Rust.jpg' } }, // or
 })
 
 c.id = 'Image'
@@ -13,7 +15,9 @@ const code = () =>
 // Image
 const c = ctrl({
         image0: ${JSON.stringify(c.current.image0)}, // or
-        image1: ${JSON.stringify(c.current.image1)},
+        image1: ${JSON.stringify(c.current.image1)}, // or
+        image2: ${JSON.stringify(c.current.image2)}, // or
+        image3: ${JSON.stringify(c.current.image3)},
 })
 `.trim()
 

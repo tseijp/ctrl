@@ -11,13 +11,36 @@ interface Props {
         plugin?: any
         layers?: any
         children?: any
-        disabled?: boolean
+}
+
+const getDir = (x = 0, y = 0, w = 600, h = 600) => {
+        // element center
+        x += w / 2
+        y += h / 2
+        // normalize
+        x /= window.innerWidth
+        y /= window.innerHeight
+        // vector from center
+        x -= 0.5
+        y -= 0.5
+        if (x ** 2 <= y ** 2) {
+                return [0, y > 0 ? 1 : -1]
+        } else return [x > 0 ? 1 : -1, 0]
+}
+
+const ref = (el: HTMLElement) => {
+        if (!el) return
+        const r = el.getBoundingClientRect()
+        const [dx, dy] = getDir(r.x, r.y, r.width, r.height)
+        merge(el, {
+                style: {
+                        transform: `translate(${dx * 1000}px, ${dy * 1000}px)`,
+                },
+        })
 }
 
 export default function Controller(props: Props) {
-        const { children, left, plugin, layers, disabled, ...other } = props
-        if (disabled) return children
-
+        const { children, left, plugin, layers, ...other } = props
         const _ = ctrl.create
         return _(
                 'div',
@@ -26,14 +49,14 @@ export default function Controller(props: Props) {
                         ...other, //
                 },
                 [
-                        _(ControlNav, { key: 'nav' }),
-                        _(ControlLeft, { key: 'left', layers }, left),
+                        _(ControlNav, { ref, key: 'nav' }),
+                        _(ControlLeft, { ref, key: 'left', layers }, left),
                         _(
                                 Bounding,
                                 { key: 'main' },
                                 _(Expanding, {}, _(Wheeling, { children }))
                         ),
-                        _(ControlRight, { key: 'right' }, plugin),
+                        _(ControlRight, { ref, key: 'right' }, plugin),
                 ]
         )
 }

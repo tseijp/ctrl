@@ -1,7 +1,5 @@
-import { is } from '../../helpers/utils'
-import { ctrl } from '../../index'
+import { ctrl, is, NestedItem } from '../../index'
 import { Attach, Target } from '../../types'
-import Nested from '../Nested'
 
 const isNumeric = (a: unknown) => {
         if (!is.str(a)) return false
@@ -44,5 +42,5 @@ export default function HTML<T extends Target>(props: Attach<HTMLElement, T>) {
         if (!isNumeric(k)) return null
 
         const _ = ctrl.create
-        return _(Nested, { a, c, k: a.nodeName })
+        return _(NestedItem, { a, c, k: a.nodeName })
 }

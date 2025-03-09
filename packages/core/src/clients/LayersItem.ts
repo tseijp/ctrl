@@ -1,10 +1,10 @@
-import { Ctrl, ctrl, Target } from '../index'
+import { Ctrl, ctrl } from '../index'
 
-interface Props<T extends Target> {
-        c: Ctrl<T>
+interface Props {
+        c: Ctrl
 }
 
-export default function LayersItem<T extends Target>(props: Props<T>) {
+export default function LayersItem(props: Props) {
         const { c } = props
 
         const click = () => {

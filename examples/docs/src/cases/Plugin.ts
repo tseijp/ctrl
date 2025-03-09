@@ -2,21 +2,23 @@ import { ctrl } from '@tsei/ctrl/src/react'
 import { codemirror, scrollTo } from '../utils'
 
 const c = ctrl({
-        css0: { style: 'width:1280px; height:800px;' }, // or
-        css1: { style: { width: '1280px', height: '800px' } }, // or
-        css2: { value: { style: 'width:1280px; height:800px;' } }, // or
-        css3: { value: { style: { width: '1280px', height: '800px' } } },
+        cssPlugin0: { style: 'width:1280px; height:800px;' }, // or
+        cssPlugin1: { style: { width: '1280px', height: '800px' } }, // or
+        cssPlugin2: { value: { style: 'width:1280px; height:800px;' } }, // or
+        cssPlugin3: { value: { style: { width: '1280px', height: '800px' } } },
 })
 
 c.id = 'Plugin'
 
 const code = () =>
         /* TS */ `
+import { ctrl } from '@tsei/ctrl'
+
 const c = ctrl({
-        css0: ${JSON.stringify(c.current.css0)}, // or
-        css1: ${JSON.stringify(c.current.css1)}, // or
-        css2: ${JSON.stringify(c.current.css2)}, // or
-        css3: ${JSON.stringify(c.current.css3)},
+        cssPlugin0: ${JSON.stringify(c.current.cssPlugin0)}, // or
+        cssPlugin1: ${JSON.stringify(c.current.cssPlugin1)}, // or
+        cssPlugin2: ${JSON.stringify(c.current.cssPlugin2)}, // or
+        cssPlugin3: ${JSON.stringify(c.current.cssPlugin3)},
 }
 `.trim()
 

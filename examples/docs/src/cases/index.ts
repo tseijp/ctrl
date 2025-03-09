@@ -1,20 +1,17 @@
 import { ctrl } from '@tsei/ctrl/src/react'
-import Example from './Example'
-import Controll from './Controll'
-import Installation from './Install'
-import NumberCase from './Number'
-import VectorCase from './Vector'
-import StringCase from './String'
-import BooleanCase from './Boolean'
-import ColorCase from './Color'
-import ButtonCase from './Button'
-import SelectCase from './Select'
-import ImageCase from './Image'
-import PluginCase from './Plugin'
+import Example from '../cases/Example'
+import Controll from '../cases/Controll'
+import Installation from '../cases/Install'
+import NumberCase from '../cases/Number'
+import VectorCase from '../cases/Vector'
+import StringCase from '../cases/String'
+import BooleanCase from '../cases/Boolean'
+import ColorCase from '../cases/Color'
+import ButtonCase from '../cases/Button'
+import SelectCase from '../cases/Select'
+import ImageCase from '../cases/Image'
+import PluginCase from '../cases/Plugin'
 import NestedCase from './Nested'
-import AudioCase from './Audio'
-import VideoCase from './Video'
-import FilesCase from './Files'
 
 export const CASES = [
         Installation,
@@ -27,10 +24,7 @@ export const CASES = [
         ColorCase,
         ButtonCase,
         SelectCase,
-        AudioCase,
         ImageCase,
-        VideoCase,
-        FilesCase,
         NestedCase,
         PluginCase,
 ]

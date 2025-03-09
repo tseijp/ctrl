@@ -11,29 +11,25 @@ export default function Image<T extends Target>(props: Attach<Arg, T>) {
         const change = (e: Event) => {
                 const el = e.target
                 if (!(el instanceof HTMLInputElement)) return
-                if (!el.files || el.files.length === 0) return
-                const file = el.files[0]
-                const url = URL.createObjectURL(file)
-                a.src = url
+                a.src = el.value
                 c.set(k, a)
         }
 
         const ref = (el: HTMLInputElement | null) => {
-                if (!el) return c.cache[k]?.()
+                if (!el) return
                 el.addEventListener('change', change)
 
-                const run = (key: K, arg: Arg) => {
+                const update = (key: K, arg: Arg) => {
                         if (key !== k) return
-                        const img = el.nextElementSibling!
-                        if (!(img instanceof HTMLImageElement)) return
-                        img.src = arg.src
+                        el.value = arg.src
                 }
 
-                c.events.add(run)
-                c.cache[k] = () => {
-                        c.events.delete(run)
-                        el.removeEventListener('change', change)
+                const clean = () => {
+                        c.updates.delete(update)
                 }
+
+                c.updates.add(update)
+                c.cleanups.add(clean)
         }
 
         const _ = ctrl.create
@@ -48,27 +44,14 @@ export default function Image<T extends Target>(props: Attach<Arg, T>) {
                                 key: 'key', //
                                 k,
                         }),
-                        _(
-                                'label',
-                                {
-                                        key: 'container', //
-                                        className: '_ctrl-input flex rounded-sm px-2 py-2 bg-[#383838] cursor-pointer',
-                                },
-                                [
-                                        _('input', {
-                                                ref,
-                                                type: 'file',
-                                                accept: 'image/*',
-                                                key: 'input',
-                                                className: 'hidden',
-                                        }),
-                                        _('img', {
-                                                src,
-                                                alt,
-                                                key: 'img',
-                                        }),
-                                ]
-                        ),
+                        _('input', {
+                                ref,
+                                src,
+                                alt,
+                                type: 'image',
+                                key: 'input',
+                                className: '_ctrl-input bg-[#383838] max-w-full rounded-sm px-2 py-1 leading-[20px] block',
+                        }),
                 ]
         )
 }
