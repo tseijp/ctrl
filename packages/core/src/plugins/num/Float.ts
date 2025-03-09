@@ -35,6 +35,7 @@ export default function Float<T extends Target>(props: Attach<Arg, T>) {
                         a = sig(a, b)
                         let x = p + a
                         x = sig(x, -2) // 0.01
+                        input.value = `${x}`
                         return x
                 }
 
