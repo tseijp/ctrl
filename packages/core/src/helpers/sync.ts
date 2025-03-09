@@ -25,7 +25,7 @@ export function sync<T extends object = object>(target: T, id?: string) {
         const mount = async () => {
                 if (mounted++) return
                 const { join } = await import('./webrtc')
-                joined = await join(set)
+                joined = await join(set as any) // @TODO FIX
                 flush(mounts)
         }
 
