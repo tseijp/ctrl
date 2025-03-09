@@ -12,9 +12,11 @@ export default function Image<T extends Target>(props: Attach<Arg, T>) {
                 const el = e.target
                 if (!(el instanceof HTMLInputElement)) return
                 if (!el.files || el.files.length === 0) return
+                const img = el.nextElementSibling!
+                if (!(img instanceof HTMLImageElement)) return
                 const file = el.files[0]
                 const url = URL.createObjectURL(file)
-                a.src = url
+                a.src = img.src = url
                 c.set(k, a)
         }
 

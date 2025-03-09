@@ -12,8 +12,10 @@ export default function Video<T extends Target>(props: Attach<Arg, T>) {
                 const el = e.target
                 if (!(el instanceof HTMLInputElement)) return
                 if (!el.files || el.files.length === 0) return
+                const video = el.nextElementSibling
+                if (!(video instanceof HTMLVideoElement)) return
                 const file = el.files[0]
-                a.src = URL.createObjectURL(file)
+                a.src = video.src = URL.createObjectURL(file)
                 c.set(k, a)
         }
 

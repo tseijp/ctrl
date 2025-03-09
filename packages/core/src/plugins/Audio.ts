@@ -12,9 +12,11 @@ export default function Audio<T extends Target>(props: Attach<Arg, T>) {
                 const el = e.target
                 if (!(el instanceof HTMLInputElement)) return
                 if (!el.files || el.files.length === 0) return
+                const audio = el.nextElementSibling
+                if (!(audio instanceof HTMLAudioElement)) return
                 const file = el.files[0]
                 const url = URL.createObjectURL(file)
-                a.src = url
+                a.src = audio.src = url
                 c.set(k, a)
         }
 
