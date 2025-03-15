@@ -25,6 +25,10 @@ export const is = {
                 typeof a === 'number' && Number.isNaN(a),
 }
 
+export const isServer = () => {
+        return typeof window === 'undefined'
+}
+
 /**
  * each
  */
@@ -107,4 +111,10 @@ export const fullscreen = (target: HTMLElement) => {
 
 export const replace = (char = '', from = '_', to = '/') => {
         return char.split(from).join(to)
+}
+
+export const mark = (k: string) => {
+        const el = document.getElementById(k)
+        if (!el) return
+        el.style.color = '#F0B72E'
 }

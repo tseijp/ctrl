@@ -65,13 +65,19 @@ export default function Color<T extends Target>(props: Attach<Arg, T>) {
 
         const _ = ctrl.create
 
-        return _('fieldset', {}, [
-                _(InputLabel, { key: 'key', k }),
-                _('input', {
-                        ref,
-                        key: 'input',
-                        defaultValue: get(a),
-                        type: 'color',
-                }),
-        ])
+        return _(
+                'fieldset',
+                {
+                        id: `${c.id}.${k}`,
+                },
+                [
+                        _(InputLabel, { key: 'key', k }),
+                        _('input', {
+                                ref,
+                                key: 'input',
+                                defaultValue: get(a),
+                                type: 'color',
+                        }),
+                ]
+        )
 }

@@ -23,6 +23,7 @@ export function CSS(props: Attach<CSSStyle>) {
         return _(
                 'fieldset',
                 {
+                        id: `${c.id}.${k}`,
                         className: 'mr-2',
                 },
                 [

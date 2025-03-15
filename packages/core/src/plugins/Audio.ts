@@ -42,6 +42,7 @@ export default function Audio<T extends Target>(props: Attach<Arg, T>) {
         return _(
                 'fieldset',
                 {
+                        id: `${c.id}.${k}`,
                         className: 'mr-2',
                 },
                 [
@@ -58,9 +59,9 @@ export default function Audio<T extends Target>(props: Attach<Arg, T>) {
                                 [
                                         _('input', {
                                                 ref,
+                                                key: 'input',
                                                 type: 'file',
                                                 accept: 'audio/*',
-                                                key: 'input',
                                                 className: 'hidden',
                                         }),
                                         _('audio', {

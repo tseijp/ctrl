@@ -52,7 +52,7 @@ function ctrl<T extends Target>(current: T = {} as T, id = `c${store.size}`) {
         c.mount = () => {
                 if (mounted++) return
                 if (_parent) c.actors.add(_parent.act)
-                ctrl.mount(c)
+                flush(ctrl.mounts, c)
                 flush(c.mounts)
         }
 
@@ -90,7 +90,7 @@ function ctrl<T extends Target>(current: T = {} as T, id = `c${store.size}`) {
                         console.log(error)
                 }
                 flush(c.events, k, a)
-                c.act(k, a)
+                c.act()
         }
 
         c.ref = (target) => {
@@ -111,7 +111,9 @@ ctrl.plugin = [] as CustomPlugin[]
 ctrl.use = (...args: CustomPlugin[]) => ctrl.plugin.unshift(...args)
 ctrl.pluginParent = null as null | Node
 ctrl.layersParent = null as null | Node
-ctrl.mount = <T extends Target>(c: Ctrl<T>) => {
+ctrl.mounts = new Set<Function>()
+
+ctrl.mounts.add(<T extends Target>(c: Ctrl<T>) => {
         const plugin = create(PluginItem, { c })
         append(plugin, ctrl.pluginParent ?? document.body)
         c.cleans.add(() => remove(plugin, ctrl.pluginParent ?? document.body))
@@ -119,7 +121,7 @@ ctrl.mount = <T extends Target>(c: Ctrl<T>) => {
         const layers = create(LayersItem, { c })
         append(layers, ctrl.layersParent)
         c.cleans.add(() => remove(layers, ctrl.pluginParent!))
-}
+})
 
 export const register = (override: any) => {
         merge(ctrl, override)

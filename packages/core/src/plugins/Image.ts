@@ -43,6 +43,7 @@ export default function Image<T extends Target>(props: Attach<Arg, T>) {
         return _(
                 'fieldset',
                 {
+                        id: `${c.id}.${k}`,
                         className: 'mr-2',
                 },
                 [

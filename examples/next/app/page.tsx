@@ -3,8 +3,12 @@
 import { Controller } from '@tsei/ctrl/src/react'
 import { Navigation } from '../../docs/src/pages/App'
 import { CASES } from '../../docs/src/cases'
+import { useEffect } from 'react'
+import { initialize } from './utils'
 
 export default function CasesPage() {
+        useEffect(initialize, [])
+
         // @ts-ignore
         const left = <Navigation />
         return (

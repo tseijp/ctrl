@@ -188,7 +188,7 @@ export interface Ctrl<T extends Target = Target> {
         clean(): void
         sub(fn?: () => void): () => void
         get(): number
-        act: Callback<T>
+        act(): void
         set: Callback<T>
         run: Callback<T>
         ref(target: T | null): void

@@ -33,14 +33,20 @@ export default function Bool<T extends Target>(props: Attach<Arg, T>) {
 
         const _ = ctrl.create
 
-        return _('fieldset', {}, [
-                _(InputLabel, { key: 'key', k }),
-                _('input', {
-                        ref,
-                        key: 'input',
-                        className: 'mb-1',
-                        defaultChecked: a,
-                        type: 'checkbox',
-                }),
-        ])
+        return _(
+                'fieldset',
+                {
+                        id: `${c.id}.${k}`,
+                },
+                [
+                        _(InputLabel, { key: 'key', k }),
+                        _('input', {
+                                ref,
+                                key: 'input',
+                                className: 'mb-1',
+                                defaultChecked: a,
+                                type: 'checkbox',
+                        }),
+                ]
+        )
 }

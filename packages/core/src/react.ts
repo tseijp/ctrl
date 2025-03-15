@@ -53,7 +53,9 @@ let isInitialized = false
 function initialize() {
         if (isInitialized) return
         isInitialized = true
-        register({ mount, create: _ })
+        ctrl.mounts.clear()
+        ctrl.mounts.add(mount)
+        register({ create: _ })
 }
 
 interface Props extends React.HTMLProps<HTMLDivElement> {

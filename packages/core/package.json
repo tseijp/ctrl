@@ -1,6 +1,6 @@
 {
         "name": "@tsei/ctrl",
-        "version": "0.28.0",
+        "version": "0.32.0",
         "author": "tseijp",
         "license": "MIT",
         "sideEffect": false,

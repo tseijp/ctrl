@@ -1,78 +1,68 @@
-'use client'
-import {
-        DataStreamMessageType,
-        LocalP2PRoomMember,
-        nowInSec,
-        RemoteDataStream,
-        RoomPublication,
-        SkyWayAuthToken,
-        SkyWayContext,
-        SkyWayRoom,
-        SkyWayStreamFactory,
-        uuidV4, // @ts-ignore
-} from '@skyway-sdk/room'
+type Callback = (args: any) => Promise<void>
 
-export function createToken() {
-        return new SkyWayAuthToken({
-                jti: uuidV4(),
-                iat: nowInSec(),
-                exp: nowInSec() + 60 * 60 * 24,
-                version: 3,
-                scope: {
-                        appId: process.env.NEXT_PUBLIC_SKYWAY_APP_ID,
-                        rooms: [
-                                {
-                                        name: '*',
-                                        methods: [
-                                                'create',
-                                                'close',
-                                                'updateMetadata',
-                                        ],
-                                        member: {
+export interface Config {
+        token?: string
+        appId?: string
+        secret?: string
+        roomName?: string
+}
+
+export async function join(SKYWAY: any, callback: Callback, config?: Config) {
+        function createToken() {
+                return new SKYWAY.SkyWayAuthToken({
+                        jti: SKYWAY.uuidV4(),
+                        iat: SKYWAY.nowInSec(),
+                        exp: SKYWAY.nowInSec() + 60 * 60 * 24,
+                        version: 3,
+                        scope: {
+                                appId: config?.appId!,
+                                rooms: [
+                                        {
                                                 name: '*',
                                                 methods: [
-                                                        'publish',
-                                                        'subscribe',
+                                                        'create',
+                                                        'close',
                                                         'updateMetadata',
                                                 ],
+                                                member: {
+                                                        name: '*',
+                                                        methods: [
+                                                                'publish',
+                                                                'subscribe',
+                                                                'updateMetadata',
+                                                        ],
+                                                },
                                         },
-                                },
-                        ],
-                },
-        }).encode(process.env.NEXT_PUBLIC_SKYWAY_SECRET)
-}
+                                ],
+                        },
+                }).encode(config?.secret!)
+        }
 
-async function createRoom() {
-        const token = createToken()
-        const context = await SkyWayContext.Create(token)
-        const room = await SkyWayRoom.FindOrCreate(context, {
-                type: 'p2p',
-                name: 'test',
-        })
-        return room
-}
+        async function createRoom(token = '') {
+                const context = await SKYWAY.SkyWayContext.Create(token)
+                const room = await SKYWAY.SkyWayRoom.FindOrCreate(context, {
+                        type: 'p2p',
+                        name: config?.roomName ?? 'default',
+                })
+                return room
+        }
 
-async function createData(member: LocalP2PRoomMember) {
-        const data = await SkyWayStreamFactory.createDataStream()
-        await member.publish(data)
-        return data
-}
+        async function createData(member: any) {
+                const data = await SKYWAY.SkyWayStreamFactory.createDataStream()
+                await member.publish(data)
+                return data
+        }
 
-export type Callback = (args: DataStreamMessageType) => Promise<void>
+        function isDataStream(publication: any) {
+                return publication.contentType === 'data'
+        }
 
-function isDataStream(publication: RoomPublication) {
-        return publication.contentType === 'data'
-}
+        function isSelfStream(publication: any, member: any) {
+                return publication.publisher.id === member.id
+        }
 
-function isSelfStream(
-        publication: RoomPublication,
-        member: LocalP2PRoomMember
-) {
-        return publication.publisher.id === member.id
-}
-
-export async function join(callback: Callback) {
-        const room = await createRoom()
+        const token = config?.token ?? createToken()
+        const room = await createRoom(token)
         const member = await room.join()
         const data = await createData(member)
 
@@ -80,9 +70,7 @@ export async function join(callback: Callback) {
                 if (isSelfStream(publication, member)) return
                 callback([publication.contentType, publication.id])
                 if (!isDataStream(publication)) return
-                const { stream } = await member.subscribe<RemoteDataStream>(
-                        publication.id
-                )
+                const { stream } = await member.subscribe(publication.id)
                 stream.onData.add(callback)
         })
 
@@ -90,9 +78,7 @@ export async function join(callback: Callback) {
                 if (isSelfStream(e.publication, member)) return
                 callback([e.publication.contentType, e.publication.id])
                 if (!isDataStream(e.publication)) return
-                const { stream } = await member.subscribe<RemoteDataStream>(
-                        e.publication.id
-                )
+                const { stream } = await member.subscribe(e.publication.id)
                 stream.onData.add(callback)
         })
 

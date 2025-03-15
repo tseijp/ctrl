@@ -35,28 +35,34 @@ export default function Select<T extends Target>(props: Attach<Arg, T>) {
 
         const _ = ctrl.create
 
-        return _('fieldset', {}, [
-                _(InputLabel, {
-                        key: 'key', //
-                        k,
-                }),
-                _(
-                        'select',
-                        {
-                                ref,
-                                key: 'select',
-                                className: '_ctrl-input bg-[#383838] rounded-sm px-2 py-1 leading-[20px] block',
-                        },
-                        options.map((value, index) =>
-                                _(
-                                        'option',
-                                        {
-                                                value, //
-                                                key: `${index}`,
-                                        },
-                                        value
+        return _(
+                'fieldset',
+                {
+                        id: `${c.id}.${k}`,
+                },
+                [
+                        _(InputLabel, {
+                                key: 'key', //
+                                k,
+                        }),
+                        _(
+                                'select',
+                                {
+                                        ref,
+                                        key: 'select',
+                                        className: '_ctrl-input bg-[#383838] rounded-sm px-2 py-1 leading-[20px] block',
+                                },
+                                options.map((value, index) =>
+                                        _(
+                                                'option',
+                                                {
+                                                        key: `${index}`,
+                                                        value, //
+                                                },
+                                                value
+                                        )
                                 )
-                        )
-                ),
-        ])
+                        ),
+                ]
+        )
 }

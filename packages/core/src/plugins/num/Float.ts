@@ -74,37 +74,43 @@ export default function Float<T extends Target>(props: Attach<Arg, T>) {
 
         const _ = ctrl.create
 
-        return _('fieldset', {}, [
-                _(InputLabel, { key: 'key', k }),
-                _(
-                        'div',
-                        {
-                                key: 'values',
-                                className: 'grid gap-x-2 grid-cols-[1fr_1fr_1fr]',
-                        },
+        return _(
+                'fieldset',
+                {
+                        id: `${c.id}.${k}`,
+                },
+                [
+                        _(InputLabel, { key: 'key', k }),
                         _(
-                                'label',
+                                'div',
                                 {
-                                        ref,
-                                        className: 'relative',
+                                        key: 'values',
+                                        className: 'grid gap-x-2 grid-cols-[1fr_1fr_1fr]',
                                 },
-                                [
-                                        _(
-                                                'span',
-                                                {
-                                                        key: 'icon',
-                                                        className: 'w-6 h-6 absolute grid place-content-center select-none',
-                                                },
-                                                'X'
-                                        ),
-                                        _('input', {
-                                                key: 'input',
-                                                type: 'number',
-                                                className: '_ctrl-number pl-6 h-6 w-full bg-[#383838] rounded-sm outline-none',
-                                                defaultValue: `${a}`,
-                                        }),
-                                ]
-                        )
-                ),
-        ])
+                                _(
+                                        'label',
+                                        {
+                                                ref,
+                                                className: 'relative',
+                                        },
+                                        [
+                                                _(
+                                                        'span',
+                                                        {
+                                                                key: 'icon',
+                                                                className: 'w-6 h-6 absolute grid place-content-center select-none',
+                                                        },
+                                                        'X'
+                                                ),
+                                                _('input', {
+                                                        key: 'input',
+                                                        type: 'number',
+                                                        className: '_ctrl-number pl-6 h-6 w-full bg-[#383838] rounded-sm outline-none',
+                                                        defaultValue: `${a}`,
+                                                }),
+                                        ]
+                                )
+                        ),
+                ]
+        )
 }

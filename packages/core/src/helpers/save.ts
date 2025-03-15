@@ -1,5 +1,5 @@
 import { Callback } from '../types'
-import { flush } from './utils'
+import { flush, mark } from './utils'
 
 const promised = (req: any) => {
         return new Promise((resolve, reject) => {
@@ -82,8 +82,8 @@ export function save<T extends object = object>(
                         if (!a) return
                         if (a === target[key]) return
                         target[k] = a
-                        flush(events, k, a)
-                        act(k, a)
+                        console.log(k, a)
+                        act()
                 }
                 flush(mounts)
         }
@@ -102,9 +102,9 @@ export function save<T extends object = object>(
                 }
         }
 
-        const act = (k: K, a: T[K]) => {
+        const act = () => {
                 updated++
-                flush(actors, k, a)
+                flush(actors)
         }
 
         const run = (k: K, a: T[K]) => {
@@ -114,8 +114,9 @@ export function save<T extends object = object>(
 
         const set = (k: K, a: T[K]) => {
                 target[k] = a
+                mark(k)
+                act()
                 flush(events, k, a)
-                act(k, a)
         }
 
         return {
