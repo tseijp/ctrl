@@ -20,9 +20,7 @@ export default function Container(props: Props) {
                 const transform = `translate(${x}px, ${y}px)`
                 target.style.transform = transform
 
-                if (drag.isDragging) {
-                        document.body.style.cursor = 'grabbing'
-                }
+                if (drag.isDragging) document.body.style.cursor = 'grabbing'
 
                 if (drag.isDragEnd) {
                         document.body.style.cursor = 'grab'
@@ -44,28 +42,26 @@ export default function Container(props: Props) {
                         className: `${baseClasses} ${sizeClasses} ${borderClasses}`,
                         ...other,
                 },
-                [
+                _(
+                        'div',
+                        {
+                                key: '0', //
+                                className: 'h-10 grid items-center',
+                        },
                         _(
                                 'div',
                                 {
-                                        key: '0', //
-                                        className: 'h-10 grid items-center',
+                                        className: 'font-[11px] leading-[16px] font-bold',
                                 },
-                                _(
-                                        'div',
-                                        {
-                                                className: 'font-[11px] leading-[16px] font-bold',
-                                        },
-                                        title.split('.').pop()
-                                )
-                        ),
-                        _(
-                                'div', //
-                                {
-                                        key: '1', //
-                                },
-                                children
-                        ),
-                ]
+                                title.split('.').pop()
+                        )
+                ),
+                _(
+                        'div', //
+                        {
+                                key: '1', //
+                                children,
+                        }
+                )
         )
 }

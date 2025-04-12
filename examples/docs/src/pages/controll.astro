@@ -11,16 +11,18 @@
                 _(
                         Controller,
                         {},
-                        _('ul', {}, [
+                        _(
+                                'ul',
+                                {},
                                 _('li', { id: 'a' }, '0'),
                                 _('li', { id: 'b' }, '1'),
                                 _('li', { id: 'c' }, '2'),
-                        ])
+                        )
                 ),
                 document.body
         )
 
-        c.sub((key: string) => {
+        c.sub((key) => {
                 document.getElementById(key)!.innerText = c.current[key]
         })
 </script>

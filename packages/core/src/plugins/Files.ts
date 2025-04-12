@@ -93,38 +93,37 @@ export default function Files<T extends Target>(props: Attach<Arg, T>) {
                         id: `${c.id}.${k}`,
                         className: 'mr-2',
                 },
-                [
-                        _(InputLabel, {
+                _(
+                        InputLabel, //
+                        {
                                 key: 'key',
                                 k,
-                        }),
+                        }
+                ),
+                _(
+                        'label',
+                        {
+                                key: 'container',
+                                className: '_ctrl-input flex items-center rounded-sm px-2 py-2 bg-[#383838] cursor-pointer',
+                        },
                         _(
-                                'label',
+                                'input', //
                                 {
-                                        key: 'container',
-                                        className: '_ctrl-input flex items-center rounded-sm px-2 py-2 bg-[#383838] cursor-pointer',
-                                },
-                                [
-                                        _(
-                                                'input', //
-                                                {
-                                                        ref,
-                                                        key: '0',
-                                                        type: 'file',
-                                                        className: 'hidden',
-                                                        accept: `.${ext(src)}`,
-                                                }
-                                        ),
-                                        _(
-                                                'div',
-                                                {
-                                                        key: '1',
-                                                        className: 'flex justify-between w-full flex-wrap text-[9px]',
-                                                },
-                                                children
-                                        ),
-                                ]
+                                        ref,
+                                        key: '0',
+                                        type: 'file',
+                                        className: 'hidden',
+                                        accept: `.${ext(src)}`,
+                                }
                         ),
-                ]
+                        _(
+                                'div',
+                                {
+                                        key: '1',
+                                        className: 'flex justify-between w-full flex-wrap text-[9px]',
+                                },
+                                ...children
+                        )
+                )
         )
 }

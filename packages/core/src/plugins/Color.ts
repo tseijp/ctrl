@@ -70,14 +70,21 @@ export default function Color<T extends Target>(props: Attach<Arg, T>) {
                 {
                         id: `${c.id}.${k}`,
                 },
-                [
-                        _(InputLabel, { key: 'key', k }),
-                        _('input', {
+                _(
+                        InputLabel, //
+                        {
+                                key: 'key', //
+                                k,
+                        }
+                ),
+                _(
+                        'input', //
+                        {
                                 ref,
                                 key: 'input',
                                 defaultValue: get(a),
                                 type: 'color',
-                        }),
-                ]
+                        }
+                )
         )
 }

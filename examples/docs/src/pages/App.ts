@@ -8,7 +8,25 @@ export function Navigation() {
                 {
                         className: 'flex flex-col gap-4 py-4', //
                 },
-                [
+                _(
+                        'li',
+                        {
+                                key: '0',
+                        },
+                        _(
+                                'a',
+                                {
+                                        href: '/',
+                                },
+                                'Basic Demo'
+                        )
+                ),
+                _(
+                        'ul',
+                        {
+                                key: '1',
+                                className: 'flex flex-col gap-4 pl-4 text-[11px]', //
+                        },
                         _(
                                 'li',
                                 {
@@ -17,58 +35,23 @@ export function Navigation() {
                                 _(
                                         'a',
                                         {
-                                                href: '/',
+                                                href: '/example',
                                         },
-                                        'Basic Demo'
+                                        'Example'
                                 )
                         ),
                         _(
-                                'ul',
+                                'li',
                                 {
                                         key: '1',
-                                        className: 'flex flex-col gap-4 pl-4 text-[11px]', //
                                 },
-                                [
-                                        _(
-                                                'li',
-                                                {
-                                                        key: '0',
-                                                },
-                                                _(
-                                                        'a',
-                                                        {
-                                                                href: '/example',
-                                                        },
-                                                        'Example'
-                                                )
-                                        ),
-                                        _(
-                                                'li',
-                                                {
-                                                        key: '1',
-                                                },
-                                                _(
-                                                        'a',
-                                                        {
-                                                                href: '/controll',
-                                                        },
-                                                        'Controll'
-                                                )
-                                        ),
-                                        _(
-                                                'li',
-                                                {
-                                                        key: '2',
-                                                },
-                                                _(
-                                                        'a',
-                                                        {
-                                                                href: '/headers',
-                                                        },
-                                                        'Headers'
-                                                )
-                                        ),
-                                ]
+                                _(
+                                        'a',
+                                        {
+                                                href: '/controll',
+                                        },
+                                        'Controll'
+                                )
                         ),
                         _(
                                 'li',
@@ -78,59 +61,72 @@ export function Navigation() {
                                 _(
                                         'a',
                                         {
-                                                href: 'https://www.npmjs.com/package/@tsei/ctrl',
-                                                target: '_blank',
-                                                rel: 'noopener noreferrer',
+                                                href: '/headers',
                                         },
-                                        'NPM @tsei/ctrl'
+                                        'Headers'
                                 )
-                        ),
+                        )
+                ),
+                _(
+                        'li',
+                        {
+                                key: '2',
+                        },
                         _(
-                                'li',
+                                'a',
                                 {
-                                        key: '3',
+                                        href: 'https://www.npmjs.com/package/@tsei/ctrl',
+                                        target: '_blank',
+                                        rel: 'noopener noreferrer',
                                 },
-                                _(
-                                        'a',
-                                        {
-                                                href: 'https://github.com/tseijp/ctrl',
-                                                target: '_blank',
-                                                rel: 'noopener noreferrer',
-                                        },
-                                        'Github @tsei/ctrl'
-                                )
-                        ),
+                                'NPM @tsei/ctrl'
+                        )
+                ),
+                _(
+                        'li',
+                        {
+                                key: '3',
+                        },
                         _(
-                                'li',
+                                'a',
                                 {
-                                        key: '4',
+                                        href: 'https://github.com/tseijp/ctrl',
+                                        target: '_blank',
+                                        rel: 'noopener noreferrer',
                                 },
-                                _(
-                                        'a',
-                                        {
-                                                href: 'https://github.com/tseijp/ctrl/discussions',
-                                                target: '_blank',
-                                                rel: 'noopener noreferrer',
-                                        },
-                                        'Discussion forum'
-                                )
-                        ),
+                                'Github @tsei/ctrl'
+                        )
+                ),
+                _(
+                        'li',
+                        {
+                                key: '4',
+                        },
                         _(
-                                'li',
+                                'a',
                                 {
-                                        key: '5',
+                                        href: 'https://github.com/tseijp/ctrl/discussions',
+                                        target: '_blank',
+                                        rel: 'noopener noreferrer',
                                 },
-                                _(
-                                        'a',
-                                        {
-                                                href: 'https://github.com/tseijp/ctrl/discussions/7',
-                                                target: '_blank',
-                                                rel: 'noopener noreferrer',
-                                        },
-                                        'Showcase submission'
-                                )
-                        ),
-                ]
+                                'Discussion forum'
+                        )
+                ),
+                _(
+                        'li',
+                        {
+                                key: '5',
+                        },
+                        _(
+                                'a',
+                                {
+                                        href: 'https://github.com/tseijp/ctrl/discussions/7',
+                                        target: '_blank',
+                                        rel: 'noopener noreferrer',
+                                },
+                                'Showcase submission'
+                        )
+                )
         )
 }
 

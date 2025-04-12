@@ -25,15 +25,13 @@ export default function Controller(props: Props) {
                         className: '_ctrl-wrap w-full h-screen',
                         ...other, //
                 },
-                [
-                        _(ControlNav, { key: 'nav' }),
-                        _(ControlLeft, { key: 'left', layers }, left),
-                        _(
-                                Bounding,
-                                { key: 'main' },
-                                _(Expanding, {}, _(Wheeling, { children }))
-                        ),
-                        _(ControlRight, { key: 'right' }, plugin),
-                ]
+                _(ControlNav, { key: 'nav' }),
+                _(ControlLeft, { key: 'left', layers }, left),
+                _(
+                        Bounding,
+                        { key: 'main' },
+                        _(Expanding, {}, _(Wheeling, { children }))
+                ),
+                _(ControlRight, { key: 'right' }, plugin)
         )
 }

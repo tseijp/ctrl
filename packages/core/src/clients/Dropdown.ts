@@ -64,7 +64,7 @@ const handleClick = (props: DropdownProps) => (e: Event) => {
                                 ref: selectRef(button, left),
                                 className: `absolute w-[216px] p-2 flex flex-col border border-[#292929] rounded-xl bg-[#1e1e1e]`,
                         },
-                        children
+                        ...children
                 )
         )
 

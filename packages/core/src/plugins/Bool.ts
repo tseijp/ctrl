@@ -38,15 +38,22 @@ export default function Bool<T extends Target>(props: Attach<Arg, T>) {
                 {
                         id: `${c.id}.${k}`,
                 },
-                [
-                        _(InputLabel, { key: 'key', k }),
-                        _('input', {
+                _(
+                        InputLabel, //
+                        {
+                                key: 'key', //
+                                k,
+                        }
+                ),
+                _(
+                        'input', //
+                        {
                                 ref,
                                 key: 'input',
                                 className: 'mb-1',
                                 defaultChecked: a,
                                 type: 'checkbox',
-                        }),
-                ]
+                        }
+                )
         )
 }

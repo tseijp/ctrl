@@ -79,75 +79,73 @@ export default function Example() {
                         ref: scrollTo(c.id), //
                         className: 'p-4 bg-white rounded',
                 },
-                [
-                        _(
-                                'h3',
-                                {
-                                        key: '0', //
-                                        className: 'font-bold',
-                                },
-                                '### Basic Example'
-                        ),
-                        _(
-                                'h6',
-                                {
-                                        key: '1', //
-                                        className: 'font-bold my-4',
-                                },
-                                '###### React Support'
-                        ),
-                        _(
-                                'div', //
-                                {
-                                        key: '2', //
-                                        ref: basicsRef,
-                                }
-                        ),
-                        _(
-                                'h6',
-                                {
-                                        key: '3', //
-                                        className: 'font-bold my-4',
-                                },
-                                '###### Solid Support'
-                        ),
-                        _(
-                                'div', //
-                                {
-                                        key: '4', //
-                                        ref: solidRef,
-                                }
-                        ),
-                        _(
-                                'h6',
-                                {
-                                        key: '5', //
-                                        className: 'font-bold my-4',
-                                },
-                                '###### Vue Support'
-                        ),
-                        _(
-                                'div', //
-                                {
-                                        key: '6', //
-                                        ref: vueRef,
-                                }
-                        ),
-                        _(
-                                'h6',
-                                {
-                                        key: '7', //
-                                        className: 'font-bold my-4',
-                                },
-                                '###### ESM Support'
-                        ),
-                        _(
-                                'div', //
-                                {
-                                        key: '8', //
-                                        ref: esmRef,
-                                }
-                        ),
-                ]
+                _(
+                        'h3',
+                        {
+                                key: '0', //
+                                className: 'font-bold',
+                        },
+                        '### Basic Example'
+                ),
+                _(
+                        'h6',
+                        {
+                                key: '1', //
+                                className: 'font-bold my-4',
+                        },
+                        '###### React Support'
+                ),
+                _(
+                        'div', //
+                        {
+                                key: '2', //
+                                ref: basicsRef,
+                        }
+                ),
+                _(
+                        'h6',
+                        {
+                                key: '3', //
+                                className: 'font-bold my-4',
+                        },
+                        '###### Solid Support'
+                ),
+                _(
+                        'div', //
+                        {
+                                key: '4', //
+                                ref: solidRef,
+                        }
+                ),
+                _(
+                        'h6',
+                        {
+                                key: '5', //
+                                className: 'font-bold my-4',
+                        },
+                        '###### Vue Support'
+                ),
+                _(
+                        'div', //
+                        {
+                                key: '6', //
+                                ref: vueRef,
+                        }
+                ),
+                _(
+                        'h6',
+                        {
+                                key: '7', //
+                                className: 'font-bold my-4',
+                        },
+                        '###### ESM Support'
+                ),
+                _(
+                        'div', //
+                        {
+                                key: '8', //
+                                ref: esmRef,
+                        }
+                )
         )
 }

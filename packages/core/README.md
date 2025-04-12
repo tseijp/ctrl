@@ -153,11 +153,13 @@ const c = ctrl({ a: 0, b: 1, c: 2 })
                 _(
                         Controller,
                         {},
-                        _('ul', {}, [
+                        _(
+                                'ul',
+                                {},
                                 _('li', { id: 'a' }, '0'),
                                 _('li', { id: 'b' }, '1'),
-                                _('li', { id: 'c' }, '2'),
-                        ])
+                                _('li', { id: 'c' }, '2')
+                        )
                 ),
                 document.body
         )
@@ -258,8 +260,10 @@ const c = ctrl({
 
 ```ts
 const c = ctrl({
-        button0: { onclick: () => alert('CLICKED') }, // or
-        button1: { value: { onclick: () => alert('CLICKED') },
+        button0: { onclick: () => console.log('CLICKED') }, // or
+        button1: document.querySelector('button'), // or
+        button2: { value: { onclick: () => console.log('CLICKED') } }, // or
+        button3: { value: document.querySelector('button') },
 })
 ```
 
@@ -397,4 +401,68 @@ const uniforms = { uResolution: { value: [1280, 800] } }
 const mat = THREE.MeshBasicMaterial({ uniforms })
 
 ctrl(mat.uniforms).sub()
+```
+
+### Diagram
+
+```mermaid
+graph LR
+    A["@tsei/ctrl Package"]:::package
+
+    subgraph "Core Engine"
+        CE["Core Engine"]:::coreEngine
+        Clients["Clients (UI Controls)"]:::coreSub
+        Helpers["Helpers (Utilities)"]:::coreSub
+        Plugins["Plugin System (Input Extensions)"]:::coreSub
+        CE -->|"has clients"| Clients
+        CE -->|"has helpers"| Helpers
+        CE -->|"has plugins"| Plugins
+    end
+
+    subgraph "Integration Adapters"
+        React["React Adapter"]:::integration
+        Solid["Solid Adapter"]:::integration
+        Vue3["Vue3 Adapter"]:::integration
+        ESM["ESM/Browser Usage"]:::integration
+        CE -->|"integratedVia"| React
+        CE -->|"integratedVia"| Solid
+        CE -->|"integratedVia"| Vue3
+        CE -->|"exposedFor"| ESM
+    end
+
+    subgraph "Example Applications"
+        Astro["Astro Docs/Demo"]:::examples
+        NextJS["Next.js Application"]:::examples
+        Nuxt["Nuxt Application"]:::examples
+        React -->|"demonstratedIn"| Astro
+        React -->|"demonstratedIn"| NextJS
+        Vue3 -->|"demonstratedIn"| Nuxt
+    end
+
+    subgraph "Supporting Assets & Configs"
+        Config["Config/Build/Test Files"]:::support
+        Docs["Documentation/Web Pages"]:::support
+        CE -->|"validatedBy"| Config
+        Config ---|"references"| Docs
+    end
+
+    %% Click Events
+    click CE "https://github.com/tseijp/ctrl/blob/main/packages/core/src/index.ts"
+    click Clients "https://github.com/tseijp/ctrl/tree/main/packages/core/src/clients"
+    click Helpers "https://github.com/tseijp/ctrl/tree/main/packages/core/src/helpers"
+    click Plugins "https://github.com/tseijp/ctrl/tree/main/packages/core/src/plugins"
+    click React "https://github.com/tseijp/ctrl/blob/main/packages/core/src/react.ts"
+    click Solid "https://github.com/tseijp/ctrl/blob/main/packages/core/src/solid.ts"
+    click Vue3 "https://github.com/tseijp/ctrl/blob/main/packages/core/src/vue3.ts"
+    click Astro "https://github.com/tseijp/ctrl/tree/main/examples/docs"
+    click NextJS "https://github.com/tseijp/ctrl/tree/main/examples/next"
+    click Nuxt "https://github.com/tseijp/ctrl/tree/main/examples/nuxt"
+
+    %% Styles
+    classDef package fill:#e0f7fa,stroke:#006064,stroke-width:2px
+    classDef coreEngine fill:#f1f8e9,stroke:#33691e,stroke-width:2px
+    classDef coreSub fill:#dcedc8,stroke:#558b2f,stroke-width:2px
+    classDef integration fill:#fff9c4,stroke:#f9a825,stroke-width:2px
+    classDef examples fill:#ffe0b2,stroke:#ef6c00,stroke-width:2px
+    classDef support fill:#fce4ec,stroke:#c2185b,stroke-width:2px
 ```

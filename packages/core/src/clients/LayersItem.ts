@@ -20,7 +20,7 @@ export default function LayersItem<T extends Target>(props: Props<T>) {
 
         const _ = ctrl.create
         const paths = c.id.split('.')
-        const child = Array(paths.length).join('    ') + paths.pop()!
+        const child = Array(paths.length).join('    ') + paths.pop()
 
         return _(
                 'div',
