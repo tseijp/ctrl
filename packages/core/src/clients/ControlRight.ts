@@ -23,30 +23,28 @@ export default function ControlRight(props: any) {
                         ref: wheel.ref,
                         className: '_ctrl-aside _hidden-scrollbar right-0',
                 },
-                [
+                _(
+                        'div',
+                        {
+                                key: 'top',
+                                className: 'h-12 border-1 border-t border-[rgb(68,68,68)]',
+                        },
                         _(
-                                'div',
+                                'span',
                                 {
-                                        key: 'top',
-                                        className: 'h-12 border-1 border-t border-[rgb(68,68,68)]',
-                                },
-                                _(
-                                        'span',
-                                        {
-                                                key: 'span',
-                                                className: 'mx-4 text-[13px] leading-[22px] font-bold',
-                                        }
-                                        // q ? 'Update' : 'New Creation'
-                                )
-                        ),
-                        _(
-                                'div',
-                                {
-                                        key: 'container',
-                                        ref,
-                                },
-                                children
-                        ),
-                ]
+                                        key: 'span',
+                                        className: 'mx-4 text-[13px] leading-[22px] font-bold',
+                                }
+                                // q ? 'Update' : 'New Creation'
+                        )
+                ),
+                _(
+                        'div',
+                        {
+                                key: 'container',
+                                ref,
+                        },
+                        children
+                )
         )
 }

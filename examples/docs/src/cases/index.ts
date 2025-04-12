@@ -42,6 +42,6 @@ export default function Cases() {
                 {
                         className: 'flex flex-col gap-4 max-w-[1024px]', //
                 },
-                CASES.map((Case, key) => _(Case, { key }))
+                ...CASES.map((Case, key) => _(Case, { key }))
         )
 }

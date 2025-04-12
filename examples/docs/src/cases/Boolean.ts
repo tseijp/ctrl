@@ -31,19 +31,20 @@ export default function BooleanCase() {
                         ref: scrollTo(c.id), //
                         className: 'p-4 bg-white rounded',
                 },
-                [
-                        _(
-                                'h3',
-                                {
-                                        key: '0', //
-                                        className: 'font-bold mb-4',
-                                },
-                                '### Boolean Cases'
-                        ),
-                        _('div', {
+                _(
+                        'h3',
+                        {
+                                key: '0', //
+                                className: 'font-bold mb-4',
+                        },
+                        '### Boolean Cases'
+                ),
+                _(
+                        'div', //
+                        {
                                 key: '1', //
                                 ref,
-                        }),
-                ]
+                        }
+                )
         )
 }

@@ -26,9 +26,21 @@ export function CSS(props: Attach<CSSStyle>) {
                         id: `${c.id}.${k}`,
                         className: 'mr-2',
                 },
-                [
-                        _(InputLabel, { key: 'label', k }),
-                        _(Nested, { key: 'nested', a: style, c, k }),
-                ]
+                _(
+                        InputLabel, //
+                        {
+                                key: 'label', //
+                                k,
+                        }
+                ),
+                _(
+                        Nested, //
+                        {
+                                key: 'nested', //
+                                a: style,
+                                c,
+                                k,
+                        }
+                )
         )
 }

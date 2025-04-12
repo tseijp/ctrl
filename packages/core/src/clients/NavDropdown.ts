@@ -98,22 +98,23 @@ export default function NavDropdown() {
                         onClick,
                         className: '_ctrl-button gap-1 px-3.5',
                 },
-                [
-                        _(
-                                'span',
-                                {
-                                        key: 'zoom', // @TODO
-                                        className: 'text-[11px]',
-                                },
-                                _(ZoomStore)
-                        ),
-                        _('img', {
+                _(
+                        'span',
+                        {
+                                key: 'zoom', // @TODO
+                                className: 'text-[11px]',
+                        },
+                        _(ZoomStore)
+                ),
+                _(
+                        'img', //
+                        {
                                 src: 'https://r.tsei.jp/ctrl/arrow.svg',
                                 alt: '🔽',
                                 key: 'arrow',
                                 width: 8,
                                 height: 7,
-                        }),
-                ]
+                        }
+                )
         )
 }

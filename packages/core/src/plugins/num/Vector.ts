@@ -99,22 +99,23 @@ export default function Vector<T extends Target>(props: Attach<Arg, T>) {
                                 key: _x,
                                 className: 'relative',
                         },
-                        [
-                                _(
-                                        'span',
-                                        {
-                                                key: 'icon',
-                                                className: 'w-6 h-6 absolute grid place-content-center select-none',
-                                        },
-                                        _x?.toUpperCase()
-                                ),
-                                _('input', {
+                        _(
+                                'span',
+                                {
+                                        key: 'icon',
+                                        className: 'w-6 h-6 absolute grid place-content-center select-none',
+                                },
+                                _x?.toUpperCase()
+                        ),
+                        _(
+                                'input', //
+                                {
                                         key: 'input',
                                         type: 'number',
                                         className: '_ctrl-number pl-6 h-6 w-full bg-[#383838] rounded-sm outline-none',
                                         defaultValue: `${value}`,
-                                }),
-                        ]
+                                }
+                        )
                 )
         })
 
@@ -124,16 +125,20 @@ export default function Vector<T extends Target>(props: Attach<Arg, T>) {
                         id: `${c.id}.${k}`,
                         className: 'mr-2',
                 },
-                [
-                        _(InputLabel, { key: 'key', k }),
-                        _(
-                                'div',
-                                {
-                                        key: 'values',
-                                        className: 'grid gap-x-2 grid-cols-[1fr_1fr_1fr]',
-                                },
-                                children
-                        ),
-                ]
+                _(
+                        InputLabel, //
+                        {
+                                key: 'key', //
+                                k,
+                        }
+                ),
+                _(
+                        'div',
+                        {
+                                key: 'values',
+                                className: 'grid gap-x-2 grid-cols-[1fr_1fr_1fr]',
+                        },
+                        ...children
+                )
         )
 }

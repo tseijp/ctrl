@@ -2,7 +2,13 @@ import { each, is, merge, Merge } from './utils'
 
 export type HTMLMap = HTMLElementTagNameMap
 export type HTMLTag = keyof HTMLMap
-export type HTMLNode<T extends HTMLTag = HTMLTag> = HTMLMap[T] | string | null
+export type HTMLNode<T extends HTMLTag = HTMLTag> =
+        | HTMLMap[T]
+        | string
+        | number
+        | null
+        | undefined
+
 export type Component<T extends HTMLTag, P = {}, Child = HTMLMap[T]> = (
         props: P
 ) => Child
@@ -13,9 +19,13 @@ export type Props<T extends HTMLTag> = Merge<HTMLMap[T]> & {
         children?: HTMLNode | HTMLNode[]
 }
 
-export function append<El extends Node>(child: Node | string | null, el: El) {
+export function append<El extends Node>(
+        child: Node | string | number | null | undefined,
+        el: El
+) {
+        if (is.num(child)) child = child.toString()
         if (is.str(child)) child = document.createTextNode(child)
-        if (!is.nul(child)) el.appendChild(child)
+        if (child) el.appendChild(child)
 }
 
 export function remove<El extends Node>(child: Node, el: El) {
@@ -25,33 +35,32 @@ export function remove<El extends Node>(child: Node, el: El) {
 function create<T extends HTMLTag>(
         type: T,
         props?: Props<T>,
-        child?: HTMLNode | HTMLNode[]
+        ...args: HTMLNode[]
 ): HTMLMap[T]
 
 function create<T extends HTMLTag, P = {}, Child = HTMLMap[T]>(
         type: Component<T, P, Child>,
         props?: P,
-        child?: HTMLNode | HTMLNode[]
+        ...args: HTMLNode[]
 ): Child
 
-function create(type: any, props: any = {}, child: HTMLNode | HTMLNode[] = []) {
-        let { key, ref, children = [], ...other } = props ?? {}
+function create(type: any, props: any, ...args: HTMLNode[]) {
+        if (!props) props = {}
+        const { key, ref, children, ...other } = props
 
         // coordinate children
-        if (!is.arr(children)) children = [children]
-        if (!is.arr(child)) child = [child]
-        child = [...children, ...child]
+        if (!args.length) args = is.arr(children) ? children : [children]
 
         // render component
         if (is.fun(type)) {
-                merge(props, { children: child })
+                merge(props, { children: args })
                 return type(props)
         }
 
         // create element
         const el = document.createElement(type)
         merge(el, other)
-        each(child, (c) => append(c, el))
+        each(args.flat(), (c) => append(c, el))
 
         if (ref) ref(el)
         return el

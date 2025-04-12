@@ -56,7 +56,7 @@ export function PluginItem<T extends Target>(props: Props<T>) {
         }
 
         for (const k in current) attach(k)
-        return _(Container, { title: id, id }, children)
+        return _(Container, { title: id, id }, ...children)
 }
 
 export function DefaultPlugin<T extends Target>(props: Attach<unknown, T>) {

@@ -46,41 +46,46 @@ export default function Video<T extends Target>(props: Attach<Arg, T>) {
                         id: `${c.id}.${k}`,
                         className: 'mr-2',
                 },
-                [
-                        _(InputLabel, {
+                _(
+                        InputLabel, //
+                        {
                                 key: 'key',
                                 k,
-                        }),
+                        }
+                ),
+                _(
+                        'label',
+                        {
+                                key: 'container',
+                                className: '_ctrl-input flex flex-col items-end rounded-sm px-2 py-2 bg-[#383838] cursor-pointer',
+                        },
                         _(
-                                'label',
+                                'input', //
                                 {
-                                        key: 'container',
-                                        className: '_ctrl-input flex flex-col items-end rounded-sm px-2 py-2 bg-[#383838] cursor-pointer',
-                                },
-                                [
-                                        _('input', {
-                                                ref,
-                                                type: 'file',
-                                                accept: 'video/*',
-                                                key: 'input',
-                                                className: 'hidden',
-                                        }),
-                                        _('video', {
-                                                src,
-                                                controls: true,
-                                                key: 'video',
-                                                className: 'w-full max-w-full',
-                                        }),
-                                        _(
-                                                'span',
-                                                {
-                                                        key: 'label',
-                                                        className: 'mt-2 underline opacity-70 text-[10px]',
-                                                },
-                                                'upload'
-                                        ),
-                                ]
+                                        ref,
+                                        type: 'file',
+                                        accept: 'video/*',
+                                        key: 'input',
+                                        className: 'hidden',
+                                }
                         ),
-                ]
+                        _(
+                                'video', //
+                                {
+                                        src,
+                                        controls: true,
+                                        key: 'video',
+                                        className: 'w-full max-w-full',
+                                }
+                        ),
+                        _(
+                                'span',
+                                {
+                                        key: 'label',
+                                        className: 'mt-2 underline opacity-70 text-[10px]',
+                                },
+                                'upload'
+                        )
+                )
         )
 }

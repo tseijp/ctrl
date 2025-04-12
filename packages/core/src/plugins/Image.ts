@@ -46,32 +46,37 @@ export default function Image<T extends Target>(props: Attach<Arg, T>) {
                         id: `${c.id}.${k}`,
                         className: 'mr-2',
                 },
-                [
-                        _(InputLabel, {
+                _(
+                        InputLabel, //
+                        {
                                 key: 'key', //
                                 k,
-                        }),
+                        }
+                ),
+                _(
+                        'label',
+                        {
+                                key: 'container', //
+                                className: '_ctrl-input flex rounded-sm px-2 py-2 bg-[#383838] cursor-pointer',
+                        },
                         _(
-                                'label',
+                                'input', //
                                 {
-                                        key: 'container', //
-                                        className: '_ctrl-input flex rounded-sm px-2 py-2 bg-[#383838] cursor-pointer',
-                                },
-                                [
-                                        _('input', {
-                                                ref,
-                                                type: 'file',
-                                                accept: 'image/*',
-                                                key: 'input',
-                                                className: 'hidden',
-                                        }),
-                                        _('img', {
-                                                src,
-                                                alt,
-                                                key: 'img',
-                                        }),
-                                ]
+                                        ref,
+                                        type: 'file',
+                                        accept: 'image/*',
+                                        key: 'input',
+                                        className: 'hidden',
+                                }
                         ),
-                ]
+                        _(
+                                'img', //
+                                {
+                                        src,
+                                        alt,
+                                        key: 'img',
+                                }
+                        )
+                )
         )
 }

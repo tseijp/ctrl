@@ -43,19 +43,20 @@ export default function ColorCase() {
                         ref: scrollTo(c.id), //
                         className: 'p-4 bg-white rounded',
                 },
-                [
-                        _(
-                                'h3',
-                                {
-                                        key: '0', //
-                                        className: 'font-bold mb-4',
-                                },
-                                '### Color Cases'
-                        ),
-                        _('div', {
+                _(
+                        'h3',
+                        {
+                                key: '0', //
+                                className: 'font-bold mb-4',
+                        },
+                        '### Color Cases'
+                ),
+                _(
+                        'div', //
+                        {
                                 key: '1', //
                                 ref,
-                        }),
-                ]
+                        }
+                )
         )
 }

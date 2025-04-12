@@ -191,8 +191,5 @@ export const createBounding = <El extends HTMLElement>(selectors?: string) => {
 export default function Bounding<T>(props: T) {
         const ref = createBounding()
         const _ = ctrl.create
-        return _('div', {
-                ref, //
-                ...props,
-        })
+        return _('div', { ref, ...props })
 }

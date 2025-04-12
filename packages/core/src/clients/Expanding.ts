@@ -27,9 +27,12 @@ const ref = (el: HTMLDivElement | null) => {
 
 export default function Expanding(props: Props<'div'>) {
         const _ = ctrl.create
-        return _('div', {
-                ref, //
-                className: '_ctrl-expanding',
-                ...props,
-        })
+        return _(
+                'div', //
+                {
+                        ref, //
+                        className: '_ctrl-expanding',
+                        ...props,
+                }
+        )
 }

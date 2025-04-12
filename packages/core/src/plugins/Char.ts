@@ -62,15 +62,22 @@ export default function Char<T extends Target>(props: Attach<Arg, T>) {
                         id: `${c.id}.${k}`,
                         className: 'mr-2',
                 },
-                [
-                        _(InputLabel, { key: 'key', k }),
-                        _('textarea', {
+                _(
+                        InputLabel, //
+                        {
+                                key: 'key', //
+                                k,
+                        }
+                ),
+                _(
+                        'textarea', //
+                        {
                                 ref,
                                 key: 'textarea',
                                 rows: 1,
                                 className: '_ctrl-input _hidden-scrollbar bg-[#383838] rounded-sm px-2 py-1 leading-[20px] w-full block max-h-[50vh]',
                                 defaultValue: a,
-                        }),
-                ]
+                        }
+                )
         )
 }

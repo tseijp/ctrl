@@ -23,17 +23,21 @@ export default function Button<T extends Target>(props: Attach<Arg, T>) {
                         id: `${c.id}.${k}`,
                         className: 'mr-2',
                 },
-                [
-                        _(InputLabel, { key: 'key', k }),
-                        _(
-                                'button',
-                                {
-                                        ref,
-                                        key: 'button',
-                                        className: 'mb-1 _ctrl-input w-full rounded-sm px-2 py-1 bg-[#383838] cursor-pointer',
-                                },
-                                k
-                        ),
-                ]
+                _(
+                        InputLabel, //
+                        {
+                                key: 'key', //
+                                k,
+                        }
+                ),
+                _(
+                        'button',
+                        {
+                                ref,
+                                key: 'button',
+                                className: 'mb-1 _ctrl-input w-full rounded-sm px-2 py-1 bg-[#383838] cursor-pointer',
+                        },
+                        k
+                )
         )
 }

@@ -21,22 +21,20 @@ export default function Installation() {
                         ref: scrollTo(c.id), //
                         className: 'p-4 bg-white rounded',
                 },
-                [
-                        _(
-                                'h3',
-                                {
-                                        key: '0', //
-                                        className: 'font-bold mb-4',
-                                },
-                                '### Installation'
-                        ),
-                        _(
-                                'div', //
-                                {
-                                        key: '1', //
-                                        ref,
-                                }
-                        ),
-                ]
+                _(
+                        'h3',
+                        {
+                                key: '0', //
+                                className: 'font-bold mb-4',
+                        },
+                        '### Installation'
+                ),
+                _(
+                        'div', //
+                        {
+                                key: '1', //
+                                ref,
+                        }
+                )
         )
 }

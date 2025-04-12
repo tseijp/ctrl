@@ -13,16 +13,20 @@ export default function Null<T extends Target>(props: Attach<Arg, T>) {
                 {
                         id: `${c.id}.${k}`,
                 },
-                [
-                        _(InputLabel, { key: 'key', k }),
-                        _(
-                                'div',
-                                {
-                                        key: 'null', //
-                                        className: 'font-normal opacity-20',
-                                },
-                                children
-                        ),
-                ]
+                _(
+                        InputLabel, //
+                        {
+                                key: 'key', //
+                                k,
+                        }
+                ),
+                _(
+                        'div', //
+                        {
+                                key: 'null', //
+                                className: 'font-normal opacity-20',
+                                children,
+                        }
+                )
         )
 }

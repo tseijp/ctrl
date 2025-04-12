@@ -27,12 +27,15 @@ export default function HandButton() {
                         ref, //
                         className: '_ctrl-button w-10 hover:bg-[#0B8CE9]',
                 },
-                _('img', {
-                        src: 'https://r.tsei.jp/ctrl/hand.svg',
-                        alt: '🖐️',
-                        key: 'hand',
-                        width: 20,
-                        height: 20,
-                })
+                _(
+                        'img', //
+                        {
+                                src: 'https://r.tsei.jp/ctrl/hand.svg',
+                                alt: '🖐️',
+                                key: 'hand',
+                                width: 20,
+                                height: 20,
+                        }
+                )
         )
 }
