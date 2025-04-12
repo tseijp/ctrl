@@ -11,6 +11,7 @@
                 "dev": "cd examples/docs && npm run dev",
                 "build": "cd examples/docs && npm run build",
                 "start": "cd examples/docs && npm run preview",
+                "hono": "cd examples/hono && npm run dev",
                 "next": "cd examples/next && npm run dev",
                 "nuxt": "cd examples/nuxt && npm run dev",
                 "test": "jest --watch",
