@@ -3,17 +3,17 @@
 ## 0. ディレクトリ構造
 
 ```mermaid
-graph TD
-    Root["/ (ルートディレクトリ)"]
-    App["app/ (アプリケーションコード)"]
-    Routes["app/routes/ (ルーティング)"]
-    Islands["app/islands/ (クライアントサイドコンポーネント)"]
-    Models["app/models/ (データモデル)"]
-    Lib["app/lib/ (ユーティリティ)"]
-    API["app/api/ (APIエンドポイント)"]
-    DB["app/db/ (データベース関連)"]
-    Auth["app/auth/ (認証関連)"]
-    Public["public/ (静的ファイル)"]
+graph LR
+    Root["/<br/>(ルートディレクトリ)"]
+    App["app/<br/>(アプリケーションコード)"]
+    Routes["app/routes/<br/>(ルーティング)"]
+    Islands["app/islands/<br/>(クライアントサイドコンポーネント)"]
+    Models["app/models/<br/>(データモデル)"]
+    Lib["app/lib/<br/>(ユーティリティ)"]
+    API["app/api/<br/>(APIエンドポイント)"]
+    DB["app/db/<br/>(データベース関連)"]
+    Auth["app/auth/<br/>(認証関連)"]
+    Public["public/<br/>(静的ファイル)"]
 
     Root --> App
     Root --> Public
@@ -26,29 +26,29 @@ graph TD
     App --> DB
     App --> Auth
 
-    Routes --> RouteIndex["index.tsx (トップページ)"]
-    Routes --> RouteRenderer["_renderer.tsx (レイアウト)"]
-    Routes --> RouteError["_error.tsx (エラーページ)"]
-    Routes --> Route404["_404.tsx (Not Foundページ)"]
-    Routes --> RouteMiddleware["_middleware.ts (ミドルウェア)"]
+    Routes --> RouteIndex["index.tsx<br/>(トップページ)"]
+    Routes --> RouteRenderer["_renderer.tsx<br/>(レイアウト)"]
+    Routes --> RouteError["_error.tsx<br/>(エラーページ)"]
+    Routes --> Route404["_404.tsx<br/>(Not Foundページ)"]
+    Routes --> RouteMiddleware["_middleware.ts<br/>(ミドルウェア)"]
 
-    Islands --> IslandController["controller.tsx (@tsei/ctrl統合)"]
+    Islands --> IslandController["controller.tsx<br/>(@tsei/ctrl統合)"]
 
-    Models --> ModelSubscription["subscription.ts (サブスクリプション)"]
-    Models --> ModelTeam["team.ts (組織/チーム)"]
-    Models --> ModelUser["user.ts (ユーザー)"]
-    Models --> ModelProject["project.ts (プロジェクト)"]
-    Models --> ModelLayer["layer.ts (レイヤー)"]
-    Models --> ModelThread["thread.ts (スレッド)"]
-    Models --> ModelChat["chat.ts (チャット)"]
-    Models --> ModelNode["node.ts (ノード)"]
-    Models --> ModelEdge["edge.ts (エッジ)"]
+    Models --> ModelSubscription["subscription.ts<br/>(サブスクリプション)"]
+    Models --> ModelTeam["team.ts<br/>(組織/チーム)"]
+    Models --> ModelUser["user.ts<br/>(ユーザー)"]
+    Models --> ModelProject["project.ts<br/>(プロジェクト)"]
+    Models --> ModelLayer["layer.ts<br/>(レイヤー)"]
+    Models --> ModelThread["thread.ts<br/>(スレッド)"]
+    Models --> ModelChat["chat.ts<br/>(チャット)"]
+    Models --> ModelNode["node.ts<br/>(ノード)"]
+    Models --> ModelEdge["edge.ts<br/>(エッジ)"]
 
-    DB --> DBSchema["schema.ts (スキーマ定義)"]
-    DB --> DBMigrations["migrations/ (マイグレーション)"]
+    DB --> DBSchema["schema.ts<br/>(スキーマ定義)"]
+    DB --> DBMigrations["migrations/<br/>(マイグレーション)"]
 
-    Auth --> AuthConfig["config.ts (認証設定)"]
-    Auth --> AuthMiddleware["middleware.ts (認証ミドルウェア)"]
+    Auth --> AuthConfig["config.ts<br/>(認証設定)"]
+    Auth --> AuthMiddleware["middleware.ts<br/>(認証ミドルウェア)"]
 ```
 
 ## 1. プロジェクト概要
@@ -94,7 +94,7 @@ graph TD
 ### 2.2 システムアーキテクチャ
 
 ```mermaid
-graph TD
+graph LR
     Client[クライアント] --> |API通信| CloudflareWorker[Cloudflare Worker]
     CloudflareWorker --> |データ操作| CloudflareD1[Cloudflare D1/SQLite]
     Client --> |認証| Auth[認証サービス]
@@ -358,7 +358,7 @@ erDiagram
 ### 5.1 メインインターフェース
 
 ```mermaid
-graph TD
+graph LR
     subgraph MainInterface[メインインターフェース]
         TopNav[トップナビゲーション]
         LeftPanel[左パネル - レイヤー]
