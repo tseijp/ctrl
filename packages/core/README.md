@@ -152,8 +152,8 @@ const c = useCtrl({ a: 0, b: 1, c: 2 })
 
 ```html
 <link rel="stylesheet" href="https://esm.sh/@tsei/ctrl@latest/dist/index.css" />
-<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.22.5/babel.min.js"></script>
-<script type="text/babel" data-type="module">
+<script type="module" src="https://esm.sh/tsx"></script>
+<script type="text/babel">
         import {
                 Controller,
                 ctrl,
@@ -170,7 +170,6 @@ const c = useCtrl({ a: 0, b: 1, c: 2 })
                 </Controller>,
                 document.body
         )
-
         c.sub((key) => {
                 document.getElementById(key).innerText = c.current[key]
         })
