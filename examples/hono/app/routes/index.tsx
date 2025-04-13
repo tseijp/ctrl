@@ -33,7 +33,6 @@ function AuthStatus() {
 export default createRoute(async (c) => {
   const name = c.req.query('name') ?? 'Hono'
   const authUser = await getAuthUser(c)
-  
   return c.render(
     <Controller>
       <title>{name}</title>
