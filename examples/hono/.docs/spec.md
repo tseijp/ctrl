@@ -468,3 +468,68 @@ graph TD
 - `GET /api/threads/:id/chats` - チャット履歴取得
 - `POST /api/threads/:id/generate` - LLM による UI 生成
 - `POST /api/threads/:id/update` - LLM による UI 更新
+
+## 7. 環境設定
+
+### 7.1 環境変数
+
+アプリケーションの実行には以下の環境変数が必要です。`.env`ファイルまたはCloudflare Workersの環境変数として設定します。
+
+#### 7.1.1 認証関連
+
+- `AUTH_SECRET`: 認証用の秘密鍵（ランダムな文字列）
+- `AUTH_URL`: 認証サービスのURL（例: https://example.com/api/auth）
+- `GOOGLE_ID`: Google OAuth用のクライアントID
+- `GOOGLE_SECRET`: Google OAuth用のクライアントシークレット
+
+#### 7.1.2 データベース関連
+
+- `DB`: Cloudflare D1データベース（Cloudflare Workersでは自動的にバインドされる）
+
+#### 7.1.3 Stripe決済関連
+
+- `STRIPE_SECRET_KEY`: Stripe APIキー
+- `STRIPE_WEBHOOK_SECRET`: Stripe Webhook検証用のシークレット
+
+#### 7.1.4 WebRTC (SkyWay) 関連
+
+- `SKYWAY_APP_ID`: SkyWayアプリケーションID
+- `SKYWAY_SECRET`: SkyWayシークレットキー
+
+### 7.2 環境変数の初期化方法
+
+環境変数は以下の方法で初期化されます：
+
+1. **認証関連の環境変数**:
+   ```typescript
+   // app/auth/config.ts
+   const env = {
+     AUTH_SECRET: c.env.AUTH_SECRET || process.env.AUTH_SECRET,
+     AUTH_URL: c.env.AUTH_URL || process.env.AUTH_URL || 'https://example.com/api/auth',
+     GOOGLE_ID: c.env.GOOGLE_ID || process.env.GOOGLE_ID,
+     GOOGLE_SECRET: c.env.GOOGLE_SECRET || process.env.GOOGLE_SECRET,
+   };
+   ```
+
+2. **Stripe関連の環境変数**:
+   ```typescript
+   // app/lib/stripe.ts
+   const apiKey = env?.STRIPE_SECRET_KEY || process.env.STRIPE_SECRET_KEY;
+   ```
+
+3. **WebRTC (SkyWay) 関連の環境変数**:
+   ```typescript
+   // WebRTC設定
+   const config = {
+     appId: SKYWAY_APP_ID,
+     secret: SKYWAY_SECRET,
+     roomName: 'your-room-name'
+   };
+   ```
+
+### 7.3 開発環境のセットアップ
+
+1. リポジトリをクローン
+2. `.env.example`ファイルを`.env`にコピーし、必要な環境変数を設定
+3. 依存パッケージをインストール: `npm install`
+4. 開発サーバーを起動: `npm run dev`

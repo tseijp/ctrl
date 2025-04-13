@@ -14,7 +14,7 @@ export const getStripe = async (env?: Env) => {
   
   // Stripeインスタンスを作成
   return new Stripe(apiKey, {
-    apiVersion: '2023-10-16', // 最新のAPI バージョンを指定
+    apiVersion: '2025-03-31.basil', // 最新のAPI バージョンを指定
     appInfo: {
       name: 'Figma Clone',
       version: '1.0.0',
