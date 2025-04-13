@@ -40,5 +40,8 @@
                 "packages/*",
                 "examples/*"
         ],
-        "private": true
+        "private": true,
+        "dependencies": {
+                "@hono/zod-validator": "^0.4.3"
+        }
 }
