@@ -10,7 +10,6 @@ graph LR
     Islands["app/islands/<br/>(クライアントサイドコンポーネント)"]
     Models["app/models/<br/>(データモデル)"]
     Lib["app/lib/<br/>(ユーティリティ)"]
-    API["app/api/<br/>(APIエンドポイント)"]
     DB["app/db/<br/>(データベース関連)"]
     Auth["app/auth/<br/>(認証関連)"]
     Public["public/<br/>(静的ファイル)"]
@@ -22,7 +21,6 @@ graph LR
     App --> Islands
     App --> Models
     App --> Lib
-    App --> API
     App --> DB
     App --> Auth
 
@@ -30,7 +28,14 @@ graph LR
     Routes --> RouteRenderer["_renderer.tsx<br/>(レイアウト)"]
     Routes --> RouteError["_error.tsx<br/>(エラーページ)"]
     Routes --> Route404["_404.tsx<br/>(Not Foundページ)"]
-    Routes --> RouteMiddleware["_middleware.ts<br/>(ミドルウェア)"]
+    Routes --> RouteMiddleware["_middleware.tsx<br/>(ミドルウェア)"]
+    Routes --> RouteAPI["api/<br/>(APIエンドポイント)"]
+
+    RouteAPI --> APIAuth["auth/<br/>(認証API)"]
+    RouteAPI --> APIProjects["projects/<br/>(プロジェクトAPI)"]
+    RouteAPI --> APIThreads["threads/<br/>(スレッドAPI)"]
+    RouteAPI --> APITeams["teams/<br/>(チームAPI)"]
+    RouteAPI --> APISubscriptions["subscriptions/<br/>(サブスクリプションAPI)"]
 
     Islands --> IslandController["controller.tsx<br/>(@tsei/ctrl統合)"]
 
@@ -50,6 +55,8 @@ graph LR
     Auth --> AuthConfig["config.ts<br/>(認証設定)"]
     Auth --> AuthMiddleware["middleware.ts<br/>(認証ミドルウェア)"]
 ```
+
+> **注意**: 以前のバージョンでは、API エンドポイントは `app/api` ディレクトリに配置され、`apiRouter.route` でマウントされていましたが、現在は HonoX のファイルベースルーティングを活用するため、`app/routes/api` ディレクトリに移行されています。
 
 ## 1. プロジェクト概要
 
@@ -419,7 +426,32 @@ graph TD
 
 ## 6. API 設計
 
-### 6.1 認証 API
+### 6.1 ファイルベースルーティングへの移行
+
+このプロジェクトでは、従来の `app/api` ディレクトリに API エンドポイントを配置し、`apiRouter.route` でマウントする方式から、HonoX のファイルベースルーティングを採用する方式に移行しました。
+
+#### 移行の背景と理由
+
+1. **コードの整理と保守性の向上**：各 API エンドポイントを独立したファイルとして管理することで、コードの整理と保守性が向上します。
+2. **ディレクトリ構造と URL パスの一致**：ファイル名とディレクトリ構造が URL パスに直接対応するため、API エンドポイントの発見可能性が向上します。
+3. **ミドルウェアの適用範囲の明確化**：`_middleware.tsx` ファイルを使用することで、特定のパス以下のすべてのルートに対して一貫したミドルウェアを適用できます。
+4. **HonoX フレームワークの規約に準拠**：HonoX フレームワークが推奨するファイルベースルーティングの規約に準拠することで、フレームワークの機能を最大限に活用できます。
+
+#### 移行の実装
+
+- 各 API エンドポイントは `app/routes/api` ディレクトリ内の対応するファイルパスに配置されています。
+- 例えば、`GET /api/projects/:id` エンドポイントは、`app/routes/api/projects/[id].tsx` ファイルに定義されています。
+- 動的パラメータは `[param]` の形式で表現されます。
+- 各ディレクトリには `_middleware.tsx` ファイルを配置して、そのディレクトリ以下のすべてのルートに適用されるミドルウェアを定義しています。
+
+#### ファイルベースルーティングの主な利点
+
+- コードの整理と発見可能性の向上
+- エンドポイントごとに独立したファイルによる保守性の向上
+- ミドルウェアの適用範囲を明確に制御可能
+- HonoX フレームワークの規約に準拠
+
+### 6.2 認証 API
 
 - `POST /api/auth/register` - ユーザー登録
 - `POST /api/auth/login` - ログイン
@@ -427,105 +459,111 @@ graph TD
 - `GET /api/auth/me` - 現在のユーザー情報取得
 - `PUT /api/auth/profile` - プロフィール更新
 
-### 6.2 組織・サブスクリプション API
+### 6.3 組織・サブスクリプション API
 
 - `POST /api/teams` - 組織作成
 - `GET /api/teams` - 所属組織一覧
-- `GET /api/teams/:id` - 組織詳細
-- `PUT /api/teams/:id` - 組織情報更新
-- `POST /api/teams/:id/members` - メンバー追加
-- `DELETE /api/teams/:id/members/:userId` - メンバー削除
-- `GET /api/subscriptions/:id` - サブスクリプション情報
+- `GET /api/teams/[id]` - 組織詳細
+- `PUT /api/teams/[id]` - 組織情報更新
+- `POST /api/teams/[id]/members` - メンバー追加
+- `DELETE /api/teams/[id]/members/[userId]` - メンバー削除
+- `GET /api/subscriptions/[id]` - サブスクリプション情報
 - `POST /api/subscriptions` - サブスクリプション作成
-- `PUT /api/subscriptions/:id` - サブスクリプション更新
+- `PUT /api/subscriptions/[id]` - サブスクリプション更新
 
-### 6.3 プロジェクト API
+### 6.4 プロジェクト API
 
 - `POST /api/projects` - プロジェクト作成
 - `GET /api/projects` - プロジェクト一覧
-- `GET /api/projects/:id` - プロジェクト詳細
-- `PUT /api/projects/:id` - プロジェクト更新
-- `DELETE /api/projects/:id` - プロジェクト削除
-- `POST /api/projects/:id/layers` - レイヤー作成
-- `GET /api/projects/:id/layers` - レイヤー一覧
+- `GET /api/projects/[id]` - プロジェクト詳細
+- `PUT /api/projects/[id]` - プロジェクト更新
+- `DELETE /api/projects/[id]` - プロジェクト削除
+- `POST /api/projects/[id]/layers` - レイヤー作成
+- `GET /api/projects/[id]/layers` - レイヤー一覧
 
-### 6.4 UI 要素 API
+### 6.5 UI 要素 API
 
-- `POST /api/projects/:id/nodes` - ノード作成
-- `GET /api/projects/:id/nodes` - ノード一覧
-- `GET /api/projects/:id/nodes/:nodeId` - ノード詳細
-- `PUT /api/projects/:id/nodes/:nodeId` - ノード更新
-- `DELETE /api/projects/:id/nodes/:nodeId` - ノード削除
-- `POST /api/projects/:id/edges` - エッジ作成
-- `GET /api/projects/:id/edges` - エッジ一覧
-- `PUT /api/projects/:id/edges/:edgeId` - エッジ更新
+- `POST /api/projects/[id]/nodes` - ノード作成
+- `GET /api/projects/[id]/nodes` - ノード一覧
+- `GET /api/projects/[id]/nodes/[nodeId]` - ノード詳細
+- `PUT /api/projects/[id]/nodes/[nodeId]` - ノード更新
+- `DELETE /api/projects/[id]/nodes/[nodeId]` - ノード削除
+- `POST /api/projects/[id]/edges` - エッジ作成
+- `GET /api/projects/[id]/edges` - エッジ一覧
+- `PUT /api/projects/[id]/edges/[edgeId]` - エッジ更新
 
-### 6.5 LLM 対話 API
+### 6.6 LLM 対話 API
 
-- `POST /api/projects/:id/threads` - スレッド作成
-- `GET /api/projects/:id/threads` - スレッド一覧
-- `POST /api/threads/:id/chats` - チャットメッセージ送信
-- `GET /api/threads/:id/chats` - チャット履歴取得
-- `POST /api/threads/:id/generate` - LLM による UI 生成
-- `POST /api/threads/:id/update` - LLM による UI 更新
+- `POST /api/projects/[id]/threads` - スレッド作成
+- `GET /api/projects/[id]/threads` - スレッド一覧
+- `GET /api/threads/[threadId]` - スレッド詳細
+- `PUT /api/threads/[threadId]` - スレッド更新
+- `DELETE /api/threads/[threadId]` - スレッド削除
+- `POST /api/threads/[threadId]/chats` - チャットメッセージ送信
+- `GET /api/threads/[threadId]/chats` - チャット履歴取得
+- `POST /api/threads/[threadId]/generate` - LLM による UI 生成
+- `POST /api/threads/[threadId]/update` - LLM による UI 更新
 
 ## 7. 環境設定
 
 ### 7.1 環境変数
 
-アプリケーションの実行には以下の環境変数が必要です。`.env`ファイルまたはCloudflare Workersの環境変数として設定します。
+アプリケーションの実行には以下の環境変数が必要です。`.env`ファイルまたは Cloudflare Workers の環境変数として設定します。
 
 #### 7.1.1 認証関連
 
 - `AUTH_SECRET`: 認証用の秘密鍵（ランダムな文字列）
-- `AUTH_URL`: 認証サービスのURL（例: https://example.com/api/auth）
-- `GOOGLE_ID`: Google OAuth用のクライアントID
-- `GOOGLE_SECRET`: Google OAuth用のクライアントシークレット
+- `AUTH_URL`: 認証サービスの URL（例: https://example.com/api/auth）
+- `GOOGLE_ID`: Google OAuth 用のクライアント ID
+- `GOOGLE_SECRET`: Google OAuth 用のクライアントシークレット
 
 #### 7.1.2 データベース関連
 
-- `DB`: Cloudflare D1データベース（Cloudflare Workersでは自動的にバインドされる）
+- `DB`: Cloudflare D1 データベース（Cloudflare Workers では自動的にバインドされる）
 
-#### 7.1.3 Stripe決済関連
+#### 7.1.3 Stripe 決済関連
 
-- `STRIPE_SECRET_KEY`: Stripe APIキー
-- `STRIPE_WEBHOOK_SECRET`: Stripe Webhook検証用のシークレット
+- `STRIPE_SECRET_KEY`: Stripe API キー
+- `STRIPE_WEBHOOK_SECRET`: Stripe Webhook 検証用のシークレット
 
 #### 7.1.4 WebRTC (SkyWay) 関連
 
-- `SKYWAY_APP_ID`: SkyWayアプリケーションID
-- `SKYWAY_SECRET`: SkyWayシークレットキー
+- `SKYWAY_APP_ID`: SkyWay アプリケーション ID
+- `SKYWAY_SECRET`: SkyWay シークレットキー
 
 ### 7.2 環境変数の初期化方法
 
 環境変数は以下の方法で初期化されます：
 
 1. **認証関連の環境変数**:
-   ```typescript
-   // app/auth/config.ts
-   const env = {
-     AUTH_SECRET: c.env.AUTH_SECRET || process.env.AUTH_SECRET,
-     AUTH_URL: c.env.AUTH_URL || process.env.AUTH_URL || 'https://example.com/api/auth',
-     GOOGLE_ID: c.env.GOOGLE_ID || process.env.GOOGLE_ID,
-     GOOGLE_SECRET: c.env.GOOGLE_SECRET || process.env.GOOGLE_SECRET,
-   };
-   ```
 
-2. **Stripe関連の環境変数**:
-   ```typescript
-   // app/lib/stripe.ts
-   const apiKey = env?.STRIPE_SECRET_KEY || process.env.STRIPE_SECRET_KEY;
-   ```
+```typescript
+// app/auth/config.ts
+const env = {
+        AUTH_SECRET: c.env.AUTH_SECRET || process.env.AUTH_SECRET,
+        AUTH_URL: c.env.AUTH_URL || process.env.AUTH_URL || 'https://example.com/api/auth',
+        GOOGLE_ID: c.env.GOOGLE_ID || process.env.GOOGLE_ID,
+        GOOGLE_SECRET: c.env.GOOGLE_SECRET || process.env.GOOGLE_SECRET,
+}
+```
+
+2. **Stripe 関連の環境変数**:
+
+```typescript
+// app/lib/stripe.ts
+const apiKey = env?.STRIPE_SECRET_KEY || process.env.STRIPE_SECRET_KEY
+```
 
 3. **WebRTC (SkyWay) 関連の環境変数**:
-   ```typescript
-   // WebRTC設定
-   const config = {
-     appId: SKYWAY_APP_ID,
-     secret: SKYWAY_SECRET,
-     roomName: 'your-room-name'
-   };
-   ```
+
+```typescript
+// WebRTC設定
+const config = {
+        appId: SKYWAY_APP_ID,
+        secret: SKYWAY_SECRET,
+        roomName: 'your-room-name',
+}
+```
 
 ### 7.3 開発環境のセットアップ
 

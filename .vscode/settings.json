@@ -2,6 +2,7 @@
         "editor.formatOnSave": true,
         "editor.insertSpaces": true,
         "prettier.singleQuote": true,
+        "prettier.printWidth": 120,
         "prettier.tabWidth": 8,
         "prettier.semi": false
 }

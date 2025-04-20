@@ -5,7 +5,10 @@
                 "dev": "vite",
                 "build": "vite build --mode client && vite build",
                 "preview": "wrangler dev",
-                "deploy": "npm run build && wrangler deploy"
+                "deploy": "npm run build && wrangler deploy",
+                "generate": "npx drizzle-kit generate",
+                "local:migration": "wrangler d1 migrations apply ctrl-d1-develop --local",
+                "remote:migration": "wrangler d1 migrations apply ctrl-d1-develop --remote"
         },
         "private": true,
         "dependencies": {
@@ -13,9 +16,11 @@
                 "@auth/drizzle-adapter": "^1.8.0",
                 "@hono/zod-validator": "^0.4.3",
                 "@hono/auth-js": "^1.0.15",
+                "@hono/swagger-ui": "0.5.1",
                 "@hono/react-renderer": "^1.0.1",
                 "drizzle-orm": "^0.41.0",
                 "drizzle-zod": "^0.7.1",
+                "drizzle-kit": "0.31.0",
                 "hono": "^4.7.6",
                 "honox": "^0.1.40",
                 "react": "^19.0.0",
