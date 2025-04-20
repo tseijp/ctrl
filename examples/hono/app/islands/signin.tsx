@@ -15,8 +15,7 @@ function SignInImpl() {
                 )
 
         const handleClick = () => {
-                console.log('CLICK')
-                signIn('google', { redirect: true, callbackUrl: '/signin' })
+                signIn('google', { redirect: true, callbackUrl: '/admin' })
         }
 
         return (
@@ -28,6 +27,7 @@ function SignInImpl() {
                 </div>
         )
 }
+
 export default function SignIn() {
         return (
                 <SessionProvider>

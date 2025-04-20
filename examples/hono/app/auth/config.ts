@@ -1,6 +1,4 @@
 import { initAuthConfig } from '@hono/auth-js'
-import { DrizzleAdapter } from '@auth/drizzle-adapter'
-import { drizzle } from 'drizzle-orm/d1'
 import Google from '@auth/core/providers/google'
 import { z } from 'zod'
 
@@ -36,28 +34,28 @@ export const authConfig = initAuthConfig((c) => {
                                 clientSecret: env.GOOGLE_SECRET,
                         }),
                 ],
-                adapter: DrizzleAdapter(drizzle(c.env.DB)),
                 session: {
                         strategy: 'jwt',
+                        maxAge: 30 * 24 * 60 * 60, // 30日
                 },
-                // pages: {
-                //   signIn: '/signin',
-                // },
-                // callbacks: {
-                //   async session({ session, token }) {
-                //     // セッションにユーザーIDを追加
-                //     if (session.user) {
-                //       session.user.id = token.id as string;
-                //     }
-                //     return session;
-                //   },
-                //   async jwt({ token, user }) {
-                //     // JWTトークンにユーザーIDを追加
-                //     if (user) {
-                //       token.id = user.id;
-                //     }
-                //     return token;
-                //   },
-                // },
+                pages: {
+                        signIn: '/admin',
+                },
+                callbacks: {
+                        async session({ session, token }) {
+                                // セッションにユーザーIDを追加
+                                if (session.user) {
+                                        session.user.id = token.id as string
+                                }
+                                return session
+                        },
+                        async jwt({ token, user }) {
+                                // JWTトークンにユーザーIDを追加
+                                if (user) {
+                                        token.id = user.id
+                                }
+                                return token
+                        },
+                },
         }
 })
