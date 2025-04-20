@@ -173,7 +173,6 @@ export type Callback<T extends Target = Target> = (
 ) => void
 
 export interface Ctrl<T extends Target = Target> {
-        isC: true
         get parent(): null | Ctrl
         set parent(parent: Ctrl)
         get id(): string
@@ -193,6 +192,7 @@ export interface Ctrl<T extends Target = Target> {
         run: Callback<T>
         ref(target: T | null): void
         cache: any
+        isC: true
 }
 
 export const isC = <T extends Target>(a: unknown): a is Ctrl<T> => {

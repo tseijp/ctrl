@@ -64,7 +64,7 @@ function App() {
 
 #### Vue
 
-```vue
+```html
 <script setup>
 import '@tsei/ctrl/style'
 import { useCtrl } from '@tsei/ctrl/vue3'
@@ -131,7 +131,7 @@ function App() {
 
 #### Vue
 
-```vue
+```html
 <script setup>
 import '@tsei/ctrl/style'
 import { Controller, useCtrl } from '@tsei/ctrl/vue3'
@@ -378,31 +378,27 @@ Framework integrations provide interfaces for using @tsei/ctrl with different fr
 #### 4.1.1 Control Object
 
 ```ts
-export interface Ctrl<
-        T extends Target = Target,
-        K extends keyof T & string = keyof T & string
-> {
-        get updated(): number
-        get mounted(): number
+export interface Ctrl<T extends Target = Target> {
         get parent(): null | Ctrl
         set parent(parent: Ctrl)
         get id(): string
         set id(id: string)
         get current(): T
-        listeners: Set<Function>
-        cleanups: Set<Function>
-        updates: Set<Function>
+        writes: Set<Callback<T>>
+        events: Set<Callback<T>>
+        actors: Set<Function>
         mounts: Set<Function>
+        cleans: Set<Function>
         mount(): void
         clean(): void
-        update(k: K, a: T[K]): void
-        sub(fn?: Function): Function
+        sub(fn?: () => void): () => void
         get(): number
-        set(k: K, a: T[K]): void
-        sync(k: K, a?: T[K]): void
+        act(): void
+        set: Callback<T>
+        run: Callback<T>
         ref(target: T | null): void
-        isC: true
         cache: any
+        isC: true
 }
 ```
 

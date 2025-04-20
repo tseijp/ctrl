@@ -2,9 +2,14 @@ import build from '@hono/vite-build/cloudflare-workers'
 import adapter from '@hono/vite-dev-server/cloudflare'
 import tailwindcss from '@tailwindcss/vite'
 import honox from 'honox/vite'
-import { defineConfig } from 'vite'
+import { defineConfig, loadEnv } from 'vite'
 
-export default defineConfig(({ mode }) => {
+export default defineConfig(({ mode, command }) => {
+        // 環境変数を明示的に読み込む
+        const env = loadEnv(mode, process.cwd(), '')
+        
+        // 環境変数をプロセス環境変数として設定
+        process.env = { ...process.env, ...env }
         if (mode === 'client') {
                 return {
                         build: {
