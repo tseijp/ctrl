@@ -15,7 +15,7 @@ function SignInImpl() {
                 )
 
         const handleClick = () => {
-                signIn('google', { redirect: true, callbackUrl: '/admin' })
+                signIn('google', { redirect: true, callbackUrl: '/signin' })
         }
 
         return (

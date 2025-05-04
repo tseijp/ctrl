@@ -39,7 +39,7 @@ export const authConfig = initAuthConfig((c) => {
                         maxAge: 30 * 24 * 60 * 60, // 30日
                 },
                 pages: {
-                        signIn: '/admin',
+                        signIn: '/signin',
                 },
                 callbacks: {
                         async session({ session, token }) {
