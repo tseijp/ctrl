@@ -1,13 +1,13 @@
 {
-  "version": "7",
-  "dialect": "sqlite",
-  "entries": [
-    {
-      "idx": 0,
-      "version": "6",
-      "when": 1745145678108,
-      "tag": "0000_graceful_darkstar",
-      "breakpoints": true
-    }
-  ]
+        "version": "7",
+        "dialect": "sqlite",
+        "entries": [
+                {
+                        "idx": 0,
+                        "version": "6",
+                        "when": 1745145678108,
+                        "tag": "0000_graceful_darkstar",
+                        "breakpoints": true
+                }
+        ]
 }
