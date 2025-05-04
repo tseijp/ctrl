@@ -1,7 +1,7 @@
 import { eq } from 'drizzle-orm'
 import { getDb } from '../db'
 import { layers } from '../db/schema'
-import { insertLayerSchema, selectLayerSchema } from '../db/schema-validation'
+import { insertLayerSchema } from '../db/valid'
 import { z } from 'zod'
 import { Env } from '../global'
 

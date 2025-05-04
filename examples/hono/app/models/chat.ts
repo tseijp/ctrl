@@ -1,7 +1,7 @@
 import { eq, and, desc } from 'drizzle-orm'
 import { getDb } from '../db'
 import { chats } from '../db/schema'
-import { insertChatSchema, selectChatSchema } from '../db/schema-validation'
+import { insertChatSchema } from '../db/valid'
 import { z } from 'zod'
 import { Env } from '../global'
 

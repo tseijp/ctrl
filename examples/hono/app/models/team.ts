@@ -1,7 +1,7 @@
 import { eq } from 'drizzle-orm'
 import { getDb } from '../db'
 import { teams, users } from '../db/schema'
-import { insertTeamSchema, selectTeamSchema } from '../db/schema-validation'
+import { insertTeamSchema } from '../db/valid'
 import { z } from 'zod'
 import { Env } from '../global'
 import { User, UserModel } from './user'

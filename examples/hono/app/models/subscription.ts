@@ -1,7 +1,7 @@
 import { eq } from 'drizzle-orm'
 import { getDb } from '../db'
 import { subscriptions } from '../db/schema'
-import { insertSubscriptionSchema, selectSubscriptionSchema } from '../db/schema-validation'
+import { insertSubscriptionSchema } from '../db/valid'
 import { z } from 'zod'
 import { Env } from '../global'
 

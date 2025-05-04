@@ -1,7 +1,7 @@
 import { eq } from 'drizzle-orm'
 import { getDb } from '../db'
 import { threads } from '../db/schema'
-import { insertThreadSchema, selectThreadSchema } from '../db/schema-validation'
+import { insertThreadSchema } from '../db/valid'
 import { z } from 'zod'
 import { Env } from '../global'
 

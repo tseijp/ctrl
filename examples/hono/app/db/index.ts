@@ -12,11 +12,8 @@ let _db: ReturnType<typeof initDb> | null = null
 
 // データベース接続を取得する関数
 export function getDb(env?: Env) {
-        if (env) {
-                return initDb(env)
-        }
+        if (env) return initDb(env)
         if (!_db) throw new Error('Database not initialized. Please provide env in production.')
-
         return _db
 }
 
