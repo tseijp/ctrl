@@ -19,12 +19,11 @@ export function IgnoreScale() {
 export const codemirror = (element: HTMLElement, code: () => string) => {
         let view: EditorView
         ;(async () => {
-                const [{ EditorView }, { javascript }, { githubLight }] =
-                        await Promise.all([
-                                import('@codemirror/view'),
-                                import('@codemirror/lang-javascript'),
-                                import('@uiw/codemirror-theme-github'),
-                        ])
+                const [{ EditorView }, { javascript }, { githubLight }] = await Promise.all([
+                        import('@codemirror/view'),
+                        import('@codemirror/lang-javascript'),
+                        import('@uiw/codemirror-theme-github'),
+                ])
                 view = new EditorView({
                         doc: code(),
                         parent: element,

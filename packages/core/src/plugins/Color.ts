@@ -3,10 +3,7 @@ import { Attach, ctrl, is, merge, RGBColor, Target } from '../index'
 
 function hex2rgb(hex = '#fff') {
         hex = hex.replace('#', '')
-        let rgba =
-                hex.length <= 4
-                        ? hex.split('').map((c) => c + c)
-                        : hex.match(/.{1,2}/g) ?? []
+        let rgba = hex.length <= 4 ? hex.split('').map((c) => c + c) : hex.match(/.{1,2}/g) ?? []
         const [r, g, b, a] = rgba.map((x) => parseInt(x, 16) / 255)
         return { r, g, b, a }
 }

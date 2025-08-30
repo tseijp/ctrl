@@ -63,8 +63,7 @@ export function DefaultPlugin<T extends Target>(props: Attach<unknown, T>) {
         const { a, k } = props
         const _ = ctrl.create
 
-        for (const plugin of ctrl.plugin)
-                if (plugin.is(a)) return _(plugin.el as any, props) // @TODO FIX
+        for (const plugin of ctrl.plugin) if (plugin.is(a)) return _(plugin.el as any, props) // @TODO FIX
 
         if (isHTMLCollection(a)) return _(Nested, props)
 

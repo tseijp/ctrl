@@ -58,10 +58,7 @@ export const indexed = <T extends object = object>(id = DEFAULT_STORE_NAME) => {
         return { open, drop, transact, all, one, set, del }
 }
 
-export function save<T extends object = object>(
-        target: T,
-        id = DEFAULT_STORE_NAME
-) {
+export function save<T extends object = object>(target: T, id = DEFAULT_STORE_NAME) {
         type K = keyof T & string
         const writes = new Set<Callback<T>>()
         const events = new Set<Callback<T>>()

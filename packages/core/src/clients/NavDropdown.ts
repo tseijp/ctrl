@@ -69,14 +69,7 @@ const zoomTo = (to: number) => {
         transform()
 }
 
-const items = [
-        'Zoom in',
-        'Zoom out',
-        'Zoom to fit',
-        'Zoom to 50%',
-        'Zoom to 100%',
-        'Zoom to 200%',
-]
+const items = ['Zoom in', 'Zoom out', 'Zoom to fit', 'Zoom to 50%', 'Zoom to 100%', 'Zoom to 200%']
 
 const onClick = (item: string) => {
         if (item === items[0]) return zoomIn()

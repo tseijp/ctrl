@@ -3,21 +3,15 @@ import { addV, cpV, subV, Vec2, vec2 } from './utils'
 /**
  * SUPPORT
  */
-const isBrowser =
-        typeof window !== 'undefined' &&
-        !!window.document &&
-        !!window.document.createElement
+const isBrowser = typeof window !== 'undefined' && !!window.document && !!window.document.createElement
 
 const supportsTouchEvents = () => isBrowser && 'ontouchstart' in window
 
-const isTouchScreen = () =>
-        supportsTouchEvents() ||
-        (isBrowser && window.navigator.maxTouchPoints > 1)
+const isTouchScreen = () => supportsTouchEvents() || (isBrowser && window.navigator.maxTouchPoints > 1)
 
 const supportsPointerEvents = () => isBrowser && 'onpointerdown' in window
 
-const supportsPointerLock = () =>
-        isBrowser && 'exitPointerLock' in window.document
+const supportsPointerLock = () => isBrowser && 'exitPointerLock' in window.document
 
 const supportsGestureEvents = () => {
         try {
@@ -32,34 +26,19 @@ export const SUPPORT: Record<string, boolean> = {
         // Mac
         isBrowser, // true
         get gesture() {
-                return (
-                        SUPPORT._gesture ??
-                        (SUPPORT._gesture = supportsGestureEvents())
-                )
+                return SUPPORT._gesture ?? (SUPPORT._gesture = supportsGestureEvents())
         },
         get touch() {
-                return (
-                        SUPPORT._touch ??
-                        (SUPPORT._touch = supportsTouchEvents())
-                )
+                return SUPPORT._touch ?? (SUPPORT._touch = supportsTouchEvents())
         },
         get touchscreen() {
-                return (
-                        SUPPORT._touchscreen ??
-                        (SUPPORT._touchscreen = isTouchScreen())
-                )
+                return SUPPORT._touchscreen ?? (SUPPORT._touchscreen = isTouchScreen())
         },
         get pointer() {
-                return (
-                        SUPPORT._pointer ??
-                        (SUPPORT._pointer = supportsPointerEvents())
-                )
+                return SUPPORT._pointer ?? (SUPPORT._pointer = supportsPointerEvents())
         },
         get pointerLock() {
-                return (
-                        SUPPORT._pointerLock ??
-                        (SUPPORT._pointerLock = supportsPointerLock())
-                )
+                return SUPPORT._pointerLock ?? (SUPPORT._pointerLock = supportsPointerLock())
         },
 }
 

@@ -19,10 +19,8 @@ export const is = {
         nul: (a: unknown): a is null => a === null,
         set: (a: unknown): a is Set<unknown> => a instanceof Set,
         map: (a: unknown): a is Map<unknown, unknown> => a instanceof Map,
-        obj: (a: unknown): a is object =>
-                !!a && a.constructor.name === 'Object',
-        nan: (a: unknown): a is number =>
-                typeof a === 'number' && Number.isNaN(a),
+        obj: (a: unknown): a is object => !!a && a.constructor.name === 'Object',
+        nan: (a: unknown): a is number => typeof a === 'number' && Number.isNaN(a),
 }
 
 export const isServer = () => {
@@ -37,15 +35,9 @@ type Eachable<Value = any, Key = any, This = any> = {
         forEach(cb: EachFn<Value, Key, This>, ctx?: This): void
 }
 
-export const each = <Value, Key, This>(
-        obj: Eachable<Value, Key, This>,
-        fn: EachFn<Value, Key, This>
-) => obj.forEach(fn)
+export const each = <Value, Key, This>(obj: Eachable<Value, Key, This>, fn: EachFn<Value, Key, This>) => obj.forEach(fn)
 
-export const flush = <Value extends Function, Key, This>(
-        obj: Eachable<Value, Key, This>,
-        ...args: any[]
-) => {
+export const flush = <Value extends Function, Key, This>(obj: Eachable<Value, Key, This>, ...args: any[]) => {
         each(obj, (f) => f(...args))
 }
 
@@ -61,8 +53,7 @@ export const sig = (value = 0, digit = -2) => {
         return value
 }
 
-export const dig = (x = 0) =>
-        (x.toString().split('.')[0]?.length ?? 0) - (x < 0 ? 1 : 0)
+export const dig = (x = 0) => (x.toString().split('.')[0]?.length ?? 0) - (x < 0 ? 1 : 0)
 
 export const fig = (x = 0) => x.toString().split('.')[1]?.length ?? 0
 

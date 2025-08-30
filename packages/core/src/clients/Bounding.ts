@@ -35,18 +35,8 @@ const min = (a = 0, b = 0, A = 0, B = 0) => {
 }
 
 const len = (rect: Rect, rect2: Rect) => {
-        const [left, width] = min(
-                rect.left,
-                rect.left + rect.width,
-                rect2.left,
-                rect2.left + rect2.width
-        )
-        const [top, height] = min(
-                rect.top,
-                rect.top + rect.height,
-                rect2.top,
-                rect2.top + rect2.height
-        )
+        const [left, width] = min(rect.left, rect.left + rect.width, rect2.left, rect2.left + rect2.width)
+        const [top, height] = min(rect.top, rect.top + rect.height, rect2.top, rect2.top + rect2.height)
 
         return { top, left, width, height }
 }
@@ -114,8 +104,7 @@ export const createBounding = <El extends HTMLElement>(selectors?: string) => {
                 clear(hoverEl)
 
                 // target
-                if (clickTarget && initClicked === e.target && isActive)
-                        clickTarget = clickTarget.parentElement
+                if (clickTarget && initClicked === e.target && isActive) clickTarget = clickTarget.parentElement
                 else initClicked = clickTarget = e.target as HTMLElement
 
                 if (!clickTarget) return
@@ -178,12 +167,10 @@ export const createBounding = <El extends HTMLElement>(selectors?: string) => {
                 el.appendChild(lineEl)
                 const pr = el.parentElement?.getBoundingClientRect()!
 
-                isParent = (rect) =>
-                        pr?.width <= rect.width && pr.height <= rect.height
+                isParent = (rect) => pr?.width <= rect.width && pr.height <= rect.height
         }
 
-        if (selectors && typeof window !== 'undefined')
-                ref(document.querySelector(selectors))
+        if (selectors && typeof window !== 'undefined') ref(document.querySelector(selectors))
 
         return ref
 }

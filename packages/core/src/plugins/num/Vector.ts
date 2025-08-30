@@ -62,8 +62,7 @@ export default function Vector<T extends Target>(props: Attach<Arg, T>) {
                         const drag = dragEvent(() => {
                                 if (!_set) return
                                 drag.event?.stopPropagation()
-                                if (drag.isDragStart)
-                                        span.style.cursor = 'ew-resize'
+                                if (drag.isDragStart) span.style.cursor = 'ew-resize'
                                 if (drag.isDragEnd) span.style.cursor = ''
                                 if (drag.isDragging) _set(next)
                         })

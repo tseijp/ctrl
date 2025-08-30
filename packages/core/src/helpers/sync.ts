@@ -4,10 +4,7 @@ import { Callback } from '../types'
 import { flush, isServer, mark } from './utils'
 import { join, type Joined, type Config } from './webrtc'
 
-type PublishData<
-        T extends object,
-        K extends keyof T & string = keyof T & string
-> = [key: K, value: T[K]]
+type PublishData<T extends object, K extends keyof T & string = keyof T & string> = [key: K, value: T[K]]
 
 export function sync<T extends object = object>(target: T, id = '') {
         type K = keyof T & string

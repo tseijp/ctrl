@@ -2,16 +2,9 @@ import { each, is, merge, Merge } from './utils'
 
 export type HTMLMap = HTMLElementTagNameMap
 export type HTMLTag = keyof HTMLMap
-export type HTMLNode<T extends HTMLTag = HTMLTag> =
-        | HTMLMap[T]
-        | string
-        | number
-        | null
-        | undefined
+export type HTMLNode<T extends HTMLTag = HTMLTag> = HTMLMap[T] | string | number | null | undefined
 
-export type Component<T extends HTMLTag, P = {}, Child = HTMLMap[T]> = (
-        props: P
-) => Child
+export type Component<T extends HTMLTag, P = {}, Child = HTMLMap[T]> = (props: P) => Child
 
 export type Props<T extends HTMLTag> = Merge<HTMLMap[T]> & {
         key?: string
@@ -19,10 +12,7 @@ export type Props<T extends HTMLTag> = Merge<HTMLMap[T]> & {
         children?: HTMLNode | HTMLNode[]
 }
 
-export function append<El extends Node>(
-        child: Node | string | number | null | undefined,
-        el: El
-) {
+export function append<El extends Node>(child: Node | string | number | null | undefined, el: El) {
         if (is.num(child)) child = child.toString()
         if (is.str(child)) child = document.createTextNode(child)
         if (child) el.appendChild(child)
@@ -32,11 +22,7 @@ export function remove<El extends Node>(child: Node, el: El) {
         el.removeChild(child)
 }
 
-function create<T extends HTMLTag>(
-        type: T,
-        props?: Props<T>,
-        ...args: HTMLNode[]
-): HTMLMap[T]
+function create<T extends HTMLTag>(type: T, props?: Props<T>, ...args: HTMLNode[]): HTMLMap[T]
 
 function create<T extends HTMLTag, P = {}, Child = HTMLMap[T]>(
         type: Component<T, P, Child>,

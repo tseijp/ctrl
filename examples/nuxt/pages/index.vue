@@ -9,11 +9,7 @@ const cases = CASES
 <template>
         <Controller>
                 <div class="flex flex-col gap-4 max-w-[1024px]">
-                        <component
-                                v-for="(Case, index) in cases"
-                                :key="index"
-                                :is="Case"
-                        />
+                        <component v-for="(Case, index) in cases" :key="index" :is="Case" />
                 </div>
         </Controller>
 </template>

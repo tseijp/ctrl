@@ -82,10 +82,7 @@ export default function Files<T extends Target>(props: Attach<Arg, T>) {
 
         const _ = ctrl.create
 
-        const children = [
-                _('div', { key: '0' }),
-                _('div', { key: '1', className: 'underline' }),
-        ]
+        const children = [_('div', { key: '0' }), _('div', { key: '1', className: 'underline' })]
 
         return _(
                 'fieldset',

@@ -19,18 +19,10 @@ export async function join(SKYWAY: any, callback: Callback, config?: Config) {
                                 rooms: [
                                         {
                                                 name: '*',
-                                                methods: [
-                                                        'create',
-                                                        'close',
-                                                        'updateMetadata',
-                                                ],
+                                                methods: ['create', 'close', 'updateMetadata'],
                                                 member: {
                                                         name: '*',
-                                                        methods: [
-                                                                'publish',
-                                                                'subscribe',
-                                                                'updateMetadata',
-                                                        ],
+                                                        methods: ['publish', 'subscribe', 'updateMetadata'],
                                                 },
                                         },
                                 ],
