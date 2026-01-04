@@ -150,6 +150,9 @@ const c = useCtrl({ a: 0, b: 1, c: 2 })
 
 #### ESM
 
+<details>
+<summary>
+
 ```html
 <link rel="stylesheet" href="https://esm.sh/@tsei/ctrl@latest/dist/index.css" />
 <script type="module" src="https://esm.sh/tsx"></script>
@@ -176,6 +179,7 @@ const c = useCtrl({ a: 0, b: 1, c: 2 })
 </script>
 ```
 
+</summary>
 </details>
 
 ## 2. What is This

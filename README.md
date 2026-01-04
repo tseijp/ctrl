@@ -1,4 +1,4 @@
-# @tsei/ctrl - UI Control Tool for Web Apps
+# ctrl
 
 <details>
 <summary>
@@ -66,13 +66,11 @@ function App() {
 
 ```html
 <script setup>
-import '@tsei/ctrl/style'
-import { useCtrl } from '@tsei/ctrl/vue3'
-const c = useCtrl({ hello: 'world' })
+        import '@tsei/ctrl/style'
+        import { useCtrl } from '@tsei/ctrl/vue3'
+        const c = useCtrl({ hello: 'world' })
 </script>
-<template>
-        {{ c.hello }}
-</template>
+<template> {{ c.hello }} </template>
 ```
 
 #### ESM
@@ -133,9 +131,9 @@ function App() {
 
 ```html
 <script setup>
-import '@tsei/ctrl/style'
-import { Controller, useCtrl } from '@tsei/ctrl/vue3'
-const c = useCtrl({ a: 0, b: 1, c: 2 })
+        import '@tsei/ctrl/style'
+        import { Controller, useCtrl } from '@tsei/ctrl/vue3'
+        const c = useCtrl({ a: 0, b: 1, c: 2 })
 </script>
 
 <template>
@@ -150,14 +148,14 @@ const c = useCtrl({ a: 0, b: 1, c: 2 })
 
 #### ESM
 
+<details>
+<summary>
+
 ```html
 <link rel="stylesheet" href="https://esm.sh/@tsei/ctrl@latest/dist/index.css" />
 <script type="module" src="https://esm.sh/tsx"></script>
 <script type="text/babel">
-        import {
-                Controller,
-                ctrl,
-        } from 'https://esm.sh/@tsei/ctrl@latest/es2022/index.mjs'
+        import { Controller, ctrl } from 'https://esm.sh/@tsei/ctrl@latest/es2022/index.mjs'
         const c = ctrl({ a: 0, b: 1, c: 2 })
         /** @jsx ctrl.create */
         ctrl.append(
@@ -176,6 +174,7 @@ const c = useCtrl({ a: 0, b: 1, c: 2 })
 </script>
 ```
 
+</summary>
 </details>
 
 ## 2. What is This
